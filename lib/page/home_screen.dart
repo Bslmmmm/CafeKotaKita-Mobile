@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
-import 'login_screen.dart';
 import 'map.dart';
 import 'comunity.dart';
 
