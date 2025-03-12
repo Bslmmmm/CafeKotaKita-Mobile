@@ -14,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static List<Widget> _pages = <Widget>[
   DashboardScreen(),
   MapScreen(latitude: 37.7749, longitude: -122.4194), // Sesuaikan dengan lokasi
-  Comunity(),
+  CommunityPage(),
   ProfileScreen(),
 ];
 
