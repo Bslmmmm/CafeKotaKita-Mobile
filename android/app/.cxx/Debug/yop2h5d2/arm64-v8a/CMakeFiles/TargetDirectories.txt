@@ -1,0 +1,2 @@
+D:/Kuliah/tugas kuliah semester 4/flutter/CafeKotaKita-Mobile/android/app/.cxx/Debug/yop2h5d2/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/Kuliah/tugas kuliah semester 4/flutter/CafeKotaKita-Mobile/android/app/.cxx/Debug/yop2h5d2/arm64-v8a/CMakeFiles/rebuild_cache.dir

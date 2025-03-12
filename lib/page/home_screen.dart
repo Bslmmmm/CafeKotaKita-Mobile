@@ -12,12 +12,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   static List<Widget> _pages = <Widget>[
-  DashboardScreen(),
-  MapScreen(latitude: 37.7749, longitude: -122.4194), // Sesuaikan dengan lokasi
-  CommunityPage(),
-  ProfileScreen(),
-];
-
+    DashboardScreen(),
+    MapScreen(latitude: 37.7749, longitude: -122.4194), // Sesuaikan dengan lokasi
+    CommunityPage(),
+    ProfileScreen(),
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -25,26 +24,55 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: bottomNavbar(),
+      bottomNavigationBar: Container(
+        height: 60, // Tinggi navbar diperbesar
+        padding: EdgeInsets.only(top: 5, bottom: 5), // Padding untuk keseimbangan ikon
+        decoration: BoxDecoration(
+          color: Color(0xFFB13841), // Warna navbar
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25),
+            topRight: Radius.circular(25),
+          ),
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                navItem(Icons.home, 0,),
+                navItem(Icons.map, 1),
+                SizedBox(width: 50), // Memberi ruang untuk logo di tengah
+                navItem(Icons.people, 2),
+                navItem(Icons.person, 3),
+              ],
+            ),
+            Positioned(
+              bottom: 10, // Supaya sejajar dengan ikon lainnya
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 24, // Sesuaikan ukuran agar sama dengan ikon lainnya
+                height: 24,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  BottomNavigationBar bottomNavbar() {
-    return BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
-        BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Community'),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-      ],
-      currentIndex: _selectedIndex,
-      selectedItemColor: Color(0xFFB13841),
-      unselectedItemColor: Colors.grey,
-      onTap: _onItemTapped,
+  Widget navItem(IconData icon, int index) {
+    return GestureDetector(
+      onTap: () => _onItemTapped(index),
+      child: Icon(
+        icon,
+        size: 24, // Ukuran ikon tetap agar tidak berubah saat diklik
+        color: _selectedIndex == index ? Colors.white : Colors.white70,
+      ),
     );
   }
 }
