@@ -92,8 +92,8 @@ class ProfileScreen extends StatelessWidget {
             backgroundColor: Color(0xFFB13841),
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white70,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
             items: [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
               BottomNavigationBarItem(icon: Icon(Icons.location_on), label: ""),

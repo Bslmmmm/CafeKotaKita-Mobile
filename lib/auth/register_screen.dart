@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:multi_dropdown/multi_dropdown.dart';
 import '../page/home_screen.dart';
 import 'login_screen.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final MultiSelectController<String> countryController = MultiSelectController();
+
+  final List<DropdownItem<String>> countryItems = [
+    DropdownItem(label: 'Nepal', value: 'Nepal'),
+    DropdownItem(label: 'Australia', value: 'Australia'),
+    DropdownItem(label: 'India', value: 'India'),
+    DropdownItem(label: 'China', value: 'China'),
+    DropdownItem(label: 'USA', value: 'USA'),
+    DropdownItem(label: 'UK', value: 'UK'),
+    DropdownItem(label: 'Germany', value: 'Germany'),
+    DropdownItem(label: 'France', value: 'France'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +52,6 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              // Nama Aplikasi
               Text(
                 "CIHUYY",
                 style: TextStyle(
@@ -51,7 +68,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
-
+              
               // Username
               Align(
                 alignment: Alignment.centerLeft,
@@ -64,9 +81,6 @@ class RegisterScreen extends StatelessWidget {
                 controller: usernameController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color.fromARGB(255, 240, 93, 93)),
-                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -83,9 +97,6 @@ class RegisterScreen extends StatelessWidget {
                 controller: emailController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color.fromARGB(255, 240, 93, 93)),
-                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -103,10 +114,28 @@ class RegisterScreen extends StatelessWidget {
                 obscureText: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color.fromARGB(255, 240, 93, 93)),
-                  ),
                 ),
+              ),
+              SizedBox(height: 20),
+
+              // Dropdown Negara
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Select Country",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              MultiDropdown<String>(
+                items: countryItems,
+                controller: countryController,
+                fieldDecoration: FieldDecoration(
+                  hintText: 'Select a country',
+                  border: OutlineInputBorder(),
+                ),
+                onSelectionChange: (selectedItems) {
+                  print("Selected country: \$selectedItems");
+                },
               ),
               SizedBox(height: 30),
 
