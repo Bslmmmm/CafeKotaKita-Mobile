@@ -9,14 +9,16 @@ class _CommunityPageState extends State<CommunityPage> {
   List<Map<String, dynamic>> tweets = [
     {
       'username': 'CoffeeLover98',
-      'tweet': 'Baru coba kafe Kopi Hitam Jember, vibesnya cozy banget dan kopinya mantap!',
+      'tweet':
+          'Baru coba kafe Kopi Hitam Jember, vibesnya cozy banget dan kopinya mantap!',
       'likes': 12,
       'isLiked': false,
       'comments': 4
     },
     {
       'username': 'CafeExplorer',
-      'tweet': 'Ngopi di Kedai Senja Jember, tempatnya aesthetic dan cocok buat nugas.',
+      'tweet':
+          'Ngopi di Kedai Senja Jember, tempatnya aesthetic dan cocok buat nugas.',
       'likes': 8,
       'isLiked': false,
       'comments': 2
@@ -26,7 +28,9 @@ class _CommunityPageState extends State<CommunityPage> {
   void toggleLike(int index) {
     setState(() {
       tweets[index]['isLiked'] = !tweets[index]['isLiked'];
-      tweets[index]['isLiked'] ? tweets[index]['likes']++ : tweets[index]['likes']--;
+      tweets[index]['isLiked']
+          ? tweets[index]['likes']++
+          : tweets[index]['likes']--;
     });
   }
 
@@ -59,7 +63,9 @@ class _CommunityPageState extends State<CommunityPage> {
                       IconButton(
                         icon: Icon(
                           Icons.favorite,
-                          color: tweets[index]['isLiked'] ? Colors.red : Colors.grey,
+                          color: tweets[index]['isLiked']
+                              ? Colors.red
+                              : Colors.grey,
                         ),
                         onPressed: () => toggleLike(index),
                       ),

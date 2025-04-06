@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../auth/login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   final String username = "arielrezka"; // Data dari backend

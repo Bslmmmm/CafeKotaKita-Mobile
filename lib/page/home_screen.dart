@@ -13,7 +13,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static List<Widget> _pages = <Widget>[
     DashboardScreen(),
-    MapScreen(latitude: 37.7749, longitude: -122.4194), // Sesuaikan dengan lokasi
+    MapScreen(
+        latitude: 37.7749, longitude: -122.4194), // Sesuaikan dengan lokasi
     CommunityPage(),
     ProfileScreen(),
   ];
@@ -24,13 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
         height: 60, // Tinggi navbar diperbesar
-        padding: EdgeInsets.only(top: 5, bottom: 5), // Padding untuk keseimbangan ikon
+        padding: EdgeInsets.only(
+            top: 5, bottom: 5), // Padding untuk keseimbangan ikon
         decoration: BoxDecoration(
           color: Color(0xFFB13841), // Warna navbar
           borderRadius: BorderRadius.only(
@@ -44,7 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                navItem(Icons.home, 0,),
+                navItem(
+                  Icons.home,
+                  0,
+                ),
                 navItem(Icons.map, 1),
                 SizedBox(width: 50), // Memberi ruang untuk logo di tengah
                 navItem(Icons.people, 2),

@@ -1,0 +1,2 @@
+C:/Users/Ferdi/Documents/GitHub/CafeKotaKita-MobileBaru/android/app/.cxx/Debug/3s5e1f60/x86/CMakeFiles/edit_cache.dir
+C:/Users/Ferdi/Documents/GitHub/CafeKotaKita-MobileBaru/android/app/.cxx/Debug/3s5e1f60/x86/CMakeFiles/rebuild_cache.dir
