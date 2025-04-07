@@ -53,7 +53,9 @@ class LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: defaultPadding),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/home');
+            },
             child: Text(
               "Login".toUpperCase(),
             ),

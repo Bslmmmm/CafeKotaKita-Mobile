@@ -4,6 +4,7 @@ import 'package:tugas_flutter/Screens/Forgot/forgot_screen.dart'; // ← ini tam
 import 'package:tugas_flutter/Screens/OTP/otp_screen.dart'; // ← tambahkan ini
 import 'package:tugas_flutter/Screens/Reset/reset_screen.dart'; // ← tambahkan ini
 import 'package:tugas_flutter/Screens/Login/login_screen.dart';
+import 'package:tugas_flutter/page/home_screen.dart';
 import 'package:tugas_flutter/constants.dart';
 
 void main() => runApp(const MyApp());
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         '/otp': (context) => const OtpScreen(), // ← ini penting
         '/reset': (context) => const ResetScreen(),
         '/login': (context) => const LoginScreen(), // bukan LoginForm ya
+        '/home': (context) => HomeScreen(), // Ini penting!
       },
     );
   }
