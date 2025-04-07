@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../constants.dart';
 
-class WelcomeImage extends StatelessWidget {
-  const WelcomeImage({
+class OtpScreenTopImage extends StatelessWidget {
+  const OtpScreenTopImage({
     Key? key,
   }) : super(key: key);
 
@@ -13,7 +13,7 @@ class WelcomeImage extends StatelessWidget {
     return Column(
       children: [
         const Text(
-          "Welcome To KafeKotaKita",
+          "OTP VERIFICATION",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: defaultPadding * 2),
@@ -22,12 +22,16 @@ class WelcomeImage extends StatelessWidget {
             const Spacer(),
             Expanded(
               flex: 8,
-              child: SvgPicture.asset(
-                "assets/icons/welcome.svg",
-              ),
+              child: SvgPicture.asset("assets/icons/otp.svg"),
             ),
             const Spacer(),
           ],
+        ),
+        const SizedBox(height: defaultPadding * 2),
+        const Text(
+          "Kode One Time Password (OTP) sudah berhasil dikirim ke alamat email anda,\ntolong masukkan kode OTP di bawah ini.",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 14),
         ),
         const SizedBox(height: defaultPadding * 2),
       ],

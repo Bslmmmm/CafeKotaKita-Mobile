@@ -4,8 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../constants.dart';
 
 class SignUpScreenTopImage extends StatelessWidget {
+  final double imageWidth;
+  final double imageHeight;
+
   const SignUpScreenTopImage({
     Key? key,
+    this.imageWidth = 400, // default width
+    this.imageHeight = 400, // default height
   }) : super(key: key);
 
   @override
@@ -17,15 +22,10 @@ class SignUpScreenTopImage extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: defaultPadding),
-        Row(
-          children: [
-            const Spacer(),
-            Expanded(
-              flex: 8,
-              child: SvgPicture.asset("assets/icons/signup.svg"),
-            ),
-            const Spacer(),
-          ],
+        SvgPicture.asset(
+          "assets/icons/signup.svg",
+          width: imageWidth,
+          height: imageHeight,
         ),
         const SizedBox(height: defaultPadding),
       ],

@@ -42,6 +42,15 @@ class LoginForm extends StatelessWidget {
               ),
             ),
           ),
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/forgot');
+            },
+            child: const Text(
+              "Forgot Password?",
+              style: TextStyle(color: kPrimaryColor),
+            ),
+          ),
           const SizedBox(height: defaultPadding),
           ElevatedButton(
             onPressed: () {},

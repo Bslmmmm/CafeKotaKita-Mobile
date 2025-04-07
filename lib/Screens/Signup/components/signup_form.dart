@@ -14,6 +14,22 @@ class SignUpForm extends StatelessWidget {
     return Form(
       child: Column(
         children: [
+          // Username Field
+          TextFormField(
+            textInputAction: TextInputAction.next,
+            cursorColor: kPrimaryColor,
+            onSaved: (username) {},
+            decoration: const InputDecoration(
+              hintText: "Username",
+              prefixIcon: Padding(
+                padding: EdgeInsets.all(defaultPadding),
+                child: Icon(Icons.person),
+              ),
+            ),
+          ),
+          const SizedBox(height: defaultPadding),
+
+          // Email Field
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
@@ -23,25 +39,41 @@ class SignUpForm extends StatelessWidget {
               hintText: "Your email",
               prefixIcon: Padding(
                 padding: EdgeInsets.all(defaultPadding),
-                child: Icon(Icons.person),
+                child: Icon(Icons.email),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: TextFormField(
-              textInputAction: TextInputAction.done,
-              obscureText: true,
-              cursorColor: kPrimaryColor,
-              decoration: const InputDecoration(
-                hintText: "Your password",
-                prefixIcon: Padding(
-                  padding: EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.lock),
-                ),
+          const SizedBox(height: defaultPadding),
+
+          // Password Field
+          TextFormField(
+            textInputAction: TextInputAction.next,
+            obscureText: true,
+            cursorColor: kPrimaryColor,
+            decoration: const InputDecoration(
+              hintText: "Your password",
+              prefixIcon: Padding(
+                padding: EdgeInsets.all(defaultPadding),
+                child: Icon(Icons.lock),
               ),
             ),
           ),
+          const SizedBox(height: defaultPadding),
+
+          // Confirm Password Field
+          TextFormField(
+            textInputAction: TextInputAction.done,
+            obscureText: true,
+            cursorColor: kPrimaryColor,
+            decoration: const InputDecoration(
+              hintText: "Confirm password",
+              prefixIcon: Padding(
+                padding: EdgeInsets.all(defaultPadding),
+                child: Icon(Icons.lock_outline),
+              ),
+            ),
+          ),
+
           const SizedBox(height: defaultPadding / 2),
           ElevatedButton(
             onPressed: () {},
