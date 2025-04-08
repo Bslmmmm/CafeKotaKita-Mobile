@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 import 'package:tugas_flutter/Screens/Welcome/welcome_screen.dart';
-import 'package:tugas_flutter/Screens/Forgot/forgot_screen.dart'; // ← ini tambahkan
-import 'package:tugas_flutter/Screens/OTP/otp_screen.dart'; // ← tambahkan ini
-import 'package:tugas_flutter/Screens/Reset/reset_screen.dart'; // ← tambahkan ini
+import 'package:tugas_flutter/Screens/Forgot/forgot_screen.dart';
+import 'package:tugas_flutter/Screens/OTP/otp_screen.dart';
+import 'package:tugas_flutter/Screens/Reset/reset_screen.dart';
 import 'package:tugas_flutter/Screens/Login/login_screen.dart';
-import 'package:tugas_flutter/page/home_screen.dart';
+import 'package:tugas_flutter/Features/home_screen.dart';
 import 'package:tugas_flutter/constants.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -43,13 +52,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: WelcomeScreen(),
+      home: const WelcomeScreen(),
       routes: {
-        '/forgot': (context) => const ForgotScreen(), // ← ini penting!
-        '/otp': (context) => const OtpScreen(), // ← ini penting
+        '/forgot': (context) => const ForgotScreen(),
+        '/otp': (context) => const OtpScreen(),
         '/reset': (context) => const ResetScreen(),
-        '/login': (context) => const LoginScreen(), // bukan LoginForm ya
-        '/home': (context) => HomeScreen(), // Ini penting!
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => HomeScreen(),
       },
     );
   }

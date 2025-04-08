@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+import '../controllers/post_controller.dart';
+import '../Models/post_model.dart';
+import 'create_post_screen.dart';
+
+class FeedScreen extends StatefulWidget {
+  const FeedScreen({Key? key}) : super(key: key);
+
+  @override
+  State<FeedScreen> createState() => _FeedScreenState();
+}
+
+class _FeedScreenState extends State<FeedScreen> {
+  Widget _buildPostItem(PostModel post) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(post.username,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 4),
+            Text(post.caption),
+            if (post.imageUrl != null) ...[
+              const SizedBox(height: 8),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(post.imageUrl!),
+              ),
+            ],
+            const SizedBox(height: 6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (post.mood != null) Text('Mood: ${post.mood}'),
+                if (post.location != null) Text('Lokasi: ${post.location}'),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Text(
+              '${post.timestamp.toLocal()}',
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Komunitas KafeKotaKita')),
+      body: StreamBuilder<List<PostModel>>(
+        stream: PostController().getPosts(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Terjadi kesalahan: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('Belum ada postingan.'));
+          }
+
+          final posts = snapshot.data!;
+          return RefreshIndicator(
+            onRefresh: () async {
+              setState(() {}); // memicu rebuild StreamBuilder
+            },
+            child: ListView.builder(
+              itemCount: posts.length,
+              itemBuilder: (context, index) => _buildPostItem(posts[index]),
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const CreatePostScreen()),
+          );
+          setState(() {}); // memicu refresh dari StreamBuilder
+        },
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}

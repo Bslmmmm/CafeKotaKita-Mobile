@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tugas_flutter/Features/Community/Screens/feed_screen.dart';
 import 'profile_screen.dart';
 import 'map.dart';
-import 'comunity.dart';
+import 'package:tugas_flutter/Features/Community/Screens/feed_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
     DashboardScreen(),
     MapScreen(
         latitude: 37.7749, longitude: -122.4194), // Sesuaikan dengan lokasi
-    CommunityPage(),
+    FeedScreen(),
     ProfileScreen(),
   ];
 
