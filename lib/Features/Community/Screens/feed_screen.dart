@@ -61,20 +61,22 @@ class _FeedScreenState extends State<FeedScreen> {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Terjadi kesalahan: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('Belum ada postingan.'));
-          }
+          } else {
+            final posts = snapshot.data ?? [];
+            if (posts.isEmpty) {
+              return const Center(child: Text('Belum ada postingan.'));
+            }
 
-          final posts = snapshot.data!;
-          return RefreshIndicator(
-            onRefresh: () async {
-              setState(() {}); // memicu rebuild StreamBuilder
-            },
-            child: ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) => _buildPostItem(posts[index]),
-            ),
-          );
+            return RefreshIndicator(
+              onRefresh: () async {
+                setState(() {});
+              },
+              child: ListView.builder(
+                itemCount: posts.length,
+                itemBuilder: (context, index) => _buildPostItem(posts[index]),
+              ),
+            );
+          }
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -83,7 +85,7 @@ class _FeedScreenState extends State<FeedScreen> {
             context,
             MaterialPageRoute(builder: (_) => const CreatePostScreen()),
           );
-          setState(() {}); // memicu refresh dari StreamBuilder
+          setState(() {});
         },
         shape: const CircleBorder(),
         child: const Icon(Icons.add),

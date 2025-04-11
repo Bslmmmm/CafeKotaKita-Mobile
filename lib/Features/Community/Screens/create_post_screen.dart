@@ -15,6 +15,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   final TextEditingController _locationController = TextEditingController();
   String? _selectedMood;
   File? _selectedImage;
+  bool _isLoading = false;
 
   final List<String> moods = ['Happy', 'Chill', 'Productive', 'Romantic'];
 
@@ -28,13 +29,41 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   Future<void> _submitPost() async {
-    await PostController().createPost(
-      caption: _captionController.text,
-      mood: _selectedMood,
-      location: _locationController.text,
-      imageFile: _selectedImage,
-    );
-    Navigator.pop(context); // Kembali ke feed
+    if (_captionController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Caption tidak boleh kosong!')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await PostController().createPost(
+        caption: _captionController.text,
+        mood: _selectedMood,
+        location: _locationController.text,
+        imageFile: _selectedImage,
+      );
+
+      if (!mounted) return;
+
+      Navigator.pop(context);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal membuat post: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -81,10 +110,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               label: const Text('Upload Gambar'),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _submitPost,
-              child: const Text('Posting'),
-            ),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: _submitPost,
+                    child: const Text('Posting'),
+                  ),
           ],
         ),
       ),
