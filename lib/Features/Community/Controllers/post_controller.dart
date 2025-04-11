@@ -54,7 +54,6 @@ class PostController {
     }
   }
 
-  // ✅ Tambahkan post dengan upload gambar ke Storage (jika ada)
   Future<void> createPost({
     required String caption,
     String? mood,
@@ -63,15 +62,28 @@ class PostController {
   }) async {
     try {
       String postId = DateTime.now().millisecondsSinceEpoch.toString();
-      String userId = 'dummyUserId'; // Ganti nanti sesuai FirebaseAuth
-      String username = 'dummyUsername'; // Ganti nanti sesuai FirebaseAuth
+      String userId = 'dummyUserId'; // Nanti ganti pakai FirebaseAuth
+      String username = 'dummyUsername'; // Nanti juga dari FirebaseAuth
       String? imageUrl;
 
       if (imageFile != null) {
-        // Upload gambar ke Firebase Storage
-        final ref = _storage.ref().child('post_images').child('$postId.jpg');
-        await ref.putFile(imageFile);
-        imageUrl = await ref.getDownloadURL();
+        try {
+          final ref = _storage.ref().child('post_images').child('$postId.jpg');
+          final uploadTask = ref.putFile(imageFile);
+
+          // Menunggu upload selesai
+          final snapshot = await uploadTask.whenComplete(() => null);
+
+          // Cek kalau gagal
+          if (snapshot.state == TaskState.success) {
+            imageUrl = await ref.getDownloadURL();
+          } else {
+            throw Exception('Upload gagal: ${snapshot.state}');
+          }
+        } catch (e) {
+          print('Gagal upload gambar: $e');
+          rethrow;
+        }
       }
 
       final newPost = PostModel(

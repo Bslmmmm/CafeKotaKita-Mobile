@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../Controllers/post_controller.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({Key? key}) : super(key: key);
@@ -15,7 +14,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   final TextEditingController _locationController = TextEditingController();
   String? _selectedMood;
   File? _selectedImage;
-  bool _isLoading = false;
 
   final List<String> moods = ['Happy', 'Chill', 'Productive', 'Romantic'];
 
@@ -28,42 +26,20 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     }
   }
 
-  Future<void> _submitPost() async {
-    if (_captionController.text.isEmpty) {
+  void _onSubmit() {
+    if (_captionController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Caption tidak boleh kosong!')),
+        const SnackBar(content: Text('Caption tidak boleh kosong.')),
       );
       return;
     }
 
-    setState(() {
-      _isLoading = true;
+    Navigator.pop(context, {
+      'caption': _captionController.text.trim(),
+      'mood': _selectedMood,
+      'location': _locationController.text.trim(),
+      'imageFile': _selectedImage,
     });
-
-    try {
-      await PostController().createPost(
-        caption: _captionController.text,
-        mood: _selectedMood,
-        location: _locationController.text,
-        imageFile: _selectedImage,
-      );
-
-      if (!mounted) return;
-
-      Navigator.pop(context);
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal membuat post: $e')),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
   }
 
   @override
@@ -84,16 +60,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               value: _selectedMood,
               hint: const Text('Pilih Mood'),
               items: moods.map((mood) {
-                return DropdownMenuItem(
-                  value: mood,
-                  child: Text(mood),
-                );
+                return DropdownMenuItem(value: mood, child: Text(mood));
               }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedMood = value;
-                });
-              },
+              onChanged: (value) => setState(() => _selectedMood = value),
             ),
             const SizedBox(height: 12),
             TextField(
@@ -110,12 +79,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               label: const Text('Upload Gambar'),
             ),
             const SizedBox(height: 20),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _submitPost,
-                    child: const Text('Posting'),
-                  ),
+            ElevatedButton(
+              onPressed: _onSubmit,
+              child: const Text('Posting'),
+            ),
           ],
         ),
       ),
