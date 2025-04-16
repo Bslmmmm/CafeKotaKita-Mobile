@@ -8,7 +8,9 @@ import 'package:tugas_flutter/Screens/OTP/otp_screen.dart';
 import 'package:tugas_flutter/Screens/Reset/reset_screen.dart';
 import 'package:tugas_flutter/Screens/Login/login_screen.dart';
 import 'package:tugas_flutter/Features/home_screen.dart';
-import 'package:tugas_flutter/constants.dart';
+import 'package:tugas_flutter/Constant/constants.dart';
+import 'package:get/get.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Auth',
       theme: ThemeData(

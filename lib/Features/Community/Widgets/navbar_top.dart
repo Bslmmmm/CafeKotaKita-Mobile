@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Features/Community/Screens/profile_screen.dart';
+import 'package:tugas_flutter/Screens/Profile/ProfileScreen.dart';
 import 'package:tugas_flutter/Features/Community/Screens/search_screen.dart';
 
 class NavbarTop extends StatelessWidget implements PreferredSizeWidget {

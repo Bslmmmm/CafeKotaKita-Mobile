@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../../../constants.dart';
+import '../../../Constant/constants.dart';
 import 'package:flutter/services.dart';
 
 class OtpForm extends StatefulWidget {

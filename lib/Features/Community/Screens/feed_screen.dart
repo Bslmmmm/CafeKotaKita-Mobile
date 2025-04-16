@@ -6,7 +6,7 @@ import 'package:tugas_flutter/Features/home_screen.dart';
 import '../controllers/post_controller.dart';
 import '../Models/post_model.dart';
 import 'create_post_screen.dart';
-import 'profile_screen.dart';
+import '../../../Screens/Profile/ProfileScreen.dart';
 import 'search_screen.dart';
 import '../Widgets/navbar_top.dart';
 import 'dart:io';

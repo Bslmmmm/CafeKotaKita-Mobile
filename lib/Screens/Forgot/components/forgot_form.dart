@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../constants.dart';
+import '../../../Constant/constants.dart';
 
 class ForgotForm extends StatelessWidget {
   const ForgotForm({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants.dart';
+import '../../Constant/constants.dart';
 import 'components/forgot_form.dart';
 import 'components/forgot_screen_image.dart';
 import '../../responsive.dart';

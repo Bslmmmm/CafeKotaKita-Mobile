@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/constants.dart';
+import 'package:tugas_flutter/Constant/constants.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 

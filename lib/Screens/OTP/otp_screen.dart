@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../constants.dart';
+import '../../Constant/constants.dart';
 import 'components/otp.dart';
 import 'components/otp_screen_image.dart';
 

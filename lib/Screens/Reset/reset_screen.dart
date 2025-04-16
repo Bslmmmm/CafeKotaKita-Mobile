@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_flutter/responsive.dart';
-import '../../../constants.dart';
+import '../../Constant/constants.dart';
 
 // Komponen lokal
 import 'components/reset_form.dart';
