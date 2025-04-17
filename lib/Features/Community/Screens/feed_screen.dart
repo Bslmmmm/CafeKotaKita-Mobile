@@ -141,7 +141,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   onProfileTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => HomeScreen()),
+                      MaterialPageRoute(builder: (_) => ProfileScreen()),
                     );
                   },
                   onSearchTap: () {

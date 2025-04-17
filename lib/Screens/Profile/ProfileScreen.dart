@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:tugas_flutter/Screens/Profile/UpdateProfileScreen.dart';
 import 'package:tugas_flutter/Screens/Login/login_screen.dart';
 
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -48,13 +47,10 @@ class ProfileScreen extends StatelessWidget {
                       width: 30,
                       height: 30,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: kPrimaryColor
-                      ),
-                      child: const Icon(
-                          LineAwesomeIcons.pencil_alt_solid,
-                          size: 20, 
-                          color: Colors.black),
+                          borderRadius: BorderRadius.circular(100),
+                          color: kPrimaryColor),
+                      child: const Icon(LineAwesomeIcons.pencil_alt_solid,
+                          size: 20, color: Colors.black),
                     ),
                   )
                 ],
@@ -91,11 +87,11 @@ class ProfileScreen extends StatelessWidget {
               const Divider(color: Colors.grey),
               const SizedBox(height: 10),
               ProfileMenuWidget(
-                  title: "Logout",
-                  icon: LineAwesomeIcons.sign_out_alt_solid,
-                  textColor: Colors.red,
-                  endIcon: false,
-                  onPressed: () => Get.offAll(() => const LoginScreen()),
+                title: "Logout",
+                icon: LineAwesomeIcons.sign_out_alt_solid,
+                textColor: Colors.red,
+                endIcon: false,
+                onPressed: () => Get.offAll(() => const LoginScreen()),
               ),
             ],
           ),
