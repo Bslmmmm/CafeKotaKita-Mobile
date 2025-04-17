@@ -36,7 +36,7 @@ class NavbarTop extends StatelessWidget implements PreferredSizeWidget {
           ),
           // LOGO
           Image.asset(
-            'assets/images/icon_logo.png',
+            'assets/images/icon.png',
             height: 32,
           ),
           // SEARCH
