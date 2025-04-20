@@ -9,6 +9,8 @@ class PostModel {
   final String? mood;
   final String? location;
   final String? sharedMenuId;
+  final String? profileImageUrl;
+  final String? userTag;
   final DateTime timestamp;
 
   PostModel({
@@ -20,6 +22,8 @@ class PostModel {
     this.mood,
     this.location,
     this.sharedMenuId,
+    this.profileImageUrl,
+    this.userTag,
     required this.timestamp,
   });
 
@@ -33,6 +37,8 @@ class PostModel {
       mood: data['mood'],
       location: data['location'],
       sharedMenuId: data['sharedMenuId'],
+      profileImageUrl: data['profileImageUrl'],
+      userTag: data['userTag'],
       timestamp: (data['timestamp'] as Timestamp).toDate(),
     );
   }
@@ -46,6 +52,8 @@ class PostModel {
       'mood': mood,
       'location': location,
       'sharedMenuId': sharedMenuId,
+      'profileImageUrl': profileImageUrl,
+      'userTag': userTag,
       'timestamp': timestamp,
     };
   }

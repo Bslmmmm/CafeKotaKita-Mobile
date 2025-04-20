@@ -10,6 +10,7 @@ import '../../../Screens/Profile/ProfileScreen.dart';
 import 'search_screen.dart';
 import '../Widgets/navbar_top.dart';
 import 'dart:io';
+import '../Widgets/post_card.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -188,7 +189,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         controller: _scrollController,
                         itemCount: posts.length,
                         itemBuilder: (context, index) =>
-                            _buildPostItem(posts[index]),
+                            PostCard(post: posts[index]),
                       ),
                     );
                   }
