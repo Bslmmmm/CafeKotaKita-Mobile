@@ -13,6 +13,13 @@ class PostModel {
   final String? userTag;
   final DateTime timestamp;
 
+  // 👇 Tambahan untuk fitur interaksi
+  final List<String> likedBy;
+  final int likeCount;
+  final int commentCount;
+  final int retweetCount;
+  final int viewCount;
+
   PostModel({
     required this.id,
     required this.userId,
@@ -25,6 +32,13 @@ class PostModel {
     this.profileImageUrl,
     this.userTag,
     required this.timestamp,
+
+    // 👇 Default value jika tidak ada di Firestore
+    this.likedBy = const [],
+    this.likeCount = 0,
+    this.commentCount = 0,
+    this.retweetCount = 0,
+    this.viewCount = 0,
   });
 
   factory PostModel.fromMap(Map<String, dynamic> data, String documentId) {
@@ -40,6 +54,13 @@ class PostModel {
       profileImageUrl: data['profileImageUrl'],
       userTag: data['userTag'],
       timestamp: (data['timestamp'] as Timestamp).toDate(),
+
+      // 👇 Tambahan parsing interaksi
+      likedBy: List<String>.from(data['likedBy'] ?? []),
+      likeCount: data['likeCount'] ?? 0,
+      commentCount: data['commentCount'] ?? 0,
+      retweetCount: data['retweetCount'] ?? 0,
+      viewCount: data['viewCount'] ?? 0,
     );
   }
 
@@ -55,6 +76,13 @@ class PostModel {
       'profileImageUrl': profileImageUrl,
       'userTag': userTag,
       'timestamp': timestamp,
+
+      // 👇 Tambahan ke Firestore
+      'likedBy': likedBy,
+      'likeCount': likeCount,
+      'commentCount': commentCount,
+      'retweetCount': retweetCount,
+      'viewCount': viewCount,
     };
   }
 }

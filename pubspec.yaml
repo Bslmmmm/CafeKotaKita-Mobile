@@ -52,6 +52,7 @@ dependencies:
   js: ^0.6.7
   line_awesome_flutter: ^3.0.1
   get: ^4.7.2
+  share_plus: ^7.2.1
 
 dev_dependencies:
   flutter_test:

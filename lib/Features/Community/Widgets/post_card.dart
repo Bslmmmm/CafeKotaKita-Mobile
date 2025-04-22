@@ -1,13 +1,63 @@
 import 'package:flutter/material.dart';
 import '../Models/post_model.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class PostCard extends StatelessWidget {
+class PostCard extends StatefulWidget {
   final PostModel post;
 
   const PostCard({Key? key, required this.post}) : super(key: key);
 
   @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  late bool isLiked;
+  late int likeCount;
+  final String currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
+  @override
+  void initState() {
+    super.initState();
+    isLiked = widget.post.likedBy.contains(currentUserId);
+    likeCount = widget.post.likeCount;
+  }
+
+  void toggleLike() {
+    setState(() {
+      isLiked = !isLiked;
+      likeCount += isLiked ? 1 : -1;
+    });
+    // Call your like logic here: PostController().toggleLike(widget.post.id, currentUserId);
+  }
+
+  void onShare() {
+    final text = widget.post.caption;
+    Share.share(text);
+  }
+
+  Widget _buildAction(IconData icon, int count, VoidCallback? onTap,
+      {Color? color}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: color ?? Colors.grey[600]),
+          const SizedBox(width: 4),
+          Text(
+            '$count',
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
+          )
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final post = widget.post;
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: const BoxDecoration(
@@ -16,7 +66,6 @@ class PostCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Profile Picture
           CircleAvatar(
             radius: 24,
             backgroundImage: post.profileImageUrl != null
@@ -25,19 +74,15 @@ class PostCard extends StatelessWidget {
                     as ImageProvider,
           ),
           const SizedBox(width: 12),
-          // Post Content
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Username and tag
                 Row(
                   children: [
                     Text(
                       post.username,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 8),
                     Text(
@@ -49,10 +94,8 @@ class PostCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 4),
-                // Caption
                 Text(post.caption),
                 const SizedBox(height: 6),
-                // Optional image
                 if (post.imageUrl != null)
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
@@ -62,7 +105,6 @@ class PostCard extends StatelessWidget {
                     ),
                   ),
                 const SizedBox(height: 8),
-                // Location & Mood
                 Row(
                   children: [
                     if (post.location != null)
@@ -81,16 +123,30 @@ class PostCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                // Actions
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(Icons.comment_outlined, size: 18),
-                    Icon(Icons.repeat, size: 18),
-                    Icon(Icons.favorite_border, size: 18),
-                    Icon(Icons.remove_red_eye_outlined, size: 18),
-                    Icon(Icons.bookmark_border, size: 18),
-                    Icon(Icons.share_outlined, size: 18),
+                    _buildAction(Icons.comment_outlined, post.commentCount, () {
+                      // Navigasi ke komentar
+                    }),
+                    _buildAction(Icons.repeat, post.retweetCount, () {
+                      // Aksi retweet
+                    }),
+                    _buildAction(
+                      isLiked ? Icons.favorite : Icons.favorite_border,
+                      likeCount,
+                      toggleLike,
+                      color: isLiked ? Colors.red : null,
+                    ),
+                    _buildAction(
+                        Icons.remove_red_eye_outlined, post.viewCount, null),
+                    _buildAction(Icons.bookmark_border, 0, () {
+                      // Bookmark
+                    }),
+                    IconButton(
+                      icon: const Icon(Icons.share_outlined, size: 18),
+                      onPressed: onShare,
+                    ),
                   ],
                 ),
               ],
