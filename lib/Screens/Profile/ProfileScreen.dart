@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 import 'package:tugas_flutter/Screens/Profile/UpdateProfileScreen.dart';
 import 'package:tugas_flutter/Screens/Login/login_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class SetProfileScreen extends StatelessWidget {
+  const SetProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

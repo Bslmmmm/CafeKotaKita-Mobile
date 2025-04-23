@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:tugas_flutter/Features/home_screen.dart';
 import '../controllers/post_controller.dart';
 import '../Models/post_model.dart';
+import '../Screens/profile_screen.dart';
 import 'create_post_screen.dart';
 import '../../../Screens/Profile/ProfileScreen.dart';
 import 'search_screen.dart';

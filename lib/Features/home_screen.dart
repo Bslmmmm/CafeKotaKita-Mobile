@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     MapScreen(
         latitude: 37.7749, longitude: -122.4194), // Sesuaikan dengan lokasi
     FeedScreen(),
-    ProfileScreen(),
+    SetProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
