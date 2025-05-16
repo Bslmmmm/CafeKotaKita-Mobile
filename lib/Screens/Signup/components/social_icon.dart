@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Constant/constants.dart';
+import 'package:tugas_flutter/Constant/colors.dart';
+
 
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -22,7 +23,7 @@ class SocalIcon extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             width: 2,
-            color: kPrimaryLightColor,
+            color: clrbg,
           ),
           shape: BoxShape.circle,
         ),

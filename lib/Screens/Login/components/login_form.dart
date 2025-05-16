@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tugas_flutter/Constant/colors.dart';
 
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../Constant/constants.dart';
@@ -43,7 +44,7 @@ class _LoginFormState extends State<LoginForm> {
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            cursorColor: kPrimaryColor,
+            cursorColor: primaryc,
             decoration: const InputDecoration(
               hintText: "Your email",
               prefixIcon: Padding(
@@ -58,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
               controller: _passwordController,
               textInputAction: TextInputAction.done,
               obscureText: true,
-              cursorColor: kPrimaryColor,
+              cursorColor: primaryc,
               decoration: const InputDecoration(
                 hintText: "Your password",
                 prefixIcon: Padding(
@@ -74,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
             },
             child: const Text(
               "Forgot Password?",
-              style: TextStyle(color: kPrimaryColor),
+              style: TextStyle(color: clrfont2),
             ),
           ),
           const SizedBox(height: defaultPadding),

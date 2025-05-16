@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tugas_flutter/Features/Onboarding/views/onboarding_page.dart';
+import 'package:tugas_flutter/Constant/colors.dart';
+import 'package:tugas_flutter/routes/app_pages.dart';
+import 'package:tugas_flutter/routes/app_routes.dart';
 import 'firebase_options.dart';
-// import 'package:tugas_flutter/Screens/Welcome/welcome_screen.dart';
 import 'package:tugas_flutter/Screens/Forgot/forgot_screen.dart';
 import 'package:tugas_flutter/Screens/OTP/otp_screen.dart';
 import 'package:tugas_flutter/Screens/Reset/reset_screen.dart';
@@ -26,15 +27,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Auth',
+      title: 'KafeKotaKita',
+      initialRoute: AppRoutes.onboarding,
+      getPages: AppPages.routes,
       theme: ThemeData(
-        primaryColor: kPrimaryColor,
+        primaryColor: primaryc,
         scaffoldBackgroundColor: Colors.white,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             elevation: 0,
             foregroundColor: Colors.white,
-            backgroundColor: kPrimaryColor,
+            backgroundColor: clrbg,
             shape: const StadiumBorder(),
             maximumSize: const Size(double.infinity, 56),
             minimumSize: const Size(double.infinity, 56),
@@ -42,9 +45,9 @@ class MyApp extends StatelessWidget {
         ),
         inputDecorationTheme: const InputDecorationTheme(
           filled: true,
-          fillColor: kPrimaryLightColor,
-          iconColor: kPrimaryColor,
-          prefixIconColor: kPrimaryColor,
+          fillColor: clrbg,
+          iconColor: white,
+          prefixIconColor: white,
           contentPadding: EdgeInsets.symmetric(
               horizontal: defaultPadding, vertical: defaultPadding),
           border: OutlineInputBorder(
@@ -53,7 +56,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const OnboardingPage(),
       routes: {
         '/forgot': (context) => const ForgotScreen(),
         '/otp': (context) => const OtpScreen(),

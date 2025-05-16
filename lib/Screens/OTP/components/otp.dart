@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tugas_flutter/Constant/colors.dart';
 import '../../../Constant/constants.dart';
 import 'package:flutter/services.dart';
 
@@ -182,14 +183,14 @@ class _OtpFormState extends State<OtpForm> {
                       decoration: InputDecoration(
                         counterText: "",
                         filled: true,
-                        fillColor: kPrimaryLightColor,
+                        fillColor: clrbg,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: const BorderSide(color: Colors.grey),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(color: kPrimaryColor),
+                          borderSide: const BorderSide(color: primaryc),
                         ),
                       ),
                     ),
@@ -213,7 +214,7 @@ class _OtpFormState extends State<OtpForm> {
                     ? "Resend OTP"
                     : "Resend OTP in 00:${_seconds.toString().padLeft(2, '0')}",
                 style: TextStyle(
-                    color: _seconds == 0 ? kPrimaryColor : Colors.grey),
+                    color: _seconds == 0 ? primaryc : Colors.grey),
               ),
             ),
             const SizedBox(height: defaultPadding),

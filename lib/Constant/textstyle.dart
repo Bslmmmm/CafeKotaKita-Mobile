@@ -17,7 +17,6 @@ class AppTextStyles {
   
   // Colors
   static const Color _textColorPrimary = Color(0xFF212121);
-  static const Color _textColorblack = Color(0xFF000000);
   static const Color _textColorSecondary = Color(0xFF757575);
   static const Color _textColorWhite = Color(0xFFFFFFFF);
   

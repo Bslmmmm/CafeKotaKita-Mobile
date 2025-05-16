@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tugas_flutter/Constant/colors.dart';
 import 'dart:convert';
 
 import '../../../Constant/constants.dart';
@@ -71,7 +72,7 @@ class _ForgotFormState extends State<ForgotForm> {
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.done,
-                cursorColor: kPrimaryColor,
+                cursorColor: primaryc,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Email tidak boleh kosong';

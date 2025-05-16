@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tugas_flutter/Constant/colors.dart';
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../Constant/constants.dart';
 import '../../../Features/auth/Login/view/login_screen.dart';
@@ -57,7 +58,7 @@ class _SignUpFormState extends State<SignUpForm> {
           TextFormField(
             controller: _usernameController,
             textInputAction: TextInputAction.next,
-            cursorColor: kPrimaryColor,
+            cursorColor: primaryc,
             decoration: const InputDecoration(
               hintText: "Username",
               prefixIcon: Padding(
@@ -79,7 +80,7 @@ class _SignUpFormState extends State<SignUpForm> {
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            cursorColor: kPrimaryColor,
+            cursorColor: primaryc,
             decoration: const InputDecoration(
               hintText: "Your email",
               prefixIcon: Padding(
@@ -105,7 +106,7 @@ class _SignUpFormState extends State<SignUpForm> {
             controller: _phoneController,
             keyboardType: TextInputType.phone,
             textInputAction: TextInputAction.next,
-            cursorColor: kPrimaryColor,
+            cursorColor: primaryc,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(15),
@@ -130,7 +131,7 @@ class _SignUpFormState extends State<SignUpForm> {
           TextFormField(
             controller: _addressController,
             textInputAction: TextInputAction.next,
-            cursorColor: kPrimaryColor,
+            cursorColor: primaryc,
             decoration: const InputDecoration(
               hintText: "Your address",
               prefixIcon: Padding(
@@ -152,7 +153,7 @@ class _SignUpFormState extends State<SignUpForm> {
             controller: _passwordController,
             textInputAction: TextInputAction.done,
             obscureText: true,
-            cursorColor: kPrimaryColor,
+            cursorColor: primaryc,
             decoration: const InputDecoration(
               hintText: "Your password",
               prefixIcon: Padding(

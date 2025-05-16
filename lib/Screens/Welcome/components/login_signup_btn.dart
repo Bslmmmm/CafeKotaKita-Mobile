@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../Constant/constants.dart';
+import 'package:tugas_flutter/Constant/colors.dart';
 import '../../../Features/auth/Login/view/login_screen.dart';
 import '../../Signup/signup_screen.dart';
 
@@ -41,7 +40,7 @@ class LoginAndSignupBtn extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: kPrimaryLightColor,
+            backgroundColor: clrbg,
             elevation: 0,
           ),
           child: Text(

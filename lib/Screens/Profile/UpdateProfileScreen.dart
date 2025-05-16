@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/Constant/constants.dart';
 import 'package:tugas_flutter/Constant/text_strings.dart';
 import 'package:tugas_flutter/Constant/size.dart';
 import 'package:tugas_flutter/Constant/images.dart';
@@ -49,7 +47,7 @@ class UpdateProfileScreen extends StatelessWidget {
                       height: 35,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
-                        color: kPrimaryColor,
+                        color: primaryc,
                       ),
                       child: const Icon(
                         LineAwesomeIcons.camera_solid,
@@ -91,7 +89,7 @@ class UpdateProfileScreen extends StatelessWidget {
                       onPressed: () =>
                           Get.to(() => const UpdateProfileScreen()),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: kPrimaryColor,
+                          backgroundColor: primaryc,
                           side: BorderSide.none,
                           shape: const StadiumBorder()),
                       child: const Text(tEditProfile,

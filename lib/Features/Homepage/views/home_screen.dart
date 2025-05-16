@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tugas_flutter/Features/Community/Screens/feed_screen.dart';
 import '../../../Screens/Profile/ProfileScreen.dart';
 import '../../map.dart';
-import 'package:tugas_flutter/Features/Community/Screens/feed_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override

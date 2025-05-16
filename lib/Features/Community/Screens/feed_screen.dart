@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/gestures.dart';
 import 'package:tugas_flutter/Features/Homepage/views/home_screen.dart';
 import '../controllers/post_controller.dart';
 import '../Models/post_model.dart';
 import '../Screens/profile_screen.dart';
 import 'create_post_screen.dart';
-import '../../../Screens/Profile/ProfileScreen.dart';
-import 'search_screen.dart';
 import '../Widgets/navbar_top.dart';
 import 'dart:io';
 import '../Widgets/post_card.dart';

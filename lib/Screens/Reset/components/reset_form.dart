@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tugas_flutter/Constant/colors.dart';
 import 'dart:convert';
 import '../../../Constant/constants.dart';
 
@@ -113,7 +114,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                 controller: _newPasswordController,
                 textInputAction: TextInputAction.next,
                 obscureText: true,
-                cursorColor: kPrimaryColor,
+                cursorColor: primaryc,
                 decoration: const InputDecoration(
                   hintText: "New Password",
                   prefixIcon: Padding(
@@ -136,7 +137,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                   controller: _confirmPasswordController,
                   textInputAction: TextInputAction.done,
                   obscureText: true,
-                  cursorColor: kPrimaryColor,
+                  cursorColor: primaryc,
                   decoration: const InputDecoration(
                     hintText: "Confirm Password",
                     prefixIcon: Padding(

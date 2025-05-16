@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tugas_flutter/Features/auth/Login/view/login_screen.dart';
+import 'package:tugas_flutter/routes/app_routes.dart';
 import '../controller/onboarding_controller.dart';
 import 'onboarding_content.dart';
 
@@ -42,7 +42,7 @@ class OnboardingPage extends StatelessWidget {
                             height: 60,
                             child: ElevatedButton(
                               onPressed: () {
-                                Get.offAll(LoginScreen());
+                                Get.offAllNamed(AppRoutes.login);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,
