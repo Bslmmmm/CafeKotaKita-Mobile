@@ -11,7 +11,6 @@ import 'package:tugas_flutter/Features/home_screen.dart';
 import 'package:tugas_flutter/Constant/constants.dart';
 import 'package:get/get.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -58,9 +57,20 @@ class MyApp extends StatelessWidget {
       routes: {
         '/forgot': (context) => const ForgotScreen(),
         '/otp': (context) => const OtpScreen(),
-        '/reset': (context) => const ResetScreen(),
         '/login': (context) => const LoginScreen(),
         '/home': (context) => HomeScreen(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/reset') {
+          final args = settings.arguments as Map<String, String>;
+          return MaterialPageRoute(
+            builder: (context) => ResetScreen(
+              email: args['email']!,
+              otp: args['otp']!,
+            ),
+          );
+        }
+        return null;
       },
     );
   }

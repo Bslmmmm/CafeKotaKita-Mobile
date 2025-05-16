@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../../../Constant/constants.dart';
 import 'package:flutter/services.dart';
 
@@ -21,10 +23,28 @@ class _OtpFormState extends State<OtpForm> {
   bool _otpSuccess = false;
   bool _otpFailed = false;
 
+  String? email;
+
   @override
   void initState() {
     super.initState();
     startTimer();
+
+    // Ambil email dari arguments
+    Future.microtask(() {
+      final args = ModalRoute.of(context)?.settings.arguments;
+      // Cek apakah args bertipe Map untuk fleksibilitas
+      if (args is Map<String, dynamic>) {
+        setState(() {
+          email = args['email'] as String?;
+        });
+      } else if (args is String) {
+        // Kalau sebelumnya hanya mengirim email sebagai String
+        setState(() {
+          email = args;
+        });
+      }
+    });
   }
 
   void startTimer() {
@@ -69,47 +89,69 @@ class _OtpFormState extends State<OtpForm> {
     }
   }
 
-  void _verifyOtp() {
+  Future<void> _verifyOtp() async {
     String enteredOtp = _controllers.map((e) => e.text).join();
-    if (enteredOtp == '123456') {
-      setState(() {
-        _otpSuccess = true;
-        _otpFailed = false;
-      });
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text("Berhasil"),
-          content: const Text("OTP berhasil diverifikasi!"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // tutup dialog
-                Navigator.pushNamed(
-                    context, '/reset'); // navigasi ke reset password
-              },
-              child: const Text("OK"),
-            )
-          ],
-        ),
+
+    if (email == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Email tidak tersedia")),
       );
-    } else {
-      setState(() {
-        _otpSuccess = false;
-        _otpFailed = true;
-      });
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text("Gagal"),
-          content: const Text("Kode OTP salah. Silakan coba lagi."),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
-            )
-          ],
-        ),
+      return;
+    }
+
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:8000/api/auth/verifyotp'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': email,
+          'otp': enteredOtp,
+        }),
+      );
+
+      final result = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          _otpSuccess = true;
+          _otpFailed = false;
+        });
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("Berhasil"),
+            content: const Text("OTP berhasil diverifikasi!"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  // Kirim email dan otp sebagai arguments ke halaman reset
+                  Navigator.pushNamed(
+                    context,
+                    '/reset',
+                    arguments: {
+                      'email': email!,
+                      'otp': enteredOtp,
+                    },
+                  );
+                },
+                child: const Text("OK"),
+              )
+            ],
+          ),
+        );
+      } else {
+        setState(() {
+          _otpSuccess = false;
+          _otpFailed = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(result['message'] ?? 'OTP salah')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Gagal menghubungi server")),
       );
     }
   }
@@ -161,6 +203,9 @@ class _OtpFormState extends State<OtpForm> {
                   ? () {
                       // Logic resend OTP
                       startTimer();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("OTP dikirim ulang")),
+                      );
                     }
                   : null,
               child: Text(

@@ -7,7 +7,14 @@ import 'components/reset_form.dart';
 import 'components/reset_screen_image.dart';
 
 class ResetScreen extends StatelessWidget {
-  const ResetScreen({Key? key}) : super(key: key);
+  final String email;
+  final String otp;
+
+  const ResetScreen({
+    Key? key,
+    required this.email,
+    required this.otp,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +23,13 @@ class ResetScreen extends StatelessWidget {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(defaultPadding),
           child: Responsive(
-            mobile: const MobileResetScreen(),
+            mobile: MobileResetScreen(email: email, otp: otp),
             desktop: Row(
-              children: const [
-                Expanded(
-                  child: ResetPasswordImage(),
-                ),
+              children: [
+                const Expanded(child: ResetPasswordImage()),
                 Expanded(
                   child: Center(
-                    child: ResetPasswordForm(),
+                    child: ResetPasswordForm(email: email, otp: otp),
                   ),
                 ),
               ],
@@ -37,16 +42,24 @@ class ResetScreen extends StatelessWidget {
 }
 
 class MobileResetScreen extends StatelessWidget {
-  const MobileResetScreen({Key? key}) : super(key: key);
+  final String email;
+  final String otp;
+
+  const MobileResetScreen({
+    Key? key,
+    required this.email,
+    required this.otp,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        ResetPasswordImage(),
-        SizedBox(height: defaultPadding * 2),
-        ResetPasswordForm(),
+      children: [
+        const ResetPasswordImage(),
+        const SizedBox(height: defaultPadding * 2),
+        ResetPasswordForm(email: email, otp: otp),
       ],
     );
   }
 }
+

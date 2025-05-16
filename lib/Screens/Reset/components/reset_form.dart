@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../../../Constant/constants.dart';
 
 class ResetPasswordForm extends StatefulWidget {
-  const ResetPasswordForm({Key? key}) : super(key: key);
+  final String email;
+  final String otp;
+
+  const ResetPasswordForm({
+    Key? key,
+    required this.email,
+    required this.otp,
+  }) : super(key: key);
 
   @override
   State<ResetPasswordForm> createState() => _ResetPasswordFormState();
@@ -20,29 +29,74 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
     super.dispose();
   }
 
-  void _resetPassword() {
+  Future<void> _resetPassword() async {
     if (_formKey.currentState!.validate()) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          title: const Text("Berhasil"),
-          content: const Text("Password berhasil direset!"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/login',
-                  (route) => false,
-                );
-              },
-              child: const Text("OK"),
+      try {
+        final response = await http.post(
+          Uri.parse('http://localhost:8000/api/auth/resetpassword'), // GANTI jika perlu
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            'email': widget.email,
+            'otp': widget.otp,
+            'password': _newPasswordController.text,
+            'password_confirmation': _confirmPasswordController.text,
+          }),
+        );
+
+        final responseData = jsonDecode(response.body);
+
+        if (response.statusCode == 200) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              title: const Text("Berhasil"),
+              content: const Text("Password berhasil direset!"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/login',
+                      (route) => false,
+                    );
+                  },
+                  child: const Text("OK"),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: const Text("Gagal"),
+              content: Text(responseData['message'] ?? 'Terjadi kesalahan'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("OK"),
+                )
+              ],
+            ),
+          );
+        }
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("Error"),
+            content: Text("Gagal terhubung ke server: $e"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("OK"),
+              )
+            ],
+          ),
+        );
+      }
     }
   }
 
@@ -50,8 +104,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        constraints:
-            const BoxConstraints(maxWidth: 400), // Biar nggak terlalu panjang
+        constraints: const BoxConstraints(maxWidth: 400),
         child: Form(
           key: _formKey,
           child: Column(
