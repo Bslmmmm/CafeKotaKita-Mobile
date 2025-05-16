@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../Constant/constants.dart';
-import '../../Login/login_screen.dart';
+import '../../../Features/auth/Login/view/login_screen.dart';
 import '../../../Controllers/signup_controller.dart';
 
 class SignUpForm extends StatefulWidget {

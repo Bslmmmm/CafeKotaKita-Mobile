@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tugas_flutter/Features/Onboarding/onboarding.dart';
+import 'package:tugas_flutter/Features/Onboarding/views/onboarding_page.dart';
 import 'firebase_options.dart';
-
-import 'package:tugas_flutter/Screens/Welcome/welcome_screen.dart';
+// import 'package:tugas_flutter/Screens/Welcome/welcome_screen.dart';
 import 'package:tugas_flutter/Screens/Forgot/forgot_screen.dart';
 import 'package:tugas_flutter/Screens/OTP/otp_screen.dart';
 import 'package:tugas_flutter/Screens/Reset/reset_screen.dart';
-import 'package:tugas_flutter/Screens/Login/login_screen.dart';
-import 'package:tugas_flutter/Features/home_screen.dart';
+import 'package:tugas_flutter/Features/auth/Login/view/login_screen.dart';
+import 'package:tugas_flutter/Features/Homepage/views/home_screen.dart';
 import 'package:tugas_flutter/Constant/constants.dart';
 import 'package:get/get.dart';
 
@@ -54,7 +53,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const onboardingPage(),
+      home: const OnboardingPage(),
       routes: {
         '/forgot': (context) => const ForgotScreen(),
         '/otp': (context) => const OtpScreen(),

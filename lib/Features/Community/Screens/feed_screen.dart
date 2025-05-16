@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/gestures.dart';
-import 'package:tugas_flutter/Features/home_screen.dart';
+import 'package:tugas_flutter/Features/Homepage/views/home_screen.dart';
 import '../controllers/post_controller.dart';
 import '../Models/post_model.dart';
 import '../Screens/profile_screen.dart';

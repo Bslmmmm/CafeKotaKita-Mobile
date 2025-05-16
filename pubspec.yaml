@@ -54,6 +54,7 @@ dependencies:
   get: ^4.7.2
   share_plus: ^7.2.1
   google_fonts: ^6.2.1
+  provider: ^6.1.5
 
 dev_dependencies:
   flutter_test:
