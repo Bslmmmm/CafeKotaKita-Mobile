@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tugas_flutter/Features/Onboarding/onboarding.dart';
 import 'firebase_options.dart';
 
 import 'package:tugas_flutter/Screens/Welcome/welcome_screen.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const WelcomeScreen(),
+      home: const onboardingPage(),
       routes: {
         '/forgot': (context) => const ForgotScreen(),
         '/otp': (context) => const OtpScreen(),
