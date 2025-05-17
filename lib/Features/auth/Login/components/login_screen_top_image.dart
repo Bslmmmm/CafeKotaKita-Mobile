@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../Constant/constants.dart';
+import '../../../../Constant/constants.dart';
 
-class OtpScreenTopImage extends StatelessWidget {
-  const OtpScreenTopImage({
+class LoginScreenTopImage extends StatelessWidget {
+  const LoginScreenTopImage({
     Key? key,
   }) : super(key: key);
 
@@ -13,7 +13,7 @@ class OtpScreenTopImage extends StatelessWidget {
     return Column(
       children: [
         const Text(
-          "OTP VERIFICATION",
+          "LOGIN",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: defaultPadding * 2),
@@ -22,16 +22,10 @@ class OtpScreenTopImage extends StatelessWidget {
             const Spacer(),
             Expanded(
               flex: 8,
-              child: SvgPicture.asset("assets/icons/otp.svg"),
+              child: SvgPicture.asset("assets/icons/login.svg"),
             ),
             const Spacer(),
           ],
-        ),
-        const SizedBox(height: defaultPadding * 2),
-        const Text(
-          "Kode One Time Password (OTP) sudah berhasil dikirim ke alamat email anda,\ntolong masukkan kode OTP di bawah ini.",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 14),
         ),
         const SizedBox(height: defaultPadding * 2),
       ],

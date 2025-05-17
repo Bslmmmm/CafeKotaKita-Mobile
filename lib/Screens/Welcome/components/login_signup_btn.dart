@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
-import '../../../Features/auth/Login/view/login_screen.dart';
-import '../../Signup/signup_screen.dart';
+import '../../../Features/auth/Login/login_screen.dart';
+import '../../../Features/auth/Signup/signup_screen.dart';
 
 class LoginAndSignupBtn extends StatelessWidget {
   const LoginAndSignupBtn({

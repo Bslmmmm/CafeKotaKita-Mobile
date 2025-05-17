@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../Constant/constants.dart';
+import '../../../../Constant/constants.dart';
 
-class LoginScreenTopImage extends StatelessWidget {
-  const LoginScreenTopImage({
+class ForgotScreenTopImage extends StatelessWidget {
+  const ForgotScreenTopImage({
     Key? key,
   }) : super(key: key);
 
@@ -13,7 +13,7 @@ class LoginScreenTopImage extends StatelessWidget {
     return Column(
       children: [
         const Text(
-          "LOGIN",
+          "FORGOT PASSWORD",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: defaultPadding * 2),
@@ -22,7 +22,7 @@ class LoginScreenTopImage extends StatelessWidget {
             const Spacer(),
             Expanded(
               flex: 8,
-              child: SvgPicture.asset("assets/icons/login.svg"),
+              child: SvgPicture.asset("assets/icons/forgot.svg"),
             ),
             const Spacer(),
           ],
