@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../Constant/constants.dart';
+import '../../../../Constant/constants.dart';
 
-class ForgotScreenTopImage extends StatelessWidget {
-  const ForgotScreenTopImage({
+class OtpScreenTopImage extends StatelessWidget {
+  const OtpScreenTopImage({
     Key? key,
   }) : super(key: key);
 
@@ -13,7 +13,7 @@ class ForgotScreenTopImage extends StatelessWidget {
     return Column(
       children: [
         const Text(
-          "FORGOT PASSWORD",
+          "OTP VERIFICATION",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: defaultPadding * 2),
@@ -22,10 +22,16 @@ class ForgotScreenTopImage extends StatelessWidget {
             const Spacer(),
             Expanded(
               flex: 8,
-              child: SvgPicture.asset("assets/icons/forgot.svg"),
+              child: SvgPicture.asset("assets/icons/otp.svg"),
             ),
             const Spacer(),
           ],
+        ),
+        const SizedBox(height: defaultPadding * 2),
+        const Text(
+          "Kode One Time Password (OTP) sudah berhasil dikirim ke alamat email anda,\ntolong masukkan kode OTP di bawah ini.",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 14),
         ),
         const SizedBox(height: defaultPadding * 2),
       ],

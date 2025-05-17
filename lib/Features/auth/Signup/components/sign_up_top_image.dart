@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../Constant/constants.dart';
+import '../../../../Constant/constants.dart';
 
 class SignUpScreenTopImage extends StatelessWidget {
   final double imageWidth;

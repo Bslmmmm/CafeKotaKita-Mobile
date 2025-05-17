@@ -4,10 +4,10 @@ import 'package:tugas_flutter/Constant/colors.dart';
 import 'package:tugas_flutter/routes/app_pages.dart';
 import 'package:tugas_flutter/routes/app_routes.dart';
 import 'firebase_options.dart';
-import 'package:tugas_flutter/Screens/Forgot/forgot_screen.dart';
-import 'package:tugas_flutter/Screens/OTP/otp_screen.dart';
-import 'package:tugas_flutter/Screens/Reset/reset_screen.dart';
-import 'package:tugas_flutter/Features/auth/Login/view/login_screen.dart';
+import 'package:tugas_flutter/Features/auth/Forgot/forgot_screen.dart';
+import 'package:tugas_flutter/Features/auth/OTP/otp_screen.dart';
+import 'package:tugas_flutter/Features/auth/Reset/reset_screen.dart';
+import 'package:tugas_flutter/Features/auth/Login/login_screen.dart';
 import 'package:tugas_flutter/Features/Homepage/views/home_screen.dart';
 import 'package:tugas_flutter/Constant/constants.dart';
 import 'package:get/get.dart';
@@ -62,18 +62,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/home': (context) => HomeScreen(),
       },
-      onGenerateRoute: (settings) {
-        if (settings.name == '/reset') {
-          final args = settings.arguments as Map<String, String>;
-          return MaterialPageRoute(
-            builder: (context) => ResetScreen(
-              email: args['email']!,
-              otp: args['otp']!,
-            ),
-          );
-        }
-        return null;
-      },
+      
     );
   }
 }

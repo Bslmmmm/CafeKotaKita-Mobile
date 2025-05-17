@@ -6,7 +6,7 @@ import 'package:tugas_flutter/Constant/size.dart';
 import 'package:tugas_flutter/Constant/images.dart';
 import 'package:get/get.dart';
 import 'package:tugas_flutter/Screens/Profile/UpdateProfileScreen.dart';
-import 'package:tugas_flutter/Features/auth/Login/view/login_screen.dart';
+import 'package:tugas_flutter/Features/auth/Login/login_screen.dart';
 
 class SetProfileScreen extends StatelessWidget {
   const SetProfileScreen({Key? key}) : super(key: key);
