@@ -1,0 +1,95 @@
+import 'package:flutter/material.dart';
+import 'package:tugas_flutter/Constant/colors.dart';
+
+class CustomNavBar extends StatefulWidget {
+  final int initialSelectedIndex;
+  final Function(int) onItemSelected;
+  
+  const CustomNavBar({
+    Key? key, 
+    this.initialSelectedIndex = 0,
+    required this.onItemSelected,
+  }) : super(key: key);
+
+  @override
+  State<CustomNavBar> createState() => _CustomNavBarState();
+}
+
+class _CustomNavBarState extends State<CustomNavBar> {
+  late int _selectedIndex;
+  
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialSelectedIndex;
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 60,
+      decoration: BoxDecoration(
+        color: white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, -1),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildNavItem(0, Icons.home_outlined, 'Home'),
+          _buildNavItem(1, Icons.search, 'Search'),
+          _buildNavItem(2, Icons.bookmark, 'Bookmark'),
+          _buildNavItem(3, Icons.people_alt_outlined, 'People'),
+          _buildNavItem(4, Icons.person_outline, 'Profile'),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildNavItem(int index, IconData icon, String label) {
+    final isSelected = _selectedIndex == index;
+    
+    return Container(
+      width: 70,
+      height: 60,
+      alignment: Alignment.center,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Lingkaran hitam yang lebih besar saat tombol aktif
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOutQuart,
+            width: isSelected ? 80 : 0,
+            height: isSelected ? 80 : 0,
+            decoration: const BoxDecoration(
+              color: primaryc,
+              shape: BoxShape.circle,
+            ),
+          ),
+          
+          // Ikon yang lebih besar saat aktif
+          IconButton(
+            padding: EdgeInsets.zero,
+            iconSize: isSelected ? 35 : 26,
+            icon: Icon(
+              icon,
+              color: isSelected ? Colors.white : Colors.black54,
+            ),
+            onPressed: () {
+              setState(() {
+                _selectedIndex = index;
+              });
+              widget.onItemSelected(index);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tugas_flutter/Constant/colors.dart';
 import 'package:tugas_flutter/Features/Community/Screens/feed_screen.dart';
 import '../../../Screens/Profile/ProfileScreen.dart';
 import '../../map.dart';
@@ -33,9 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: Container(
         height: 60, // Tinggi navbar diperbesar
         padding: EdgeInsets.only(
-            top: 5, bottom: 5), // Padding untuk keseimbangan ikon
+            top: 5, bottom: 5), 
         decoration: BoxDecoration(
-          color: Color(0xFFB13841), // Warna navbar
+          color: primaryc, // Warna navbar
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),
             topRight: Radius.circular(25),
@@ -52,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   0,
                 ),
                 navItem(Icons.map, 1),
-                SizedBox(width: 50), // Memberi ruang untuk logo di tengah
+                SizedBox(width: 50),
                 navItem(Icons.people, 2),
                 navItem(Icons.person, 3),
               ],
