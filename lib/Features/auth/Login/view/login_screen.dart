@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
 import 'package:tugas_flutter/responsive.dart';
-import 'components/login_form.dart';
+import '../components/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);

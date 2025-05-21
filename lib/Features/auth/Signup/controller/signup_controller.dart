@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:tugas_flutter/routes/app_routes.dart';
+import 'package:tugas_flutter/service/api_config.dart';
 import '../../../../Constant/colors.dart';
 import '../../../../Constant/textstyle.dart';
 
 class SignupController {
-  final String apiUrl = 'http://127.0.0.1:8000/api/auth/register'; 
+  final String apiUrl = ApiConfig.registerendpoint; 
 
   Future<void> registerUser({
     required String nama,
@@ -35,10 +37,10 @@ class SignupController {
         final data = jsonDecode(response.body);
         Get.dialog(
           AlertDialog(
-            backgroundColor: primaryc, // Make sure primaryc is defined
+            backgroundColor: primaryc, 
             title: Text(
               "Berhasil",
-              style: AppTextStyles.montserratH1(color: white), // Make sure these styles are available
+              style: AppTextStyles.montserratH1(color: white),
             ),
             content: Text(
               "Registrasi berhasil!",
@@ -64,7 +66,7 @@ class SignupController {
         
         // Navigate to login after 2 seconds (giving time to see the dialog)
         await Future.delayed(Duration(seconds: 2));
-        Get.offAllNamed('/login');
+        Get.offAllNamed(AppRoutes.login);
       } else {
         final data = jsonDecode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(

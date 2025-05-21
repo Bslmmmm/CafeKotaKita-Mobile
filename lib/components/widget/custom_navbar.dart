@@ -65,8 +65,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
           AnimatedContainer(
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeOutQuart,
-            width: isSelected ? 80 : 0,
-            height: isSelected ? 80 : 0,
+            width: isSelected ? 70 : 0,
+            height: isSelected ? 55 : 0,
             decoration: const BoxDecoration(
               color: primaryc,
               shape: BoxShape.circle,
@@ -76,7 +76,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
           // Ikon yang lebih besar saat aktif
           IconButton(
             padding: EdgeInsets.zero,
-            iconSize: isSelected ? 35 : 26,
+            iconSize: isSelected ? 40  : 26,
             icon: Icon(
               icon,
               color: isSelected ? Colors.white : Colors.black54,

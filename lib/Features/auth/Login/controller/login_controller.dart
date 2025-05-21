@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:tugas_flutter/routes/app_routes.dart';
+import 'package:tugas_flutter/service/api_config.dart';
 import '../../../../Constant/colors.dart';
 import '../../../../Constant/textstyle.dart';
 
@@ -23,7 +25,7 @@ class LoginController {
       return;
     }
 
-    final url = Uri.parse("http://127.0.0.1:8000/api/auth/login");
+    final url = Uri.parse(ApiConfig.loginendpoint);
 
     try {
       final response = await http.post(
@@ -40,7 +42,7 @@ class LoginController {
           "Login berhasil", 
           "Selamat datang ${data['user']['nama']}",
           () {
-            Get.offAllNamed('/home');
+            Get.offAllNamed(AppRoutes.mainpage);
           }
         );
       } else {

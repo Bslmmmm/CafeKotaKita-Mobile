@@ -6,6 +6,8 @@ import 'package:tugas_flutter/Constant/textstyle.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tugas_flutter/routes/app_routes.dart';
+import 'package:tugas_flutter/service/api_config.dart';
 
 class OtpForm extends StatefulWidget {
   const OtpForm({Key? key}) : super(key: key);
@@ -102,7 +104,7 @@ class _OtpFormState extends State<OtpForm> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:8000/api/auth/verifyotp'),
+        Uri.parse(ApiConfig.verifyOtpEndpoint),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'email': email,
@@ -129,7 +131,7 @@ class _OtpFormState extends State<OtpForm> {
                 onPressed: () {
                   Get.back();
                   Get.toNamed(
-                    '/reset',
+                    AppRoutes.resetpassword,
                     arguments: {
                       'email': email!,
                       'otp': enteredOtp,

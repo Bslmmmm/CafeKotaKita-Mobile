@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
+import 'package:tugas_flutter/routes/app_routes.dart';
 import '../controller/login_controller.dart';
 import '../../../../Constant/textstyle.dart';
 import '../../Signup/signup_screen.dart';
+import 'package:get/get.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -56,7 +58,7 @@ class _LoginFormState extends State<LoginForm> {
                   child: Text(
                     "Log in",
                     style: AppTextStyles.montserratH1(color: white).copyWith(
-                      fontSize: 40, // Memperbesar ukuran font sesuai design
+                      fontSize: 40, 
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -176,7 +178,7 @@ class _LoginFormState extends State<LoginForm> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/forgot');
+                      Get.toNamed(AppRoutes.forgotpass);
                     },
                     style: TextButton.styleFrom(
                       minimumSize: Size.zero,
@@ -228,14 +230,7 @@ class _LoginFormState extends State<LoginForm> {
                   alignment: Alignment.centerRight, // Posisi ke kanan
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const SignUpScreen();
-                          },
-                        ),
-                      );
+                      Get.toNamed(AppRoutes.signup);
                     },
                     child: Text(
                       "Create account?",

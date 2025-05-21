@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
+import 'package:tugas_flutter/routes/app_routes.dart';
 import '../../../../Constant/textstyle.dart';
-import '../../Login/login_screen.dart';
+import '../../Login/view/login_screen.dart';
 import '../controller/signup_controller.dart';
+import 'package:get/get.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -610,10 +612,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const LoginScreen()),
-                          );
+                          Get.offAllNamed(AppRoutes.login);
                         },
                         child: Text(
                           "Login",

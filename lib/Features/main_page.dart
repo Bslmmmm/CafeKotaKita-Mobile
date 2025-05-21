@@ -13,14 +13,16 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    HomepageTest(),
+    HomepageView(),
     //isi dengan page yang stateless contoh Homepage
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_currentIndex],
+      body: _pages[
+        
+        _currentIndex],
       bottomNavigationBar: CustomNavBar(
         initialSelectedIndex: _currentIndex,
         onItemSelected: (index) {

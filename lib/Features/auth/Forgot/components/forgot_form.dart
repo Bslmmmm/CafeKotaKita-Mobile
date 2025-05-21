@@ -3,7 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:tugas_flutter/Constant/colors.dart';
 import 'package:tugas_flutter/Constant/textstyle.dart';
 import 'dart:convert';
-
+import 'package:get/get.dart';
+import 'package:tugas_flutter/routes/app_routes.dart';
+import 'package:tugas_flutter/service/api_config.dart';
 class ForgotForm extends StatefulWidget {
   const ForgotForm({Key? key}) : super(key: key);
 
@@ -24,7 +26,7 @@ class _ForgotFormState extends State<ForgotForm> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:8000/api/auth/forgotpassword'),
+        Uri.parse(ApiConfig.forgotpasendpoint),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': _emailController.text}),
       );
@@ -36,7 +38,7 @@ class _ForgotFormState extends State<ForgotForm> {
           SnackBar(content: Text(result['message'])),
         );
         // Navigasi ke halaman OTP dengan email
-        Navigator.pushNamed(context, '/otp', arguments: _emailController.text);
+        Get.offNamed( AppRoutes.verifyotp, arguments: _emailController.text);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(result['message'] ?? 'Terjadi kesalahan')),

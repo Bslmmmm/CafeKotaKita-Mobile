@@ -29,17 +29,17 @@ class OnboardingController extends ChangeNotifier {
 
   static final List<Onboard> _demoData = [
     Onboard(
-      image: 'ilustrasi/ob1.png',
+      image: 'assets/ilustrasi/ob1.png',
       title: 'Kafe Kota Kita',
       subtitle: 'Cari Kafe Berdasarkan Vibes',
     ),
     Onboard(
-      image: 'ilustrasi/ob2.png',
+      image: 'assets/ilustrasi/ob2.png',
       title: 'Kafe Kota Kita',
       subtitle: 'Pasarkan Kafemu Secara Gratis',
     ),
     Onboard(
-      image: 'ilustrasi/ob3.png',
+      image: 'assets/ilustrasi/ob3.png',
       title: 'Kafe Kota Kita',
       subtitle: 'Temukan Tempat Ngopi',
     ),

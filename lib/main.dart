@@ -7,7 +7,7 @@ import 'firebase_options.dart';
 import 'package:tugas_flutter/Features/auth/Forgot/forgot_screen.dart';
 import 'package:tugas_flutter/Features/auth/OTP/otp_screen.dart';
 import 'package:tugas_flutter/Features/auth/Reset/reset_screen.dart';
-import 'package:tugas_flutter/Features/auth/Login/login_screen.dart';
+import 'package:tugas_flutter/Features/auth/Login/view/login_screen.dart';
 import 'package:tugas_flutter/Features/Homepage/views/home_screen.dart';
 import 'package:tugas_flutter/Constant/constants.dart';
 import 'package:get/get.dart';

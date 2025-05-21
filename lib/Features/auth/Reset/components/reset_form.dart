@@ -5,6 +5,8 @@ import 'package:tugas_flutter/Constant/colors.dart';
 import 'package:tugas_flutter/Constant/textstyle.dart';
 import 'dart:convert';
 
+import 'package:tugas_flutter/service/api_config.dart';
+
 class ResetPasswordForm extends StatefulWidget {
   final String email;
   final String otp;
@@ -40,7 +42,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
       
       try {
         final response = await http.post(
-          Uri.parse('http://localhost:8000/api/auth/resetpassword'),
+          Uri.parse(ApiConfig.resetpasswordendpoint),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'email': widget.email,
