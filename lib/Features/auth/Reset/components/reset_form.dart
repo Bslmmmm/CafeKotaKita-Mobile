@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
 import 'package:tugas_flutter/Constant/textstyle.dart';
+import 'package:tugas_flutter/routes/app_routes.dart';
 import 'dart:convert';
 
 import 'package:tugas_flutter/service/api_config.dart';
@@ -70,7 +71,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                 TextButton(
                   onPressed: () {
                     Get.back();
-                    Get.offAllNamed('/login');
+                    Get.offAllNamed(AppRoutes.login);
                   },
                   child: Text(
                     "OK",
