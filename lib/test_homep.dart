@@ -37,7 +37,7 @@ class _HomepageViewState extends State<HomepageView> {
           _applyFilters();
         } else {
           setState(() {
-            // Just update the UI to show loading/error state
+            
           });
         }
       },
@@ -106,7 +106,9 @@ class _HomepageViewState extends State<HomepageView> {
                     ),
                     SizedBox(height: 8),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
+                      
                       children: [
                         CustomHomeButton(
                           label: 'Nearest\nCafe',

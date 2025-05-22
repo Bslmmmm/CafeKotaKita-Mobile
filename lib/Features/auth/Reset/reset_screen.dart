@@ -9,7 +9,7 @@ class ResetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> args = Get.arguments;
+    final Map<String, dynamic>  args = Get.arguments;
     final String email = args['email'] as String;
     final String otp = args['otp'] as String;
 
