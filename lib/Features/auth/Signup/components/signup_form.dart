@@ -21,24 +21,18 @@ class _SignUpFormState extends State<SignUpForm> {
   // Controllers for each field
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   // Subjects for debounce
   final BehaviorSubject<String> _usernameSubject = BehaviorSubject();
   final BehaviorSubject<String> _emailSubject = BehaviorSubject();
-  final BehaviorSubject<String> _phoneSubject = BehaviorSubject();
-  final BehaviorSubject<String> _addressSubject = BehaviorSubject();
   final BehaviorSubject<String> _passwordSubject = BehaviorSubject();
 
   // State variables
   bool _obscurePassword = true;
   String? _emailError;
   String? _passwordError;
-  String? _addressError;
   String? _usernameError;
-  String? _phoneError;
 
   final SignupController _signupController = SignupController();
 
@@ -49,8 +43,6 @@ class _SignUpFormState extends State<SignUpForm> {
     // Setup debounce for each field
     _setupUsernameValidation();
     _setupEmailValidation();
-    _setupPhoneValidation();
-    _setupAddressValidation();
     _setupPasswordValidation();
   }
 
@@ -79,34 +71,6 @@ class _SignUpFormState extends State<SignUpForm> {
 
     _emailController.addListener(() {
       _emailSubject.add(_emailController.text);
-    });
-  }
-
-  void _setupPhoneValidation() {
-    _phoneSubject.stream
-        .debounceTime(const Duration(milliseconds: 500))
-        .listen((phone) {
-      setState(() {
-        _phoneError = _validatePhone(phone);
-      });
-    });
-
-    _phoneController.addListener(() {
-      _phoneSubject.add(_phoneController.text);
-    });
-  }
-
-  void _setupAddressValidation() {
-    _addressSubject.stream
-        .debounceTime(const Duration(milliseconds: 500))
-        .listen((address) {
-      setState(() {
-        _addressError = _validateAddress(address);
-      });
-    });
-
-    _addressController.addListener(() {
-      _addressSubject.add(_addressController.text);
     });
   }
 
@@ -142,20 +106,6 @@ class _SignUpFormState extends State<SignUpForm> {
     return null;
   }
 
-  String? _validatePhone(String value) {
-    if (value.isEmpty) {
-      return 'Phone number wajib diisi';
-    }
-    return null;
-  }
-
-  String? _validateAddress(String value) {
-    if (value.isEmpty) {
-      return 'Address wajib diisi';
-    }
-    return null;
-  }
-
   String? _validatePassword(String value) {
     if (value.isEmpty) {
       return 'Password wajib diisi';
@@ -171,22 +121,16 @@ class _SignUpFormState extends State<SignUpForm> {
     setState(() {
       _usernameError = _validateUsername(_usernameController.text);
       _emailError = _validateEmail(_emailController.text);
-      _phoneError = _validatePhone(_phoneController.text);
-      _addressError = _validateAddress(_addressController.text);
       _passwordError = _validatePassword(_passwordController.text);
     });
 
     if (_formKey.currentState!.validate() &&
         _usernameError == null &&
         _emailError == null &&
-        _phoneError == null &&
-        _addressError == null &&
         _passwordError == null) {
       _signupController.registerUser(
         nama: _usernameController.text,
         email: _emailController.text,
-        noTelp: _phoneController.text,
-        alamat: _addressController.text,
         password: _passwordController.text,
         context: context,
       );
@@ -197,13 +141,9 @@ class _SignUpFormState extends State<SignUpForm> {
   void dispose() {
     _usernameController.dispose();
     _emailController.dispose();
-    _phoneController.dispose();
-    _addressController.dispose();
     _passwordController.dispose();
     _usernameSubject.close();
     _emailSubject.close();
-    _phoneSubject.close();
-    _addressSubject.close();
     _passwordSubject.close();
     super.dispose();
   }
@@ -369,132 +309,6 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                     ),
                   
-                  const SizedBox(height: 16),
-                  
-                  // Phone Field Label
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Phone number",
-                      style: AppTextStyles.interBody(
-                        color: white,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  
-                  // Phone Field
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border.all(color: clrfont2, width: 1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: TextFormField(
-                      controller: _phoneController,
-                      keyboardType: TextInputType.phone,
-                      textInputAction: TextInputAction.next,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(14),
-                      ],
-                      style: AppTextStyles.interBody(color: white),
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                        border: InputBorder.none,
-                        fillColor: primaryc,
-                        filled: true,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      validator: (value) => _phoneError,
-                    ),
-                  ),
-
-                  if (_phoneError != null)
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          _phoneError!,
-                          style: AppTextStyles.interBody(
-                            color: Colors.red,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ),
-                  
-                  const SizedBox(height: 16),
-                  
-                  // Address Field Label
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Address",
-                      style: AppTextStyles.interBody(
-                        color: white,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  
-                  // Address Field
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border.all(color: clrfont2, width: 1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: TextFormField(
-                      controller: _addressController,
-                      textInputAction: TextInputAction.next,
-                      style: AppTextStyles.interBody(color: white),
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                        border: InputBorder.none,
-                        fillColor: primaryc,
-                        filled: true,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      validator: (value) => _addressError,
-                    ),
-                  ),
-                  
-                  // Address Error Message
-                  if (_addressError != null)
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          _addressError!,
-                          style: AppTextStyles.interBody(
-                            color: Colors.red,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ),
-
                   const SizedBox(height: 16),
                   
                   // Password Field Label

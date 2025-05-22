@@ -17,42 +17,51 @@ class LoginController {
   });
 
   Future<void> login(BuildContext context) async {
-    final String email = emailController.text.trim();
-    final String password = passwordController.text.trim();
+  final String email = emailController.text.trim();
+  final String password = passwordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
-      _showErrorDialog("Email dan password tidak boleh kosong");
-      return;
-    }
-
-    final url = Uri.parse(ApiConfig.loginendpoint);
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'email': email, 'password': password}),
-      );
-
-      final data = jsonDecode(response.body);
-
-      if (response.statusCode == 200) {
-        // Login berhasil
-        _showSuccessDialog(
-          "Login berhasil", 
-          "Selamat datang ${data['user']['nama']}",
-          () {
-            Get.offAllNamed(AppRoutes.mainpage);
-          }
-        );
-      } else {
-        // Gagal login
-        _showErrorDialog(data['message'] ?? 'Login gagal');
-      }
-    } catch (e) {
-      _showErrorDialog('Terjadi kesalahan: $e');
-    }
+  if (email.isEmpty || password.isEmpty) {
+    _showErrorDialog("Email dan password tidak boleh kosong");
+    return;
   }
+
+  final url = Uri.parse(ApiConfig.loginendpoint); 
+
+  try {
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email, 'password': password}),
+    );
+
+    final data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      // Login berhasil
+      _showSuccessDialog(
+        "Login berhasil",
+        "Selamat datang ${data['user']['nama']}",
+        () {
+          Get.offAllNamed(AppRoutes.mainpage);
+        },
+      );
+    } else {
+      // Cek pesan kesalahan dari server dan tampilkan sesuai isinya
+      final message = data['message']?.toLowerCase() ?? '';
+
+      if (message.contains('email')) {
+        _showErrorDialog('Email tidak terdaftar atau salah');
+      } else if (message.contains('password')) {
+        _showErrorDialog('Password salah');
+      } else {
+        _showErrorDialog('Login gagal: ${data['message']}');
+      }
+    }
+  } catch (e) {
+    _showErrorDialog('Terjadi kesalahan: $e');
+  }
+}
+
 
   void _showSuccessDialog(String title, String message, VoidCallback onOkPressed) {
     Get.dialog(

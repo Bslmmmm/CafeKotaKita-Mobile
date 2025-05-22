@@ -38,7 +38,7 @@ class MobileLoginScreen extends StatelessWidget {
       children: const <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
-          child: LoginForm(),
+          child:LoginForm(),
         ),
       ],
     );

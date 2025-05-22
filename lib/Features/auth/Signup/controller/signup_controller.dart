@@ -13,8 +13,6 @@ class SignupController {
   Future<void> registerUser({
     required String nama,
     required String email,
-    required String noTelp,
-    required String alamat,
     required String password,
     required BuildContext context,
   }) async {
@@ -27,8 +25,6 @@ class SignupController {
         body: jsonEncode({
           'nama': nama,
           'email': email,
-          'no_telp': noTelp,
-          'alamat': alamat,
           'password': password,
         }),
       );
