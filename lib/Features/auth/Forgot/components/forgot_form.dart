@@ -1,56 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
 import 'package:tugas_flutter/Constant/textstyle.dart';
-import 'dart:convert';
-import 'package:get/get.dart';
-import 'package:tugas_flutter/routes/app_routes.dart';
-import 'package:tugas_flutter/service/api_config.dart';
+import '../controller/forgot_controller.dart';
+
 class ForgotForm extends StatefulWidget {
-  const ForgotForm({Key? key}) : super(key: key);
+  ForgotForm({Key? key}) : super(key: key);
 
   @override
   State<ForgotForm> createState() => _ForgotFormState();
 }
 
 class _ForgotFormState extends State<ForgotForm> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  bool _isLoading = false;
+  final ForgotController controller = Get.put(ForgotController());
   String? _emailError;
 
-  Future<void> _sendOtp() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() => _isLoading = true);
-
-    try {
-      final response = await http.post(
-        Uri.parse(ApiConfig.forgotpasendpoint),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'email': _emailController.text}),
-      );
-
-      final result = jsonDecode(response.body);
-
-      if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result['message'])),
-        );
-        // Navigasi ke halaman OTP dengan email
-        Get.offNamed( AppRoutes.verifyotp, arguments: _emailController.text);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result['message'] ?? 'Terjadi kesalahan')),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tidak bisa menghubungi server')),
-      );
-    } finally {
-      setState(() => _isLoading = false);
-    }
+  @override
+  void initState() {
+    super.initState();
+    
+    // Setup email validation listener
+    controller.emailController.addListener(() {
+      setState(() {
+        _emailError = _validateEmail(controller.emailController.text);
+      });
+    });
   }
 
   String? _validateEmail(String value) {
@@ -67,23 +41,17 @@ class _ForgotFormState extends State<ForgotForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: controller.formKey,
       child: Column(
-        children: [          
-          // Email Field Label
+        children: [
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
               "Email address",
-              style: AppTextStyles.interBody(
-                color: white,
-                fontSize: 12,
-              ),
+              style: AppTextStyles.interBody(color: white, fontSize: 12),
             ),
           ),
           const SizedBox(height: 8),
-          
-          // Email Field
           Container(
             height: 50,
             decoration: BoxDecoration(
@@ -92,7 +60,7 @@ class _ForgotFormState extends State<ForgotForm> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: TextFormField(
-              controller: _emailController,
+              controller: controller.emailController,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.done,
               style: AppTextStyles.interBody(color: white),
@@ -110,11 +78,7 @@ class _ForgotFormState extends State<ForgotForm> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              validator: (value) {
-                final error = _validateEmail(value ?? '');
-                setState(() => _emailError = error);
-                return error;
-              },
+              
             ),
           ),
           
@@ -135,41 +99,45 @@ class _ForgotFormState extends State<ForgotForm> {
             ),
           
           const SizedBox(height: 32),
-          
-          // Submit Button
-          SizedBox(
-            width: double.infinity,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: _isLoading ? null : _sendOtp,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: white,
-                foregroundColor: black,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                elevation: 0,
-              ),
-              child: _isLoading
-                  ? const CircularProgressIndicator()
-                  : Text(
-                      "Submit",
-                      style: AppTextStyles.poppinsBody(
-                        color: black,
-                        weight: AppTextStyles.semiBold,
-                        fontSize: 20
-                      ),
+          Obx(() => SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: controller.isLoading.value
+                      ? null
+                      : () {
+                          // Validate before submitting
+                          setState(() {
+                            _emailError = _validateEmail(controller.emailController.text);
+                          });
+
+                          if (controller.formKey.currentState!.validate() &&
+                              _emailError == null) {
+                            controller.sendOtp(context);
+                          }
+                        },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: white,
+                    foregroundColor: black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-            ),
-          ),
+                    elevation: 0,
+                  ),
+                  child: controller.isLoading.value
+                      ? const CircularProgressIndicator()
+                      : Text(
+                          "Submit",
+                          style: AppTextStyles.poppinsBody(
+                            color: black,
+                            weight: AppTextStyles.semiBold,
+                            fontSize: 20,
+                          ),
+                        ),
+                ),
+              )),
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
   }
 }

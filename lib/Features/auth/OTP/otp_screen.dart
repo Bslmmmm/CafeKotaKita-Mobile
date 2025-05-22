@@ -42,7 +42,7 @@ class OtpScreen extends StatelessWidget {
                   ),
                 ),
                   const SizedBox(height: 40),
-                  const OtpForm(),
+                   OtpForm(),
                 ],
               ),
             ),
