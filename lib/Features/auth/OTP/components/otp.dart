@@ -58,30 +58,26 @@ class OtpForm extends StatelessWidget {
         const SizedBox(height: 32),
 
         // Resend OTP Button
-        Obx(() {
-          return TextButton(
-            onPressed: controller.seconds.value == 0
-                ? () {
-                    controller.startTimer();
-                    Get.snackbar(
-                      "Info",
-                      "OTP dikirim ulang",
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: primaryc,
-                      colorText: white,
-                    );
-                  }
-                : null,
-            child: Text(
-              controller.seconds.value == 0
-                  ? "Resend OTP"
-                  : "Resend OTP in 00:${controller.seconds.value.toString().padLeft(2, '0')}",
-              style: AppTextStyles.poppinsBody(
-                color: controller.seconds.value == 0 ? white : clrfont2,
-              ),
-            ),
-          );
-        }),
+  Obx(() {
+  final isReadyToResend = controller.seconds.value == 0;
+  final isSending = controller.isSending.value;
+
+  return TextButton(
+    onPressed: isReadyToResend && !isSending ? controller.resendOtp : null,
+    child: Text(
+      isSending
+          ? "Sending..."
+          : isReadyToResend
+              ? "Resend OTP"
+              : "Resend OTP in ${Duration(seconds: controller.seconds.value).inMinutes.toString().padLeft(2, '0')}:${(controller.seconds.value % 60).toString().padLeft(2, '0')}",
+      style: AppTextStyles.poppinsBody(
+        color: isReadyToResend && !isSending ? white : clrfont2,
+      ),
+    ),
+  );
+})
+
+,
 
         const SizedBox(height: 32),
 
