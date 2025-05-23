@@ -1,6 +1,7 @@
 // Features/Homepage/Managers/cafe_list_manager.dart
 
 import 'package:flutter/foundation.dart';
+import 'package:tugas_flutter/service/api_config.dart';
 import '../model/cafe_data.dart';
 import '../Utils/cafe_status_updater.dart';
 import '../Utils/time_service.dart';
@@ -64,12 +65,8 @@ class CafeListManager extends ChangeNotifier {
   // Load cafes from API (to be implemented)
   Future<void> loadCafes() async {
     _setState(_state.copyWith(status: CafeListStatus.loading));
-    
+
     try {
-      // TODO: Replace with actual API call
-      // final apiService = ApiService();
-      // final cafes = await apiService.getCafes();
-      
       // For now, use mock data
       await Future.delayed(Duration(seconds: 2)); // Simulate network delay
       loadMockCafes();
@@ -110,6 +107,15 @@ class CafeListManager extends ChangeNotifier {
         operationalHours: '14:00 - 02:00',
         rating: 4.8,
         isOpen: false, // Will be updated by the status updater
+      ),
+      CafeData(
+        id: '3',
+        imageUrl: 'https://example.com/cafe3.jpg',
+        cafeName: 'Omahkokop',
+        location: 'RPPH+JFW, Lingkungan Krajan Timur, Tegalgede, Kec. Sumbersari, Kabupaten Jember, Jawa Timur 68124',
+        operationalHours: '17:00 - 02:00',
+        rating: 4.8,
+        isOpen: false, 
       ),
       // Add more mock cafes as needed
     ];
