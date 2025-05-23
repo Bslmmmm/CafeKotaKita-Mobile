@@ -7,11 +7,13 @@ class ApiConfig {
     return '$protocol://$devBaseUrl:$port';
   }
 
-  // Contoh endpoint khusus
+  //auth
   static String get verifyOtpEndpoint => '$baseUrl/api/auth/verifyOtp';
   static String get loginendpoint => '$baseUrl/api/auth/login';
   static String get registerendpoint => '$baseUrl/api/auth/register';
   static String get forgotpasendpoint => '$baseUrl/api/auth/forgotpassword';
   static String get resetpasswordendpoint => '$baseUrl/api/auth/resetpassword';
-
+  
+  //homepage
+  static String get cardcafeendpoint => '$baseUrl/api/kafe/index';
 }

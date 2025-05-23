@@ -14,7 +14,7 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _pages = [
     HomepageView(),
-    //isi dengan page yang stateless contoh Homepage
+    
   ];
 
   @override
@@ -23,13 +23,15 @@ class _MainPageState extends State<MainPage> {
       body: _pages[
         
         _currentIndex],
-      bottomNavigationBar: CustomNavBar(
-        initialSelectedIndex: _currentIndex,
-        onItemSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+      bottomNavigationBar: SafeArea(
+        child: CustomNavBar(
+          initialSelectedIndex: _currentIndex,
+          onItemSelected: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
       ),
     );
   }

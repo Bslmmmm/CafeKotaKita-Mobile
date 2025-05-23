@@ -22,7 +22,7 @@ class CustomHomeButton extends StatelessWidget {
     this.iconColor = Colors.black,
     this.textColor = Colors.black,
     this.borderRadius = 10,
-    this.width = 140,
+    this.width = 120,
     this.height = 50,
     this.textStyle,
   }) : super(key: key);
@@ -45,7 +45,7 @@ class CustomHomeButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Icon(icon, color: iconColor, size: 30),
+            Icon(icon, color: iconColor, size: 20),
             const SizedBox(width: 8),
             Text(
               label,

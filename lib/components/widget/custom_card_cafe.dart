@@ -10,21 +10,22 @@ class CustomCardCafe extends StatelessWidget {
   final double rating;
   final bool isOpen;
   final VoidCallback? onTap;
-  const CustomCardCafe(
-      {super.key,
-      required this.cafeimgurl,
-      required this.namacafe,
-      required this.lokasi,
-      required this.operationalhour,
-      required this.rating,
-      this.isOpen = true,
-      this.onTap});
+
+  const CustomCardCafe({
+    super.key,
+    required this.cafeimgurl,
+    required this.namacafe,
+    required this.lokasi,
+    required this.operationalhour,
+    required this.rating,
+    this.isOpen = true,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    // Tentukan warna status berdasarkan isOpen
     final Color statusColor = isOpen ? Colors.green.shade600 : Colors.red.shade600;
-    
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -35,38 +36,36 @@ class CustomCardCafe extends StatelessWidget {
         ),
         child: Row(
           children: [
+            // Image Section
             Container(
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  image: DecorationImage(
-                      image: NetworkImage(cafeimgurl), fit: BoxFit.cover)),
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                image: DecorationImage(
+                  image: NetworkImage(cafeimgurl),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Stack(
                 children: [
                   Positioned(
                     bottom: 8,
                     left: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                          color: clrfont2,
-                          borderRadius: BorderRadius.circular(12)),
+                        color: clrfont2,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 4),
+                          Icon(Icons.star, color: Colors.amber, size: 16),
+                          SizedBox(width: 4),
                           Text(
                             rating.toString(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: white,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -79,91 +78,85 @@ class CustomCardCafe extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Info Section
             Expanded(
-                child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    namacafe,
-                    style: AppTextStyles.poppinsBody(
-                      weight: AppTextStyles.semiBold,
-                      fontSize: 14,
-                      color: primaryc
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    lokasi,
-                    style: AppTextStyles.interBody(
-                      weight: AppTextStyles.regular,
-                      color: primaryc,
-                      fontSize: 14,
-                    ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                const SizedBox(height: 12),
-                Row(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Status badge (Open/Close)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: statusColor,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Text(
-                        isOpen ? 'Buka' : 'Tutup',
-                        style: AppTextStyles.interBody(
-                          color: white,
-                          fontSize: 12,
-                          weight: AppTextStyles.medium,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    // Jam operasional
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
+                    Text(
+                      namacafe,
+                      style: AppTextStyles.poppinsBody(
+                        weight: AppTextStyles.semiBold,
+                        fontSize: 14,
                         color: primaryc,
-                        borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.access_time,
-                            color: white,
-                            size: 12,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      lokasi,
+                      style: AppTextStyles.interBody(
+                        weight: AppTextStyles.regular,
+                        color: primaryc,
+                        fontSize: 14,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 12),
+
+                    // Status + Jam Operasional (Wrap)
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: statusColor,
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          const SizedBox(width: 4),
-                          Text(
-                            operationalhour,
+                          child: Text(
+                            isOpen ? 'Buka' : 'Tutup',
                             style: AppTextStyles.interBody(
                               color: white,
                               fontSize: 12,
-                              weight: AppTextStyles.medium
+                              weight: AppTextStyles.medium,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: primaryc,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.access_time, color: white, size: 12),
+                              SizedBox(width: 4),
+                              Text(
+                                operationalhour,
+                                style: AppTextStyles.interBody(
+                                  color: white,
+                                  fontSize: 12,
+                                  weight: AppTextStyles.medium,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                ],
               ),
-            ))
+            ),
           ],
         ),
       ),

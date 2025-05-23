@@ -83,106 +83,108 @@ class _HomepageViewState extends State<HomepageView> {
     final filterState = _filterManager.filterState;
     
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () async {
-          await _cafeListManager.refreshCafes();
-        },
-        child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: double.infinity,
-                height: 160,
-                color: primaryc,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CustomSearchbar(
-                      controller: searchController,
-                      onChanged: onSearch,
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.max,
-                      
-                      children: [
-                        CustomHomeButton(
-                          label: 'Nearest\nCafe',
-                          icon: Icons.location_on,
-                          onPressed: _toggleNearestCafe,
-                          backgroundColor: filterState.showNearest ? white : clrbtn,
-                          iconColor: filterState.showNearest ? primaryc : clrbg,
-                          textColor: filterState.showNearest ? primaryc : clrbg,
-                        ),
-                        SizedBox(width: 10),
-                        CustomHomeButton(
-                          label: 'Top Cafe',
-                          icon: Icons.star_rounded,
-                          onPressed: _toggleTopCafe,
-                          backgroundColor: filterState.showTopRated ? white : clrbtn,
-                          iconColor: filterState.showTopRated ? primaryc : clrbg,
-                          textColor: filterState.showTopRated ? primaryc : clrbg,
-                        ),
-                        SizedBox(width: 10),
-                        CustomHomeButton(
-                          label: 'Open',
-                          icon: Icons.watch_later_rounded,
-                          onPressed: _toggleOpenCafe,
-                          backgroundColor: filterState.showOpenOnly ? white : clrbtn,
-                          iconColor: filterState.showOpenOnly ? primaryc : clrbg,
-                          textColor: filterState.showOpenOnly ? primaryc : clrbg,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional(-1, -1),
-                      child: Text(
-                        'Pick a cafe in your city',
-                        textAlign: TextAlign.left,
-                        style: AppTextStyles.poppinsBody(
-                          fontSize: 20,
-                          weight: AppTextStyles.semiBold,
-                          color: black
-                        ),
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await _cafeListManager.refreshCafes();
+          },
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 160,
+                  color: primaryc,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CustomSearchbar(
+                        controller: searchController,
+                        onChanged: onSearch,
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    // Status Handler
-                    _buildCafeListContent(),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 10),
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: AlignmentDirectional(-1, -1),
-                          child: Text(
-                            'Cari Kafe Yang Kamu Mau',
-                            style: AppTextStyles.poppinsBody(
-                              weight: AppTextStyles.semiBold,
-                              color: black,
-                              fontSize: 20
-                            ),
+                      SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        
+                        children: [
+                          CustomHomeButton(
+                            label: 'Nearest\nCafe',
+                            icon: Icons.location_on,
+                            onPressed: _toggleNearestCafe,
+                            backgroundColor: filterState.showNearest ? white : clrbtn,
+                            iconColor: filterState.showNearest ? primaryc : clrbg,
+                            textColor: filterState.showNearest ? primaryc : clrbg,
+                          ),
+                          SizedBox(width: 10),
+                          CustomHomeButton(
+                            label: 'Top\nCafe',
+                            icon: Icons.star_rounded,
+                            onPressed: _toggleTopCafe,
+                            backgroundColor: filterState.showTopRated ? white : clrbtn,
+                            iconColor: filterState.showTopRated ? primaryc : clrbg,
+                            textColor: filterState.showTopRated ? primaryc : clrbg,
+                          ),
+                          SizedBox(width: 10),
+                          CustomHomeButton(
+                            label: 'Open',
+                            icon: Icons.watch_later_rounded,
+                            onPressed: _toggleOpenCafe,
+                            backgroundColor: filterState.showOpenOnly ? white : clrbtn,
+                            iconColor: filterState.showOpenOnly ? primaryc : clrbg,
+                            textColor: filterState.showOpenOnly ? primaryc : clrbg,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional(-1, -1),
+                        child: Text(
+                          'Pick a cafe in your city',
+                          textAlign: TextAlign.left,
+                          style: AppTextStyles.poppinsBody(
+                            fontSize: 20,
+                            weight: AppTextStyles.semiBold,
+                            color: black
                           ),
                         ),
-                      ],
-                    ),
-                  )
-                  ],
+                      ),
+                      SizedBox(height: 10),
+                      // Status Handler
+                      _buildCafeListContent(),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 10),
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: AlignmentDirectional(-1, -1),
+                            child: Text(
+                              'Cari Kafe Yang Kamu Mau',
+                              style: AppTextStyles.poppinsBody(
+                                weight: AppTextStyles.semiBold,
+                                color: black,
+                                fontSize: 20
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
