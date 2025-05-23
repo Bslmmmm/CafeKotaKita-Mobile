@@ -116,6 +116,8 @@ class OtpController extends GetxController {
             actions: [
               TextButton(
                 onPressed: () {
+                  print(email);
+                  print(enteredOtp);
                   Get.back();
                   Get.toNamed(
                     AppRoutes.resetpassword,

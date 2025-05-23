@@ -9,9 +9,9 @@ class ResetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> args = Get.arguments;
-    final String email = args['email'] as String;
-    final String otp = args['otp'] as String;
+final Map<String, dynamic> args = Get.arguments ?? {};
+final String email = args['email'] ?? '';
+final String otp = args['otp'] ?? '';
 
     return Scaffold(
       body: Container(
