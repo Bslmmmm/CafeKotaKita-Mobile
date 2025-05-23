@@ -10,6 +10,7 @@ import 'package:tugas_flutter/service/api_config.dart';
 import 'package:flutter/services.dart';
 
 
+
 class OtpController extends GetxController {
   // FocusNodes dan Controllers untuk 6 input OTP
   final List<FocusNode> focusNodes = List.generate(6, (index) => FocusNode());
@@ -116,6 +117,8 @@ class OtpController extends GetxController {
             actions: [
               TextButton(
                 onPressed: () {
+                  print(email);
+                  print(enteredOtp);
                   Get.back();
                   Get.toNamed(
                     AppRoutes.resetpassword,
@@ -155,4 +158,54 @@ class OtpController extends GetxController {
       );
     }
   }
+
+  var isSending = false.obs;
+
+Future<void> resendOtp() async {
+  if (email == null || isSending.value) return;
+
+  isSending.value = true;
+
+  try {
+    final response = await http.post(
+      Uri.parse(ApiConfig.forgotpasendpoint),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email}),
+    );
+
+    final result = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      startTimer();
+      Get.snackbar(
+        "Info",
+        "OTP dikirim ulang",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: primaryc,
+        colorText: white,
+      );
+    } else {
+      Get.snackbar(
+        "Error",
+        result['message'] ?? "Gagal mengirim ulang OTP",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: clreror,
+        colorText: white,
+      );
+    }
+  } catch (e) {
+    Get.snackbar(
+      "Error",
+      "Gagal menghubungi server",
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: clreror,
+      colorText: white,
+    );
+  } finally {
+    isSending.value = false;
+  }
+}
+
+
+
 }

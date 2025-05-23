@@ -19,7 +19,8 @@ class ForgotController extends GetxController {
     try {
       final response = await http.post(
         Uri.parse(ApiConfig.forgotpasendpoint),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json',
+        'Accept': 'application/json'},
         body: jsonEncode({'email': emailController.text}),
       );
 
@@ -35,7 +36,8 @@ class ForgotController extends GetxController {
           SnackBar(content: Text(result['message'] ?? 'Terjadi kesalahan')),
         );
       }
-    } catch (_) {
+    } catch (e) {
+      print("ERROR: $e"); // tambahkan ini
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Tidak bisa menghubungi server')),
       );
