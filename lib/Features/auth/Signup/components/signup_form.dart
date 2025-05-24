@@ -278,7 +278,7 @@ class _SignUpFormState extends State<SignUpForm> {
                         ),
                         suffixIcon: null,
                       ),
-                      validator: (value) => _usernameError,
+                      
                     ),
                   ),
 
@@ -341,7 +341,7 @@ class _SignUpFormState extends State<SignUpForm> {
                         ),
                         suffixIcon: null,
                       ),
-                      validator: (value) => _emailError,
+                      
                     ),
                   ),
                   
