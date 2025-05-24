@@ -56,6 +56,7 @@ dependencies:
   google_fonts: ^6.2.1
   provider: ^6.1.5
   rxdart: ^0.27.7
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -66,7 +67,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "assets/images/icon2.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
