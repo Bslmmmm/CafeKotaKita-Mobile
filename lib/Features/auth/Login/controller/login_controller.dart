@@ -8,68 +8,65 @@ import '../../../../Constant/colors.dart';
 import '../../../../Constant/textstyle.dart';
 
 class LoginController {
-  final TextEditingController emailController;
+  final TextEditingController loginController; // bisa email atau nama
   final TextEditingController passwordController;
 
   LoginController({
-    required this.emailController,
+    required this.loginController,
     required this.passwordController,
   });
 
   Future<void> login(BuildContext context) async {
-  final String email = emailController.text.trim();
-  final String password = passwordController.text.trim();
+    final String login = loginController.text.trim();
+    final String password = passwordController.text.trim();
 
-  if (email.isEmpty || password.isEmpty) {
-    _showErrorDialog("Email dan password tidak boleh kosong");
-    return;
-  }
-
-  final url = Uri.parse(ApiConfig.loginendpoint); 
-
-  try {
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': email, 'password': password}),
-    );
-
-    final data = jsonDecode(response.body);
-
-    if (response.statusCode == 200) {
-      // Login berhasil
-      _showSuccessDialog(
-        "Login berhasil",
-        "Selamat datang ${data['user']['nama']}",
-        () {
-          Get.offAllNamed(AppRoutes.mainpage);
-        },
-      );
-    } else {
-      // Cek pesan kesalahan dari server dan tampilkan sesuai isinya
-      final message = data['message']?.toLowerCase() ?? '';
-
-      if (message.contains('email')) {
-        _showErrorDialog('Email tidak terdaftar atau salah');
-      } else if (message.contains('password')) {
-        _showErrorDialog('Password salah');
-      } else {
-        _showErrorDialog('Login gagal: ${data['message']}');
-      }
+    if (login.isEmpty || password.isEmpty) {
+      _showErrorDialog("Username/Email dan password tidak boleh kosong");
+      return;
     }
-  } catch (e) {
-    _showErrorDialog('Terjadi kesalahan: $e');
-  }
-}
 
+    final url = Uri.parse(ApiConfig.loginendpoint);
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'login': login, 'password': password}),
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        _showSuccessDialog(
+          "Login berhasil",
+          "Selamat datang ${data['user']['nama']}",
+          () {
+            Get.offAllNamed(AppRoutes.mainpage);
+          },
+        );
+      } else {
+        final message = data['message']?.toLowerCase() ?? '';
+
+        if (message.contains('user tidak ditemukan') || message.contains('email')) {
+          _showErrorDialog('Username/Email tidak terdaftar atau salah');
+        } else if (message.contains('password')) {
+          _showErrorDialog('Password salah');
+        } else {
+          _showErrorDialog('Login gagal: ${data['message']}');
+        }
+      }
+    } catch (e) {
+      _showErrorDialog('Terjadi kesalahan: $e');
+    }
+  }
 
   void _showSuccessDialog(String title, String message, VoidCallback onOkPressed) {
     Get.dialog(
       AlertDialog(
-        backgroundColor: primaryc, // Make sure primaryc is defined
+        backgroundColor: primaryc,
         title: Text(
           title,
-          style: AppTextStyles.montserratH1(color: white), // Make sure these styles are available
+          style: AppTextStyles.montserratH1(color: white),
         ),
         content: Text(
           message,
@@ -98,7 +95,7 @@ class LoginController {
   void _showErrorDialog(String message) {
     Get.dialog(
       AlertDialog(
-        backgroundColor: Colors.red[400], // Error color
+        backgroundColor: Colors.red[400],
         title: Text(
           "Error",
           style: AppTextStyles.montserratH1(color: white),

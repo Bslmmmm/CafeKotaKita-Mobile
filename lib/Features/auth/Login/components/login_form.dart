@@ -14,24 +14,24 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final _emailController = TextEditingController();
+  final _loginController = TextEditingController(); // ganti dari email ke login
   final _passwordController = TextEditingController();
   bool _obscureText = true;
 
-  late LoginController _loginController;
+  late LoginController _loginCtrl;
 
   @override
   void initState() {
     super.initState();
-    _loginController = LoginController(
-      emailController: _emailController,
+    _loginCtrl = LoginController(
+      loginController: _loginController, // sesuaikan paramnya
       passwordController: _passwordController,
     );
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _loginController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -49,22 +49,17 @@ class _LoginFormState extends State<LoginForm> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo or empty space at top
                 const SizedBox(height: 40),
-                
-                // Login Text - Left aligned with larger font size
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Log in",
                     style: AppTextStyles.montserratH1(color: white).copyWith(
-                      fontSize: 40, 
+                      fontSize: 40,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                
-                // Subtitle - Left aligned
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -72,14 +67,11 @@ class _LoginFormState extends State<LoginForm> {
                     style: AppTextStyles.poppinsBody(color: clrfont2),
                   ),
                 ),
-                
                 const SizedBox(height: 50),
-                
-                // Email Field Label - Left aligned, smaller size
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Email address",
+                    "Username atau Email", // ubah label
                     style: AppTextStyles.interBody(
                       color: white,
                       fontSize: 12,
@@ -87,24 +79,22 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                
-                // Email Field - Black background with white border
                 Container(
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.transparent, // Transparent background
-                    border: Border.all(color: clrfont2, width: 1), // White border
+                    color: Colors.transparent,
+                    border: Border.all(color: clrfont2, width: 1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: TextField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
+                    controller: _loginController,
+                    keyboardType: TextInputType.text, // bisa text bukan email khusus
                     style: AppTextStyles.interBody(color: white),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                       border: InputBorder.none,
-                      fillColor: primaryc, // Using primaryc as fill color
-                      filled: true, // Enable filling
+                      fillColor: primaryc,
+                      filled: true,
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(8),
@@ -116,10 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                 ),
-                
                 const SizedBox(height: 16),
-                
-                // Password Field Label - Left aligned, smaller size
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -131,13 +118,11 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                
-                // Password Field - Black background with white border
                 Container(
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.transparent, // Transparent background
-                    border: Border.all(color: clrfont2, width: 1), // White border
+                    color: Colors.transparent,
+                    border: Border.all(color: clrfont2, width: 1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: TextField(
@@ -147,8 +132,8 @@ class _LoginFormState extends State<LoginForm> {
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                       border: InputBorder.none,
-                      fillColor: primaryc, // Using primaryc as fill color
-                      filled: true, // Enable filling
+                      fillColor: primaryc,
+                      filled: true,
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.transparent),
                         borderRadius: BorderRadius.circular(8),
@@ -160,7 +145,7 @@ class _LoginFormState extends State<LoginForm> {
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscureText ? Icons.visibility_off : Icons.visibility,
-                          color: white, // Changed icon color to white to match border
+                          color: white,
                           size: 20,
                         ),
                         onPressed: () {
@@ -172,8 +157,6 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                 ),
-                
-                // Forgot Password - Right aligned, smaller text
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
@@ -188,23 +171,20 @@ class _LoginFormState extends State<LoginForm> {
                     child: Text(
                       "Forgot password?",
                       style: AppTextStyles.interBody(
-                        color: clrfont2, 
+                        color: clrfont2,
                         fontSize: 12,
                         weight: AppTextStyles.regular,
                       ),
                     ),
                   ),
                 ),
-                
                 const SizedBox(height: 24),
-                
-                // Login Button - Rounded rectangle with white background
                 SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      _loginController.login(context);
+                      _loginCtrl.login(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: white,
@@ -224,10 +204,8 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                 ),
-                
-                // Create Account - Right aligned, smaller text
                 Align(
-                  alignment: Alignment.centerRight, // Posisi ke kanan
+                  alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
                       Get.toNamed(AppRoutes.signup);
