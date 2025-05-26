@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_flutter/components/widget/custom_navbar.dart';
 import 'package:tugas_flutter/test_homep.dart';
+import '../Features/Community/Screens/feed_screen.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -14,15 +15,15 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _pages = [
     HomepageView(),
+    FeedScreen(),
+
     //isi dengan page yang stateless contoh Homepage
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[
-        
-        _currentIndex],
+      body: _pages[_currentIndex],
       bottomNavigationBar: CustomNavBar(
         initialSelectedIndex: _currentIndex,
         onItemSelected: (index) {
