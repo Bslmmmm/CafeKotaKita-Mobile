@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_flutter/components/widget/custom_navbar.dart';
 import 'package:tugas_flutter/test_homep.dart';
+import 'SavedCafe/views/saved_cafe_screen.dart';
+
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -14,7 +16,8 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _pages = [
     HomepageView(),
-    //isi dengan page yang stateless contoh Homepage
+    SavedCafeScreen(),
+    SavedCafeScreen(),
   ];
 
   @override

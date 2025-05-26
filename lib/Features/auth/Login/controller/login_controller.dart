@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:tugas_flutter/Constant/constants.dart';
 import 'package:tugas_flutter/routes/app_routes.dart';
 import 'package:tugas_flutter/service/api_config.dart';
 import '../../../../Constant/colors.dart';
@@ -26,16 +28,26 @@ class LoginController {
     }
 
     final url = Uri.parse(ApiConfig.loginendpoint);
-
+    final isEmail = login.contains("@");
+    Map<String, dynamic> loginBody = {};
+    if (isEmail) {
+      loginBody = {
+        "login": {"email": login}
+      };
+    } else {
+      loginBody = {
+        "login": {"nama": login}
+      };
+    }
     try {
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'login': login, 'password': password}),
+        body: jsonEncode({'login': loginBody, 'password': password}),
       );
-
       final data = jsonDecode(response.body);
-
+      await GetStorage().write(profileKey, jsonEncode(data['user']));
+      // print("Response: "+data.toString());
       if (response.statusCode == 200) {
         _showSuccessDialog(
           "Login berhasil",
@@ -47,7 +59,8 @@ class LoginController {
       } else {
         final message = data['message']?.toLowerCase() ?? '';
 
-        if (message.contains('user tidak ditemukan') || message.contains('email')) {
+        if (message.contains('user tidak ditemukan') ||
+            message.contains('email')) {
           _showErrorDialog('Username/Email tidak terdaftar atau salah');
         } else if (message.contains('password')) {
           _showErrorDialog('Password salah');
@@ -60,7 +73,8 @@ class LoginController {
     }
   }
 
-  void _showSuccessDialog(String title, String message, VoidCallback onOkPressed) {
+  void _showSuccessDialog(
+      String title, String message, VoidCallback onOkPressed) {
     Get.dialog(
       AlertDialog(
         backgroundColor: primaryc,
