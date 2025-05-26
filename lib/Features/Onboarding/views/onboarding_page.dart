@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tugas_flutter/Constant/constants.dart';
+import 'package:tugas_flutter/Features/Homepage/views/home_screen.dart';
 import 'package:tugas_flutter/routes/app_routes.dart';
 import '../controller/onboarding_controller.dart';
 import 'onboarding_content.dart';
@@ -36,39 +39,44 @@ class OnboardingPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 32),
-                    child: controller.currentPage == controller.demoData.length - 1
-                        ? SizedBox(
-                            width: 240,
-                            height: 60,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Get.offAllNamed(AppRoutes.login);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black,
-                                shape: StadiumBorder(),
+                    child:
+                        controller.currentPage == controller.demoData.length - 1
+                            ? SizedBox(
+                                width: 240,
+                                height: 60,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Get.offAllNamed(AppRoutes.login);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black,
+                                    shape: StadiumBorder(),
+                                  ),
+                                  child: const Text(
+                                    'Get Started',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              )
+                            : SizedBox(
+                                width: 60,
+                                height: 60,
+                                child: ElevatedButton(
+                                  onPressed: controller.nextPage,
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                    backgroundColor: Colors.black,
+                                  ),
+                                  child: SvgPicture.asset(
+                                    'assets/Icons/Arrowk.svg',
+                                    colorFilter: const ColorFilter.mode(
+                                        Colors.white, BlendMode.srcIn),
+                                  ),
+                                ),
                               ),
-                              child: const Text(
-                                'Get Started',
-                                style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          )
-                        : SizedBox(
-                            width: 60,
-                            height: 60,
-                            child: ElevatedButton(
-                              onPressed: controller.nextPage,
-                              style: ElevatedButton.styleFrom(
-                                shape: const CircleBorder(),
-                                backgroundColor: Colors.black,
-                              ),
-                              child: SvgPicture.asset(
-                                'assets/Icons/Arrowk.svg',
-                                colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                              ),
-                            ),
-                          ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

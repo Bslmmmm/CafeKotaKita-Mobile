@@ -33,6 +33,8 @@ class _SignUpFormState extends State<SignUpForm> {
   String? _emailError;
   String? _passwordError;
   String? _usernameError;
+  bool _isCheckingUsername = false;
+  bool _isCheckingEmail = false;
 
   final SignupController _signupController = SignupController();
 
@@ -116,23 +118,71 @@ class _SignUpFormState extends State<SignUpForm> {
     return null;
   }
 
-  void _registerUser() {
-    // Clear any remaining errors
+  void _registerUser() async {
+    // Clear any remaining errors and do basic validation first
     setState(() {
       _usernameError = _validateUsername(_usernameController.text);
       _emailError = _validateEmail(_emailController.text);
       _passwordError = _validatePassword(_passwordController.text);
     });
 
-    if (_formKey.currentState!.validate() &&
-        _usernameError == null &&
-        _emailError == null &&
-        _passwordError == null) {
+    // If basic validation fails, return early
+    if (!_formKey.currentState!.validate() ||
+        _usernameError != null ||
+        _emailError != null ||
+        _passwordError != null) {
+      return;
+    }
+
+    // Set checking states
+    setState(() {
+      _isCheckingUsername = true;
+      _isCheckingEmail = true;
+    });
+
+    try {
+      // Check username availability
+      final namaCheck = await _signupController.checkNamaAvailability(_usernameController.text);
+      if (!namaCheck['available']) {
+        setState(() {
+          _usernameError = namaCheck['message'] ?? 'Username tidak tersedia';
+          _isCheckingUsername = false;
+          _isCheckingEmail = false;
+        });
+        return;
+      }
+
+      // Check email availability
+      final emailCheck = await _signupController.checkEmailAvailability(_emailController.text);
+      if (!emailCheck['available']) {
+        setState(() {
+          _emailError = emailCheck['message'] ?? 'Email sudah terdaftar';
+          _isCheckingUsername = false;
+          _isCheckingEmail = false;
+        });
+        return;
+      }
+
+      // Reset checking states
+      setState(() {
+        _isCheckingUsername = false;
+        _isCheckingEmail = false;
+      });
+
+      // If all validations pass, proceed with registration
       _signupController.registerUser(
         nama: _usernameController.text,
         email: _emailController.text,
         password: _passwordController.text,
         context: context,
+      );
+    } catch (e) {
+      setState(() {
+        _isCheckingUsername = false;
+        _isCheckingEmail = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Terjadi kesalahan saat memeriksa data')),
       );
     }
   }
@@ -226,8 +276,9 @@ class _SignUpFormState extends State<SignUpForm> {
                           borderSide: const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        suffixIcon: null,
                       ),
-                      validator: (value) => _usernameError,
+                      
                     ),
                   ),
 
@@ -288,8 +339,9 @@ class _SignUpFormState extends State<SignUpForm> {
                           borderSide: const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        suffixIcon: null,
                       ),
-                      validator: (value) => _emailError,
+                      
                     ),
                   ),
                   
@@ -386,11 +438,15 @@ class _SignUpFormState extends State<SignUpForm> {
                   const SizedBox(height: 32),
                   
                   // Sign Up Button
-                  SizedBox(
+                  Obx(() => SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: _registerUser,
+                      onPressed: _signupController.isLoading.value ||
+                              _isCheckingUsername ||
+                              _isCheckingEmail
+                          ? null
+                          : _registerUser,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: white,
                         foregroundColor: black,
@@ -399,16 +455,27 @@ class _SignUpFormState extends State<SignUpForm> {
                         ),
                         elevation: 0,
                       ),
-                      child: Text(
-                        "Sign up",
-                        style: AppTextStyles.poppinsBody(
-                          color: black,
-                          weight: AppTextStyles.semiBold,
-                          fontSize: 20
-                        ),
-                      ),
+                      child: _signupController.isLoading.value ||
+                              _isCheckingUsername ||
+                              _isCheckingEmail
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                              ),
+                            )
+                          : Text(
+                              "Sign up",
+                              style: AppTextStyles.poppinsBody(
+                                color: black,
+                                weight: AppTextStyles.semiBold,
+                                fontSize: 20
+                              ),
+                            ),
                     ),
-                  ),
+                  )),
                   
                   const SizedBox(height: 16),
                   

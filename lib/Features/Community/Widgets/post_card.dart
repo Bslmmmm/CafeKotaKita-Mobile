@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tugas_flutter/Features/Community/Controllers/post_controller.dart';
 import '../Models/post_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,12 +25,22 @@ class _PostCardState extends State<PostCard> {
     likeCount = widget.post.likeCount;
   }
 
-  void toggleLike() {
+  void toggleLike() async {
     setState(() {
       isLiked = !isLiked;
       likeCount += isLiked ? 1 : -1;
     });
-    // Call your like logic here: PostController().toggleLike(widget.post.id, currentUserId);
+
+    try {
+      await PostController().toggleLike(widget.post.id, currentUserId);
+    } catch (e) {
+      print("Error toggle like: $e");
+      // Optional: Kembalikan state jika gagal
+      setState(() {
+        isLiked = !isLiked;
+        likeCount += isLiked ? 1 : -1;
+      });
+    }
   }
 
   void onShare() {

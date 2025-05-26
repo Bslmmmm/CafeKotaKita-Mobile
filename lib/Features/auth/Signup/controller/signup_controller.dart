@@ -7,9 +7,62 @@ import 'package:tugas_flutter/service/api_config.dart';
 import '../../../../Constant/colors.dart';
 import '../../../../Constant/textstyle.dart';
 
-class SignupController {
-  final String apiUrl = ApiConfig.registerendpoint; 
+class SignupController extends GetxController {
+  // Endpoint
+  final String registerUrl = ApiConfig.registerendpoint;
+  final String checkNamaUrl = ApiConfig.checkusernameendpoint;
+  final String checkEmailUrl = ApiConfig.checkemailendpoint;
 
+  // State untuk loading
+  final RxBool isLoading = false.obs;
+  final RxBool isCheckingNama = false.obs;
+  final RxBool isCheckingEmail = false.obs;
+
+  // Method untuk cek ketersediaan nama
+  Future<Map<String, dynamic>> checkNamaAvailability(String nama) async {
+    try {
+      isCheckingNama.value = true;
+      final response = await http.post(
+        Uri.parse(checkNamaUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'nama': nama}),
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      return {'available': false, 'message': 'Gagal memeriksa nama'};
+    } catch (e) {
+      debugPrint('Error checking nama: $e');
+      return {'available': false, 'message': 'Error koneksi'};
+    } finally {
+      isCheckingNama.value = false;
+    }
+  }
+
+  // Method untuk cek ketersediaan email
+  Future<Map<String, dynamic>> checkEmailAvailability(String email) async {
+    try {
+      isCheckingEmail.value = true;
+      final response = await http.post(
+        Uri.parse(checkEmailUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': email}),
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      return {'available': false, 'message': 'Gagal memeriksa email'};
+    } catch (e) {
+      debugPrint('Error checking email: $e');
+      return {'available': false, 'message': 'Error koneksi'};
+    } finally {
+      isCheckingEmail.value = false;
+    }
+  }
+
+  // Method utama untuk registrasi
   Future<void> registerUser({
     required String nama,
     required String email,
@@ -17,11 +70,29 @@ class SignupController {
     required BuildContext context,
   }) async {
     try {
+      isLoading.value = true;
+
+      // Validasi real-time sebelum registrasi
+      final namaCheck = await checkNamaAvailability(nama);
+      final emailCheck = await checkEmailAvailability(email);
+
+      if (!namaCheck['available'] || !emailCheck['available']) {
+        String errorMessage = '';
+        if (!namaCheck['available']) errorMessage = namaCheck['message'];
+        if (!emailCheck['available']) {
+          errorMessage += '${errorMessage.isNotEmpty ? '\n' : ''}${emailCheck['message']}';
+        }
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+        return;
+      }
+
+      // Proses registrasi
       final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        Uri.parse(registerUrl),
+        headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'nama': nama,
           'email': email,
@@ -29,44 +100,15 @@ class SignupController {
         }),
       );
 
+      final responseData = jsonDecode(response.body);
+
       if (response.statusCode == 201) {
-        final data = jsonDecode(response.body);
-        Get.dialog(
-          AlertDialog(
-            backgroundColor: primaryc, 
-            title: Text(
-              "Berhasil",
-              style: AppTextStyles.montserratH1(color: white),
-            ),
-            content: Text(
-              "Registrasi berhasil!",
-              style: AppTextStyles.poppinsBody(color: clrfont2),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Get.back();
-                },
-                child: Text(
-                  "OK",
-                  style: AppTextStyles.poppinsBody(
-                    color: white,
-                    weight: AppTextStyles.semiBold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          barrierDismissible: false,
-        );
-        
-        // Navigate to login after 2 seconds (giving time to see the dialog)
-        await Future.delayed(Duration(seconds: 2));
+        _showSuccessDialog();
+        await Future.delayed(const Duration(seconds: 2));
         Get.offAllNamed(AppRoutes.login);
       } else {
-        final data = jsonDecode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(data['message'] ?? 'Registrasi gagal')),
+          SnackBar(content: Text(responseData['message'] ?? 'Registrasi gagal')),
         );
       }
     } catch (e) {
@@ -74,6 +116,37 @@ class SignupController {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Terjadi kesalahan. Coba lagi.')),
       );
+    } finally {
+      isLoading.value = false;
     }
+  }
+
+  void _showSuccessDialog() {
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: primaryc, 
+        title: Text(
+          "Berhasil",
+          style: AppTextStyles.montserratH1(color: white),
+        ),
+        content: Text(
+          "Registrasi berhasil!",
+          style: AppTextStyles.poppinsBody(color: clrfont2),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(
+              "OK",
+              style: AppTextStyles.poppinsBody(
+                color: white,
+                weight: AppTextStyles.semiBold,
+              ),
+            ),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
+    );
   }
 }

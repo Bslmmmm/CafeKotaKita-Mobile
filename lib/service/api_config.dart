@@ -13,7 +13,8 @@ class ApiConfig {
   static String get registerendpoint => '$baseUrl/api/auth/register';
   static String get forgotpasendpoint => '$baseUrl/api/auth/forgotpassword';
   static String get resetpasswordendpoint => '$baseUrl/api/auth/resetpassword';
-  
+  static String get checkusernameendpoint => '$baseUrl/api/auth/checkusername';
+  static String get checkemailendpoint => '$baseUrl/api/auth/checkemail';  
   //homepage
   static String get cardcafeendpoint => '$baseUrl/api/kafe/index';
 }
