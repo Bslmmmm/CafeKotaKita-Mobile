@@ -54,6 +54,7 @@ class PostController {
     }
   }
 
+  // Buat post baru
   Future<void> createPost({
     required String caption,
     String? mood,
@@ -71,10 +72,8 @@ class PostController {
           final ref = _storage.ref().child('post_images').child('$postId.jpg');
           final uploadTask = ref.putFile(imageFile);
 
-          // Menunggu upload selesai
           final snapshot = await uploadTask.whenComplete(() => null);
 
-          // Cek kalau gagal
           if (snapshot.state == TaskState.success) {
             imageUrl = await ref.getDownloadURL();
           } else {
@@ -100,6 +99,39 @@ class PostController {
       await addPost(newPost);
     } catch (e) {
       print('Gagal membuat post: $e');
+      rethrow;
+    }
+  }
+
+  // Toggle like pada post
+  Future<void> toggleLike(String postId, String userId) async {
+    final postRef = _postCollection.doc(postId);
+
+    try {
+      await _firestore.runTransaction((transaction) async {
+        final snapshot = await transaction.get(postRef);
+
+        if (!snapshot.exists) return;
+
+        final data = snapshot.data() as Map<String, dynamic>;
+        final likedBy = List<String>.from(data['likedBy'] ?? []);
+        int likeCount = data['likeCount'] ?? 0;
+
+        if (likedBy.contains(userId)) {
+          likedBy.remove(userId);
+          likeCount--;
+        } else {
+          likedBy.add(userId);
+          likeCount++;
+        }
+
+        transaction.update(postRef, {
+          'likedBy': likedBy,
+          'likeCount': likeCount,
+        });
+      });
+    } catch (e) {
+      print('Gagal toggle like: $e');
       rethrow;
     }
   }

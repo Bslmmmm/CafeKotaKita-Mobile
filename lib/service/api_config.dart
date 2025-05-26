@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String devBaseUrl = '192.168.43.27';
+  static const String devBaseUrl = '192.168.103.251';
   static const int port = 8000; // Port server
   static const String protocol = 'http'; // http atau https
 
@@ -15,6 +15,4 @@ class ApiConfig {
   static String get resetpasswordendpoint => '$baseUrl/api/auth/resetpassword';
   static String get checkusernameendpoint => '$baseUrl/api/auth/checkusername';
   static String get checkemailendpoint => '$baseUrl/api/auth/checkemail';
-
-
 }

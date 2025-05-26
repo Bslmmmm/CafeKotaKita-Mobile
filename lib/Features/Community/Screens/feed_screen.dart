@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+import 'package:tugas_flutter/Features/Community/Screens/search_screen.dart';
 import 'package:tugas_flutter/Features/Homepage/views/home_screen.dart';
 import '../controllers/post_controller.dart';
 import '../Models/post_model.dart';
@@ -9,6 +9,7 @@ import 'create_post_screen.dart';
 import '../Widgets/navbar_top.dart';
 import 'dart:io';
 import '../Widgets/post_card.dart';
+import 'post_detail_screen.dart'; // ← Tambahan baru
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -69,45 +70,6 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  Widget _buildPostItem(PostModel post) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(post.username,
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 4),
-            Text(post.caption),
-            if (post.imageUrl != null) ...[
-              const SizedBox(height: 8),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(post.imageUrl!),
-              ),
-            ],
-            const SizedBox(height: 6),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (post.mood != null) Text('Mood: ${post.mood}'),
-                if (post.location != null) Text('Lokasi: ${post.location}'),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Text(
-              '${post.timestamp.toLocal()}',
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Future<void> _handleCreatePost(Map<String, dynamic> data) async {
     setState(() => _isPosting = true);
     try {
@@ -146,7 +108,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   onSearchTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => HomeScreen()),
+                      MaterialPageRoute(builder: (_) => SearchScreen()),
                     );
                   },
                 ),
@@ -186,8 +148,20 @@ class _FeedScreenState extends State<FeedScreen> {
                       child: ListView.builder(
                         controller: _scrollController,
                         itemCount: posts.length,
-                        itemBuilder: (context, index) =>
-                            PostCard(post: posts[index]),
+                        itemBuilder: (context, index) {
+                          final post = posts[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => PostDetailScreen(post: post),
+                                ),
+                              );
+                            },
+                            child: PostCard(post: post),
+                          );
+                        },
                       ),
                     );
                   }
