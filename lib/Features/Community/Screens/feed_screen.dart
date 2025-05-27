@@ -1,18 +1,17 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:tugas_flutter/Features/Community/Screens/create_post_screen.dart';
+import 'package:tugas_flutter/Features/Community/Screens/post_detail_screen.dart';
+import 'package:tugas_flutter/Features/Community/Screens/profile_screen.dart';
 import 'package:tugas_flutter/Features/Community/Screens/search_screen.dart';
-import 'package:tugas_flutter/Features/Homepage/views/home_screen.dart';
-import '../controllers/post_controller.dart';
-import '../Models/post_model.dart';
-import '../Screens/profile_screen.dart';
-import 'create_post_screen.dart';
-import '../Widgets/navbar_top.dart';
-import 'dart:io';
-import '../Widgets/post_card.dart';
-import 'post_detail_screen.dart'; // ← Tambahan baru
+import 'package:tugas_flutter/Features/Community/Widgets/navbar_top.dart';
+import 'package:tugas_flutter/Features/Community/Widgets/post_card.dart';
+import 'package:tugas_flutter/Features/Community/controllers/post_controller.dart';
+import 'package:tugas_flutter/Features/Community/Models/post_model.dart';
 
 class FeedScreen extends StatefulWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+  const FeedScreen({super.key});
 
   @override
   State<FeedScreen> createState() => _FeedScreenState();
@@ -151,7 +150,11 @@ class _FeedScreenState extends State<FeedScreen> {
                         itemBuilder: (context, index) {
                           final post = posts[index];
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              // Tambahkan view count sebelum navigasi
+                              await PostController()
+                                  .incrementViewCount(post.id);
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

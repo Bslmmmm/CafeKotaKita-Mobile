@@ -5,7 +5,7 @@ import 'package:tugas_flutter/Constant/textstyle.dart';
 import '../controller/forgot_controller.dart';
 
 class ForgotForm extends StatefulWidget {
-  ForgotForm({Key? key}) : super(key: key);
+  const ForgotForm({super.key});
 
   @override
   State<ForgotForm> createState() => _ForgotFormState();
@@ -18,7 +18,7 @@ class _ForgotFormState extends State<ForgotForm> {
   @override
   void initState() {
     super.initState();
-    
+
     // Setup email validation listener
     controller.emailController.addListener(() {
       setState(() {
@@ -78,10 +78,9 @@ class _ForgotFormState extends State<ForgotForm> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              
             ),
           ),
-          
+
           // Email Error Message
           if (_emailError != null)
             Align(
@@ -97,7 +96,7 @@ class _ForgotFormState extends State<ForgotForm> {
                 ),
               ),
             ),
-          
+
           const SizedBox(height: 32),
           Obx(() => SizedBox(
                 width: double.infinity,
@@ -108,7 +107,8 @@ class _ForgotFormState extends State<ForgotForm> {
                       : () {
                           // Validate before submitting
                           setState(() {
-                            _emailError = _validateEmail(controller.emailController.text);
+                            _emailError =
+                                _validateEmail(controller.emailController.text);
                           });
 
                           if (controller.formKey.currentState!.validate() &&

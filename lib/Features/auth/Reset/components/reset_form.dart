@@ -8,7 +8,7 @@ class ResetPasswordForm extends StatefulWidget {
   final String email;
   final String otp;
 
-  ResetPasswordForm({Key? key, required this.email, required this.otp}) : super(key: key) {
+  ResetPasswordForm({super.key, required this.email, required this.otp}) {
     Get.put(ResetPasswordController(email: email, otp: otp));
   }
 
@@ -24,20 +24,20 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
   void initState() {
     super.initState();
     final controller = Get.find<ResetPasswordController>();
-    
+
     // Setup validation listeners
     controller.newPasswordController.addListener(() {
       setState(() {
-        _passwordError = _validatePassword(controller.newPasswordController.text);
+        _passwordError =
+            _validatePassword(controller.newPasswordController.text);
       });
     });
 
     controller.confirmPasswordController.addListener(() {
       setState(() {
         _confirmPasswordError = _validateConfirmPassword(
-          controller.confirmPasswordController.text,
-          controller.newPasswordController.text
-        );
+            controller.confirmPasswordController.text,
+            controller.newPasswordController.text);
       });
     });
   }
@@ -53,7 +53,6 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
   }
 
   String? _validateConfirmPassword(String value, String password) {
-    
     if (value != password) {
       return 'Password tidak sama';
     }
@@ -70,7 +69,8 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Text("Password", style: AppTextStyles.interBody(color: white, fontSize: 12)),
+            child: Text("Password",
+                style: AppTextStyles.interBody(color: white, fontSize: 12)),
           ),
           const SizedBox(height: 8),
 
@@ -92,22 +92,23 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                     fillColor: primaryc,
                     filled: true,
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(8),
-                      ), 
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        controller.obscureNewPassword.value ? Icons.visibility_off : Icons.visibility,
+                        controller.obscureNewPassword.value
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                         color: white,
                       ),
                       onPressed: controller.obscureNewPassword.toggle,
                     ),
                   ),
-                  
                 ),
               )),
 
@@ -131,7 +132,8 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
 
           Align(
             alignment: Alignment.centerLeft,
-            child: Text("Confirm Password", style: AppTextStyles.interBody(color: white, fontSize: 12)),
+            child: Text("Confirm Password",
+                style: AppTextStyles.interBody(color: white, fontSize: 12)),
           ),
           const SizedBox(height: 8),
 
@@ -153,22 +155,23 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                     fillColor: primaryc,
                     filled: true,
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(8),
-                      ), 
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        controller.obscureConfirmPassword.value ? Icons.visibility_off : Icons.visibility,
+                        controller.obscureConfirmPassword.value
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                         color: white,
                       ),
                       onPressed: controller.obscureConfirmPassword.toggle,
                     ),
                   ),
-                  
                 ),
               )),
 
@@ -194,30 +197,37 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: controller.isLoading.value ? null : () {
-                    // Validate before submitting
-                    setState(() {
-                      _passwordError = _validatePassword(controller.newPasswordController.text);
-                      _confirmPasswordError = _validateConfirmPassword(
-                        controller.confirmPasswordController.text,
-                        controller.newPasswordController.text
-                      );
-                    });
+                  onPressed: controller.isLoading.value
+                      ? null
+                      : () {
+                          // Validate before submitting
+                          setState(() {
+                            _passwordError = _validatePassword(
+                                controller.newPasswordController.text);
+                            _confirmPasswordError = _validateConfirmPassword(
+                                controller.confirmPasswordController.text,
+                                controller.newPasswordController.text);
+                          });
 
-                    if (controller.formKey.currentState!.validate() &&
-                        _passwordError == null &&
-                        _confirmPasswordError == null) {
-                      controller.resetPassword();
-                    }
-                  },
+                          if (controller.formKey.currentState!.validate() &&
+                              _passwordError == null &&
+                              _confirmPasswordError == null) {
+                            controller.resetPassword();
+                          }
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: white,
                     foregroundColor: black,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
                   ),
                   child: controller.isLoading.value
                       ? const CircularProgressIndicator()
-                      : Text("Submit", style: AppTextStyles.poppinsBody(color: black, weight: AppTextStyles.semiBold, fontSize: 20)),
+                      : Text("Submit",
+                          style: AppTextStyles.poppinsBody(
+                              color: black,
+                              weight: AppTextStyles.semiBold,
+                              fontSize: 20)),
                 ),
               )),
         ],

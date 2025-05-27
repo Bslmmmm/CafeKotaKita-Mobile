@@ -5,13 +5,13 @@ import 'package:tugas_flutter/Constant/textstyle.dart';
 import 'components/reset_form.dart';
 
 class ResetScreen extends StatelessWidget {
-  const ResetScreen({Key? key}) : super(key: key);
+  const ResetScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-final Map<String, dynamic> args = Get.arguments ?? {};
-final String email = args['email'] ?? '';
-final String otp = args['otp'] ?? '';
+    final Map<String, dynamic> args = Get.arguments ?? {};
+    final String email = args['email'] ?? '';
+    final String otp = args['otp'] ?? '';
 
     return Scaffold(
       body: Container(
@@ -20,7 +20,6 @@ final String otp = args['otp'] ?? '';
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
-            
             Center(
               child: SingleChildScrollView(
                 child: Padding(
@@ -34,7 +33,8 @@ final String otp = args['otp'] ?? '';
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Reset Password",
-                          style: AppTextStyles.montserratH1(color: white).copyWith(
+                          style:
+                              AppTextStyles.montserratH1(color: white).copyWith(
                             fontSize: 40,
                             fontWeight: FontWeight.w600,
                           ),

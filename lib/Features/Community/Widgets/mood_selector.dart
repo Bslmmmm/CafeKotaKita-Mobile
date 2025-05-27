@@ -6,11 +6,11 @@ class MoodSelector extends StatelessWidget {
   final Function(String?) onChanged;
 
   const MoodSelector({
-    Key? key,
+    super.key,
     required this.selectedMood,
     required this.moods,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -27,22 +27,22 @@ class FilterState {
       showNearest: showNearest ?? this.showNearest,
     );
   }
-  
+
   // Reset all filter options except search query
   FilterState resetFilterOptions() {
     return FilterState(
-      searchQuery: this.searchQuery,
+      searchQuery: searchQuery,
       showOpenOnly: false,
       showTopRated: false,
       showNearest: false,
     );
   }
-  
+
   // Reset all filters including search
   FilterState resetAll() {
     return const FilterState();
   }
-  
+
   // Toggle a specific filter and reset others
   FilterState toggleFilterExclusive(FilterType type) {
     switch (type) {

@@ -4,12 +4,12 @@ import 'package:tugas_flutter/Constant/colors.dart';
 class CustomNavBar extends StatefulWidget {
   final int initialSelectedIndex;
   final Function(int) onItemSelected;
-  
+
   const CustomNavBar({
-    Key? key, 
+    super.key,
     this.initialSelectedIndex = 0,
     required this.onItemSelected,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomNavBar> createState() => _CustomNavBarState();
@@ -17,13 +17,13 @@ class CustomNavBar extends StatefulWidget {
 
 class _CustomNavBarState extends State<CustomNavBar> {
   late int _selectedIndex;
-  
+
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialSelectedIndex;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,10 +50,10 @@ class _CustomNavBarState extends State<CustomNavBar> {
       ),
     );
   }
-  
+
   Widget _buildNavItem(int index, IconData icon, String label) {
     final isSelected = _selectedIndex == index;
-    
+
     return Container(
       width: 70,
       height: 60,
@@ -72,11 +72,11 @@ class _CustomNavBarState extends State<CustomNavBar> {
               shape: BoxShape.circle,
             ),
           ),
-          
+
           // Ikon yang lebih besar saat aktif
           IconButton(
             padding: EdgeInsets.zero,
-            iconSize: isSelected ? 40  : 26,
+            iconSize: isSelected ? 40 : 26,
             icon: Icon(
               icon,
               color: isSelected ? Colors.white : Colors.black54,

@@ -9,7 +9,7 @@ import 'package:tugas_flutter/Screens/Profile/UpdateProfileScreen.dart';
 import 'package:tugas_flutter/Features/auth/Login/view/login_screen.dart';
 
 class SetProfileScreen extends StatelessWidget {
-  const SetProfileScreen({Key? key}) : super(key: key);
+  const SetProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +102,13 @@ class SetProfileScreen extends StatelessWidget {
 
 class ProfileMenuWidget extends StatelessWidget {
   const ProfileMenuWidget({
-    Key? key,
+    super.key,
     required this.title,
     required this.icon,
     required this.onPressed,
     this.endIcon = true,
     this.textColor,
-  }) : super(key: key);
+  });
 
   final String title;
   final IconData icon;

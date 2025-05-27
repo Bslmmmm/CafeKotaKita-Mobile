@@ -6,7 +6,7 @@ class MapScreen extends StatelessWidget {
   final double latitude;
   final double longitude;
 
-  MapScreen({required this.latitude, required this.longitude});
+  const MapScreen({super.key, required this.latitude, required this.longitude});
 
   @override
   Widget build(BuildContext context) {

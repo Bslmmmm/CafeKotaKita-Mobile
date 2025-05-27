@@ -7,7 +7,7 @@ import 'package:tugas_flutter/Constant/images.dart';
 import 'package:get/get.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
-  const UpdateProfileScreen({Key? key}) : super(key: key);
+  const UpdateProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

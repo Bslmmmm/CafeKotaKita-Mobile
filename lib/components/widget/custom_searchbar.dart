@@ -3,27 +3,24 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
 import 'package:tugas_flutter/Constant/textstyle.dart';
 
-
 class CustomSearchbar extends StatelessWidget {
   final TextEditingController controller;
   final Function(String)? onChanged;
   final TextStyle? hintText;
   const CustomSearchbar({
-    Key?key,
+    super.key,
     required this.controller,
-    this.onChanged, 
+    this.onChanged,
     this.hintText,
-  }):super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 30),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: clrbtn,
-        borderRadius: BorderRadius.circular(10)
-      ),
+      decoration:
+          BoxDecoration(color: clrbtn, borderRadius: BorderRadius.circular(10)),
       child: TextField(
         controller: controller,
         onChanged: onChanged,
@@ -37,10 +34,7 @@ class CustomSearchbar extends StatelessWidget {
           ),
           hintText: 'Search',
           hintStyle: AppTextStyles.interBody(
-            color: clrfont2,
-            weight: AppTextStyles.semiBold,
-            fontSize: 13
-            ),
+              color: clrfont2, weight: AppTextStyles.semiBold, fontSize: 13),
           border: InputBorder.none,
         ),
       ),

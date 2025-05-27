@@ -3,7 +3,6 @@
 import 'package:flutter/foundation.dart';
 import '../model/cafe_data.dart';
 import '../Utils/cafe_status_updater.dart';
-import '../Utils/time_service.dart';
 
 enum CafeListStatus {
   initial,
@@ -64,12 +63,12 @@ class CafeListManager extends ChangeNotifier {
   // Load cafes from API (to be implemented)
   Future<void> loadCafes() async {
     _setState(_state.copyWith(status: CafeListStatus.loading));
-    
+
     try {
       // TODO: Replace with actual API call
       // final apiService = ApiService();
       // final cafes = await apiService.getCafes();
-      
+
       // For now, use mock data
       await Future.delayed(Duration(seconds: 2)); // Simulate network delay
       loadMockCafes();
@@ -113,12 +112,12 @@ class CafeListManager extends ChangeNotifier {
       ),
       // Add more mock cafes as needed
     ];
-    
+
     _setState(_state.copyWith(
       status: CafeListStatus.success,
       cafes: mockCafes,
     ));
-    
+
     // Start the status updater to keep cafe open/closed status updated
     _statusUpdater.startPeriodicUpdates(mockCafes);
   }
@@ -126,12 +125,13 @@ class CafeListManager extends ChangeNotifier {
   // Search cafes by name or location
   List<CafeData> searchCafes(String query) {
     if (query.isEmpty) return _state.cafes;
-    
+
     final lowerQuery = query.toLowerCase();
-    return _state.cafes.where((cafe) => 
-      cafe.cafeName.toLowerCase().contains(lowerQuery) || 
-      cafe.location.toLowerCase().contains(lowerQuery)
-    ).toList();
+    return _state.cafes
+        .where((cafe) =>
+            cafe.cafeName.toLowerCase().contains(lowerQuery) ||
+            cafe.location.toLowerCase().contains(lowerQuery))
+        .toList();
   }
 
   // Refresh cafe data

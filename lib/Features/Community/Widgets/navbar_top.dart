@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-
 class NavbarTop extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onProfileTap;
   final VoidCallback? onSearchTap;
 
   const NavbarTop({
-    Key? key,
+    super.key,
     this.onProfileTap,
     this.onSearchTap,
-  }) : super(key: key);
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(56);

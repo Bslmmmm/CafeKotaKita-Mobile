@@ -4,7 +4,7 @@ import 'package:tugas_flutter/Constant/textstyle.dart';
 import 'components/otp.dart';
 
 class OtpScreen extends StatelessWidget {
-  const OtpScreen({Key? key}) : super(key: key);
+  const OtpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +23,26 @@ class OtpScreen extends StatelessWidget {
                   const SizedBox(height: 40),
                   // Title
                   Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Verification",
-                    style: AppTextStyles.montserratH1(color: white).copyWith(
-                      fontSize: 40, // Memperbesar ukuran font sesuai design
-                      fontWeight: FontWeight.w600,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Verification",
+                      style: AppTextStyles.montserratH1(color: white).copyWith(
+                        fontSize: 40, // Memperbesar ukuran font sesuai design
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                ),
                   const SizedBox(height: 16),
                   // Subtitle
                   Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Kode OTP sudah berhasil terkirim\nke alamat email anda, Masukkan\nkode OTP di bawah ini.",
-                    style: AppTextStyles.poppinsBody(color: clrfont2),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Kode OTP sudah berhasil terkirim\nke alamat email anda, Masukkan\nkode OTP di bawah ini.",
+                      style: AppTextStyles.poppinsBody(color: clrfont2),
+                    ),
                   ),
-                ),
                   const SizedBox(height: 40),
-                   OtpForm(),
+                  OtpForm(),
                 ],
               ),
             ),

@@ -4,8 +4,9 @@ import 'package:tugas_flutter/Features/Community/Screens/feed_screen.dart';
 import '../../../Screens/Profile/ProfileScreen.dart';
 import '../../map.dart';
 
-
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -13,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  static List<Widget> _pages = <Widget>[
+  static final List<Widget> _pages = <Widget>[
     DashboardScreen(),
     MapScreen(
         latitude: 37.7749, longitude: -122.4194), // Sesuaikan dengan lokasi
@@ -33,8 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
         height: 60, // Tinggi navbar diperbesar
-        padding: EdgeInsets.only(
-            top: 5, bottom: 5), 
+        padding: EdgeInsets.only(top: 5, bottom: 5),
         decoration: BoxDecoration(
           color: primaryc, // Warna navbar
           borderRadius: BorderRadius.only(
@@ -85,6 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +95,7 @@ class DashboardScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Banner as Image
-            Container(
+            SizedBox(
               width: double.infinity,
               height: 200,
               child: Image.asset(

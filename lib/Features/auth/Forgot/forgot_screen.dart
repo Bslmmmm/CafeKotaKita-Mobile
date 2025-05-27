@@ -4,7 +4,7 @@ import 'package:tugas_flutter/Constant/textstyle.dart';
 import 'components/forgot_form.dart';
 
 class ForgotScreen extends StatelessWidget {
-  const ForgotScreen({Key? key}) : super(key: key);
+  const ForgotScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +20,11 @@ class ForgotScreen extends StatelessWidget {
               top: 40,
               left: 16,
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: white),
-                onPressed: () => Navigator.pop(context),
-                iconSize: 35
-              ),
+                  icon: Icon(Icons.arrow_back, color: white),
+                  onPressed: () => Navigator.pop(context),
+                  iconSize: 35),
             ),
-            
+
             Center(
               child: SingleChildScrollView(
                 child: Padding(
@@ -38,10 +37,12 @@ class ForgotScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 24.0), // Add padding to align with form
+                          padding: const EdgeInsets.only(
+                              left: 24.0), // Add padding to align with form
                           child: Text(
                             "Forgot Password",
-                            style: AppTextStyles.montserratH1(color: white).copyWith(
+                            style: AppTextStyles.montserratH1(color: white)
+                                .copyWith(
                               fontSize: 40,
                               fontWeight: FontWeight.w600,
                             ),
@@ -53,7 +54,8 @@ class ForgotScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 24.0), // Add padding to align with form
+                          padding: const EdgeInsets.only(
+                              left: 24.0), // Add padding to align with form
                           child: Text(
                             "Masukkan Email Address dan\nkamu akan mendapatkan\nkode OTP",
                             style: AppTextStyles.poppinsBody(color: clrfont2),

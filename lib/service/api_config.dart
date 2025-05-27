@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String devBaseUrl = '192.168.103.251';
+  static const String devBaseUrl = '10.10.180.145';
   static const int port = 8000; // Port server
   static const String protocol = 'http'; // http atau https
 

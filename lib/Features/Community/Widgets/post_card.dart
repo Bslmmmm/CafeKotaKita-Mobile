@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class PostCard extends StatefulWidget {
   final PostModel post;
 
-  const PostCard({Key? key, required this.post}) : super(key: key);
+  const PostCard({super.key, required this.post});
 
   @override
   State<PostCard> createState() => _PostCardState();

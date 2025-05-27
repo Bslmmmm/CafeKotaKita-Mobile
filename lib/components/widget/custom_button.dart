@@ -14,7 +14,7 @@ class CustomHomeButton extends StatelessWidget {
   final TextStyle? textStyle;
 
   const CustomHomeButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.icon,
     required this.onPressed,
@@ -25,7 +25,7 @@ class CustomHomeButton extends StatelessWidget {
     this.width = 140,
     this.height = 50,
     this.textStyle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

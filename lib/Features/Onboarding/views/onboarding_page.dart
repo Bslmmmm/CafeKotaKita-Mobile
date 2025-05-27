@@ -10,7 +10,7 @@ import '../controller/onboarding_controller.dart';
 import 'onboarding_content.dart';
 
 class OnboardingPage extends StatelessWidget {
-  const OnboardingPage({Key? key}) : super(key: key);
+  const OnboardingPage({super.key});
 
   @override
   Widget build(BuildContext context) {

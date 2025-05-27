@@ -7,7 +7,7 @@ import '../../Signup/signup_screen.dart';
 import 'package:get/get.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  const LoginForm({super.key});
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -88,10 +88,12 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   child: TextField(
                     controller: _loginController,
-                    keyboardType: TextInputType.text, // bisa text bukan email khusus
+                    keyboardType:
+                        TextInputType.text, // bisa text bukan email khusus
                     style: AppTextStyles.interBody(color: white),
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
                       border: InputBorder.none,
                       fillColor: primaryc,
                       filled: true,
@@ -130,7 +132,8 @@ class _LoginFormState extends State<LoginForm> {
                     obscureText: _obscureText,
                     style: AppTextStyles.interBody(color: white),
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
                       border: InputBorder.none,
                       fillColor: primaryc,
                       filled: true,
@@ -144,7 +147,9 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _obscureText ? Icons.visibility_off : Icons.visibility,
+                          _obscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           color: white,
                           size: 20,
                         ),
