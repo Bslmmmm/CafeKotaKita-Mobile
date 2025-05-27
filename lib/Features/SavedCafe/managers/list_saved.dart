@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:tugas_flutter/service/api_config.dart';
-import '../model/model_homepage.dart';
-import '../Utils/cafe_status_updater.dart';
-// import '../Utils/time_service.dart';
+import '../../Homepage/Utils/cafe_status_updater.dart';
+import '../../Homepage/model/model_homepage.dart';
 import 'package:http/http.dart'as http;
 
-enum CafeListStatus {
+enum bookmarkliststatus {
   initial,
   loading,
   success,
@@ -15,18 +14,18 @@ enum CafeListStatus {
 }
 
 class CafeListState {
-  final CafeListStatus status;
+  final bookmarkliststatus status;
   final List<CafeData> cafes;
   final String errorMessage;
 
   const CafeListState({
-    this.status = CafeListStatus.initial,
+    this.status = bookmarkliststatus.initial,
     this.cafes = const [],
     this.errorMessage = '',
   });
 
   CafeListState copyWith({
-    CafeListStatus? status,
+    bookmarkliststatus? status,
     List<CafeData>? cafes,
     String? errorMessage,
   }) {
@@ -38,14 +37,14 @@ class CafeListState {
   }
 }
 
-class CafeListManager extends ChangeNotifier {
+class bookmarklistmanager extends ChangeNotifier {
   CafeListState _state = const CafeListState();
   final Function(CafeListState) onStateChanged;
   late final CafeStatusUpdater _statusUpdater;
 
   CafeListState get state => _state;
 
-  CafeListManager({required this.onStateChanged}) {
+  bookmarklistmanager({required this.onStateChanged}) {
     _statusUpdater = CafeStatusUpdater(
       onStatusUpdated: _updateCafeStatuses,
     );
@@ -64,11 +63,11 @@ class CafeListManager extends ChangeNotifier {
   }
 
 
-Future<void> loadCafes() async {
-  _setState(_state.copyWith(status: CafeListStatus.loading));
+Future<void> loadbookmark() async {
+  _setState(_state.copyWith(status: bookmarkliststatus.loading));
 
   try {
-    final response = await http.get(Uri.parse(ApiConfig.cardcafeendpoint));
+    final response = await http.get(Uri.parse(ApiConfig.cardsaveendpoint));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
@@ -77,7 +76,7 @@ Future<void> loadCafes() async {
       final List<CafeData> cafes = data.map((item) => CafeData.fromJson(item)).toList();
 
       _setState(_state.copyWith(
-        status: CafeListStatus.success,
+        status: bookmarkliststatus.success,
         cafes: cafes,
       ));
 
@@ -87,31 +86,15 @@ Future<void> loadCafes() async {
     }
   } catch (e) {
     _setState(_state.copyWith(
-      status: CafeListStatus.error,
+      status: bookmarkliststatus.error,
       errorMessage: 'Failed to load cafes: ${e}',
     ));
   }
 }
 
-
-
-
-
-  // Search cafes by name or location
-  List<CafeData> searchCafes(String query) {
-    if (query.isEmpty) return _state.cafes;
-    
-    final lowerQuery = query.toLowerCase();
-    return _state.cafes.where((cafe) => 
-      cafe.cafename.toLowerCase().contains(lowerQuery) || 
-      cafe.alamat.toLowerCase().contains(lowerQuery)
-    ).toList();
-  }
-
   Future<void> refreshCafes() async {
-    await loadCafes();
+    await loadbookmark();
   }
-
 
   @override
   void dispose() {

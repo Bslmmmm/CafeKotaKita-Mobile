@@ -9,15 +9,9 @@ class ResetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    final Map<String, dynamic>  args = Get.arguments;
-    final String email = args['email'] as String;
-    final String otp = args['otp'] as String;
-=======
-final Map<String, dynamic> args = Get.arguments ?? {};
-final String email = args['email'] ?? '';
-final String otp = args['otp'] ?? '';
->>>>>>> 8bdcd62522f49376cdfb5b5a6e170f53bc3bed86
+    final Map<String, dynamic> args = Get.arguments ?? {};
+    final String email = args['email'] ?? '';
+    final String otp = args['otp'] ?? '';
 
     return Scaffold(
       body: Container(
@@ -26,7 +20,6 @@ final String otp = args['otp'] ?? '';
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
-            
             Center(
               child: SingleChildScrollView(
                 child: Padding(
@@ -40,7 +33,8 @@ final String otp = args['otp'] ?? '';
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Reset Password",
-                          style: AppTextStyles.montserratH1(color: white).copyWith(
+                          style:
+                              AppTextStyles.montserratH1(color: white).copyWith(
                             fontSize: 40,
                             fontWeight: FontWeight.w600,
                           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
 import 'package:tugas_flutter/Constant/textstyle.dart';
-import 'package:tugas_flutter/Features/Homepage/model/cafe_data.dart';
+import 'package:tugas_flutter/Features/Homepage/model/model_homepage.dart';
 import 'package:tugas_flutter/Features/Homepage/model/filter_cafe.dart';
 import 'package:tugas_flutter/components/widget/custom_button.dart';
 import 'package:tugas_flutter/components/widget/custom_card_cafe.dart';
@@ -26,25 +26,22 @@ class _HomepageViewState extends State<HomepageView> {
   @override
   void initState() {
     super.initState();
-    //inisiasi filter
+    //init filter
     _filterManager = CafeFilterManager();
     _filterManager.addListener(_applyFilters);
-    
-    // inisiasi cafelist manager
+    //init cafelist
     _cafeListManager = CafeListManager(
       onStateChanged: (state) {
         if (state.status == CafeListStatus.success) {
           _applyFilters();
         } else {
           setState(() {
-            
           });
         }
       },
     );
-    
-    // Load initial data
-    _cafeListManager.loadMockCafes();
+    // Load init cafe data
+    _cafeListManager.loadCafes();
   }
   
   @override
@@ -107,35 +104,44 @@ class _HomepageViewState extends State<HomepageView> {
                       ),
                       SizedBox(height: 8),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // mainAxisSize: MainAxisSize.max,
                         
                         children: [
-                          CustomHomeButton(
-                            label: 'Nearest\nCafe',
-                            icon: Icons.location_on,
-                            onPressed: _toggleNearestCafe,
-                            backgroundColor: filterState.showNearest ? white : clrbtn,
-                            iconColor: filterState.showNearest ? primaryc : clrbg,
-                            textColor: filterState.showNearest ? primaryc : clrbg,
+                          Flexible(
+                            flex: 2,
+                            child: CustomHomeButton(
+                              label: 'Nearest\nCafe',
+                              icon: Icons.location_on,
+                              onPressed: _toggleNearestCafe,
+                              backgroundColor: filterState.showNearest ? white : clrbtn,
+                              iconColor: filterState.showNearest ? primaryc : clrbg,
+                              textColor: filterState.showNearest ? primaryc : clrbg,
+                            ),
                           ),
                           SizedBox(width: 10),
-                          CustomHomeButton(
-                            label: 'Top\nCafe',
-                            icon: Icons.star_rounded,
-                            onPressed: _toggleTopCafe,
-                            backgroundColor: filterState.showTopRated ? white : clrbtn,
-                            iconColor: filterState.showTopRated ? primaryc : clrbg,
-                            textColor: filterState.showTopRated ? primaryc : clrbg,
+                          Flexible(
+                            flex: 2,
+                            child: CustomHomeButton(
+                              label: 'Top\nCafe',
+                              icon: Icons.star_rounded,
+                              onPressed: _toggleTopCafe,
+                              backgroundColor: filterState.showTopRated ? white : clrbtn,
+                              iconColor: filterState.showTopRated ? primaryc : clrbg,
+                              textColor: filterState.showTopRated ? primaryc : clrbg,
+                            ),
                           ),
                           SizedBox(width: 10),
-                          CustomHomeButton(
-                            label: 'Open',
-                            icon: Icons.watch_later_rounded,
-                            onPressed: _toggleOpenCafe,
-                            backgroundColor: filterState.showOpenOnly ? white : clrbtn,
-                            iconColor: filterState.showOpenOnly ? primaryc : clrbg,
-                            textColor: filterState.showOpenOnly ? primaryc : clrbg,
+                          Flexible(
+                            flex: 2,
+                            child: CustomHomeButton(
+                              label: 'Open',
+                              icon: Icons.watch_later_rounded,
+                              onPressed: _toggleOpenCafe,
+                              backgroundColor: filterState.showOpenOnly ? white : clrbtn,
+                              iconColor: filterState.showOpenOnly ? primaryc : clrbg,
+                              textColor: filterState.showOpenOnly ? primaryc : clrbg,
+                            ),
                           ),
                         ],
                       )
@@ -200,8 +206,7 @@ class _HomepageViewState extends State<HomepageView> {
       case CafeListStatus.success:
         return _buildSuccessState();
       case CafeListStatus.initial:
-      default:
-        return _buildLoadingState();
+      return _buildLoadingState();
     }
   }
 
@@ -256,7 +261,7 @@ class _HomepageViewState extends State<HomepageView> {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                _cafeListManager.loadMockCafes();
+                _cafeListManager.loadCafes();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryc,
@@ -306,23 +311,25 @@ class _HomepageViewState extends State<HomepageView> {
         ),
       );
     }
-
+//else
+    final limitcafe = _displayedCafes.take(4).toList();
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: _displayedCafes.length,
+      itemCount: limitcafe.length,
       itemBuilder: (context, index) {
-        final cafe = _displayedCafes[index];
+        final cafe = limitcafe[index];
         return CustomCardCafe(
           cafeimgurl: cafe.imageUrl,
-          namacafe: cafe.cafeName,
-          lokasi: cafe.location,
-          operationalhour: cafe.operationalHours,
+          namacafe: cafe.cafename,
+          lokasi: cafe.alamat,
+          jambuka: cafe.jambuka,
+          jamtutup: cafe.jamtutup,
           rating: cafe.rating,
           isOpen: cafe.isOpen,
           onTap: () {
             // Navigasi ke halaman detail cafe
-            print('Selected cafe: ${cafe.cafeName}');
+            print('Selected cafe: ${cafe.cafename}');
             // Navigator.push(context, MaterialPageRoute(builder: (context) => DetailCafeView(cafeId: cafe.id)));
           },
         );

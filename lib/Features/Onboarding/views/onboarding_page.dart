@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tugas_flutter/Constant/constants.dart';
-import 'package:tugas_flutter/Features/Homepage/views/home_screen.dart';
 import 'package:tugas_flutter/routes/app_routes.dart';
 import '../controller/onboarding_controller.dart';
 import 'onboarding_content.dart';

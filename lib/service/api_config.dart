@@ -1,7 +1,9 @@
+
+
 class ApiConfig {
-  static const String devBaseUrl = '192.168.1.31';  
-  static const int port = 8000; // Port server
-  static const String protocol = 'http'; // http atau https
+  static const String devBaseUrl = '192.168.1.9';  
+  static const int port = 8000; 
+  static const String protocol = 'http'; 
 
   static String get baseUrl {
     return '$protocol://$devBaseUrl:$port';
@@ -16,5 +18,7 @@ class ApiConfig {
   static String get checkusernameendpoint => '$baseUrl/api/auth/checkusername';
   static String get checkemailendpoint => '$baseUrl/api/auth/checkemail';  
   //homepage
-  static String get cardcafeendpoint => '$baseUrl/api/kafe/index';
+  static String get cardcafeendpoint => '$baseUrl/api/kafe/findAll';
+  //savecafe
+  static String get cardsaveendpoint => '$baseUrl/api/bookmark/findBookmarkByUser';
 }

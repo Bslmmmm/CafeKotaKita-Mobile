@@ -1,59 +1,45 @@
 // Features/Homepage/Utils/time_service.dart
 
 class TimeService {
-  // Get current time in minutes since midnight
   static int getCurrentTimeInMinutes() {
     final now = DateTime.now();
     return now.hour * 60 + now.minute;
   }
 
-  // Check if cafe is currently open based on operational hours
-  static bool isCafeOpenNow(String operationalHours) {
-    final currentTimeInMinutes = getCurrentTimeInMinutes();
-    return isCafeOpen(operationalHours, currentTimeInMinutes);
-  }
 
-  // Helper method to check if a cafe is open at a specific time (in minutes since midnight)
-  static bool isCafeOpen(String operationalHours, int timeInMinutes) {
-    // Parse operational hours like "05:00 - 22:00" (format 24 jam)
+  static bool isCafeOpenBySeparateFields(
+    String jambuka,
+    String jamtutup,
+    int timeInMinutes,
+  ) {
     try {
-      final parts = operationalHours.split(' - ');
-      if (parts.length != 2) return false;
-      
-      final openingTime = parseTimeString(parts[0]);
-      final closingTime = parseTimeString(parts[1]);
-      
-      if (openingTime == null || closingTime == null) return false;
-      
-      // Handle cases where closing time is on the next day (e.g., 22:00 - 02:00)
-      if (closingTime < openingTime) {
-        // If current time is after opening or before closing, cafe is open
-        return timeInMinutes >= openingTime || timeInMinutes <= closingTime;
+      final opening = parseTimeHHmmFromFull(jambuka);
+      final closing = parseTimeHHmmFromFull(jamtutup);
+
+      if (opening == null || closing == null) return false;
+
+      if (closing < opening) {
+        return timeInMinutes >= opening || timeInMinutes <= closing;
       } else {
-        // Normal case: if current time is between opening and closing, cafe is open
-        return timeInMinutes >= openingTime && timeInMinutes <= closingTime;
+        return timeInMinutes >= opening && timeInMinutes <= closing;
       }
     } catch (e) {
-      print('Error parsing operational hours: $e');
+      print('Error checking open status: $e');
       return false;
     }
   }
-  
-  // Helper method to parse time strings like "05:00" to minutes since midnight (format 24 jam)
-  static int? parseTimeString(String timeStr) {
+
+  // Ekstrak HH:mm dari string HH:mm:ss
+  static int? parseTimeHHmmFromFull(String timeStr) {
     try {
-      // Extract hour and minute from 24-hour format (HH:MM)
-      final regex = RegExp(r'(\d+):(\d+)');
-      final match = regex.firstMatch(timeStr);
-      
-      if (match != null) {
-        final hour = int.parse(match.group(1)!);
-        final minute = int.parse(match.group(2)!);
-        
-        // Validasi format waktu
-        if (hour >= 0 && hour < 24 && minute >= 0 && minute < 60) {
-          return hour * 60 + minute;
-        }
+      final parts = timeStr.split(':');
+      if (parts.length < 2) return null;
+
+      final hour = int.tryParse(parts[0]) ?? 0;
+      final minute = int.tryParse(parts[1]) ?? 0;
+
+      if (hour >= 0 && hour < 24 && minute >= 0 && minute < 60) {
+        return hour * 60 + minute;
       }
       return null;
     } catch (e) {

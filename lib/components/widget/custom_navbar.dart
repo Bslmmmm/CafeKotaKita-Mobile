@@ -26,27 +26,29 @@ class _CustomNavBarState extends State<CustomNavBar> {
   
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      decoration: BoxDecoration(
-        color: white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, -1),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildNavItem(0, Icons.home_outlined, 'Home'),
-          _buildNavItem(1, Icons.search, 'Search'),
-          _buildNavItem(2, Icons.bookmark, 'Bookmark'),
-          _buildNavItem(3, Icons.people_alt_outlined, 'People'),
-          _buildNavItem(4, Icons.person_outline, 'Profile'),
-        ],
+    return SafeArea(
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          color: white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -1),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildNavItem(0, Icons.home_outlined, 'Home'),
+            _buildNavItem(1, Icons.search, 'Search'),
+            _buildNavItem(2, Icons.bookmark, 'Bookmark'),
+            _buildNavItem(3, Icons.people_alt_outlined, 'People'),
+            _buildNavItem(4, Icons.person_outline, 'Profile'),
+          ],
+        ),
       ),
     );
   }
@@ -56,7 +58,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     
     return Container(
       width: 70,
-      height: 60,
+      height: 80,
       alignment: Alignment.center,
       child: Stack(
         alignment: Alignment.center,

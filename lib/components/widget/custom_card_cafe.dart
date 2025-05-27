@@ -6,7 +6,8 @@ class CustomCardCafe extends StatelessWidget {
   final String cafeimgurl;
   final String namacafe;
   final String lokasi;
-  final String operationalhour;
+  final String jambuka;
+  final String jamtutup;
   final double rating;
   final bool isOpen;
   final VoidCallback? onTap;
@@ -16,7 +17,8 @@ class CustomCardCafe extends StatelessWidget {
     required this.cafeimgurl,
     required this.namacafe,
     required this.lokasi,
-    required this.operationalhour,
+    required this.jambuka,
+    required this.jamtutup,
     required this.rating,
     this.isOpen = true,
     this.onTap,
@@ -37,45 +39,48 @@ class CustomCardCafe extends StatelessWidget {
         child: Row(
           children: [
             // Image Section
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-                image: DecorationImage(
-                  image: NetworkImage(cafeimgurl),
-                  fit: BoxFit.cover,
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  image: DecorationImage(
+                    image: NetworkImage(cafeimgurl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    bottom: 8,
-                    left: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: clrfont2,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.star, color: Colors.amber, size: 16),
-                          SizedBox(width: 4),
-                          Text(
-                            rating.toString(),
-                            style: TextStyle(
-                              color: white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      bottom: 8,
+                      left: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: clrfont2,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.star, color: Colors.amber, size: 16),
+                            SizedBox(width: 4),
+                            Text(
+                              rating.toString(),
+                              style: TextStyle(
+                                color: white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
 
@@ -141,7 +146,7 @@ class CustomCardCafe extends StatelessWidget {
                               Icon(Icons.access_time, color: white, size: 12),
                               SizedBox(width: 4),
                               Text(
-                                operationalhour,
+                                jambuka+'-'+jamtutup,
                                 style: AppTextStyles.interBody(
                                   color: white,
                                   fontSize: 12,

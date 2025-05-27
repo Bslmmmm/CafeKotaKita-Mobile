@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tugas_flutter/Features/Homepage/model/filter_cafe.dart';
-import 'package:tugas_flutter/Features/Homepage/model/cafe_data.dart';
+import 'package:tugas_flutter/Features/Homepage/model/model_homepage.dart';
 import '../Utils/time_service.dart';
 
 class CafeFilterManager extends ChangeNotifier {
@@ -36,29 +36,28 @@ class CafeFilterManager extends ChangeNotifier {
     if (_filterState.searchQuery.isNotEmpty) {
       final query = _filterState.searchQuery.toLowerCase();
       filteredCafes = filteredCafes.where((cafe) => 
-        cafe.cafeName.toLowerCase().contains(query) || 
-        cafe.location.toLowerCase().contains(query)
+        cafe.cafename.toLowerCase().contains(query) || 
+        cafe.alamat.toLowerCase().contains(query)
       ).toList();
     }
     
-    // Apply open-only filter if enabled
+
     if (_filterState.showOpenOnly) {
       final currentTimeInMinutes = TimeService.getCurrentTimeInMinutes();
       filteredCafes = filteredCafes.where((cafe) => 
-        TimeService.isCafeOpen(cafe.operationalHours, currentTimeInMinutes)
+        TimeService.isCafeOpenBySeparateFields(cafe.jambuka, cafe.jamtutup, currentTimeInMinutes)
       ).toList();
     }
     
-    // Apply top-rated filter if enabled
+
     if (_filterState.showTopRated) {
       filteredCafes.sort((a, b) => b.rating.compareTo(a.rating));
     }
     
-    // Apply nearest filter if enabled (placeholder for future implementation)
+
     if (_filterState.showNearest) {
-      // This would normally use location data to sort by distance
-      // For now, just sort alphabetically by location as a placeholder
-      filteredCafes.sort((a, b) => a.location.compareTo(b.location));
+// nanti diubah sesuai dengan lokasi user
+      filteredCafes.sort((a, b) => a.alamat.compareTo(b.alamat));
     }
     
     return filteredCafes;
