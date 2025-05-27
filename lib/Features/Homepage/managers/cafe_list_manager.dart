@@ -100,7 +100,7 @@ Future<void> loadCafes() async {
   // Search cafes by name or location
   List<CafeData> searchCafes(String query) {
     if (query.isEmpty) return _state.cafes;
-    
+
     final lowerQuery = query.toLowerCase();
     return _state.cafes.where((cafe) => 
       cafe.cafename.toLowerCase().contains(lowerQuery) || 

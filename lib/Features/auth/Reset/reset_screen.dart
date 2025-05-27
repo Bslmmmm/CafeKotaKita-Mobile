@@ -5,7 +5,7 @@ import 'package:tugas_flutter/Constant/textstyle.dart';
 import 'components/reset_form.dart';
 
 class ResetScreen extends StatelessWidget {
-  const ResetScreen({Key? key}) : super(key: key);
+  const ResetScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

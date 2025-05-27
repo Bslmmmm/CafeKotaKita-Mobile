@@ -9,7 +9,7 @@ import '../controller/signup_controller.dart';
 import 'package:get/get.dart';
 
 class SignUpForm extends StatefulWidget {
-  const SignUpForm({Key? key}) : super(key: key);
+  const SignUpForm({super.key});
 
   @override
   State<SignUpForm> createState() => _SignUpFormState();
@@ -41,7 +41,7 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   void initState() {
     super.initState();
-    
+
     // Setup debounce for each field
     _setupUsernameValidation();
     _setupEmailValidation();
@@ -142,7 +142,8 @@ class _SignUpFormState extends State<SignUpForm> {
 
     try {
       // Check username availability
-      final namaCheck = await _signupController.checkNamaAvailability(_usernameController.text);
+      final namaCheck = await _signupController
+          .checkNamaAvailability(_usernameController.text);
       if (!namaCheck['available']) {
         setState(() {
           _usernameError = namaCheck['message'] ?? 'Username tidak tersedia';
@@ -153,7 +154,8 @@ class _SignUpFormState extends State<SignUpForm> {
       }
 
       // Check email availability
-      final emailCheck = await _signupController.checkEmailAvailability(_emailController.text);
+      final emailCheck =
+          await _signupController.checkEmailAvailability(_emailController.text);
       if (!emailCheck['available']) {
         setState(() {
           _emailError = emailCheck['message'] ?? 'Email sudah terdaftar';
@@ -214,7 +216,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 40),
-                  
+
                   // Create Account Text - Left aligned with larger font size
                   Align(
                     alignment: Alignment.centerLeft,
@@ -226,7 +228,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                     ),
                   ),
-                  
+
                   // Subtitle - Left aligned
                   Align(
                     alignment: Alignment.centerLeft,
@@ -235,9 +237,9 @@ class _SignUpFormState extends State<SignUpForm> {
                       style: AppTextStyles.poppinsBody(color: clrfont2),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 40),
-                  
+
                   // Username Field Label
                   Align(
                     alignment: Alignment.centerLeft,
@@ -250,7 +252,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  
+
                   // Username Field
                   Container(
                     height: 50,
@@ -264,21 +266,23 @@ class _SignUpFormState extends State<SignUpForm> {
                       textInputAction: TextInputAction.next,
                       style: AppTextStyles.interBody(color: white),
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
                         border: InputBorder.none,
                         fillColor: primaryc,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.transparent),
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.transparent),
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         suffixIcon: null,
                       ),
-                      
                     ),
                   ),
 
@@ -297,9 +301,9 @@ class _SignUpFormState extends State<SignUpForm> {
                         ),
                       ),
                     ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Email Field Label
                   Align(
                     alignment: Alignment.centerLeft,
@@ -312,7 +316,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  
+
                   // Email Field
                   Container(
                     height: 50,
@@ -327,24 +331,26 @@ class _SignUpFormState extends State<SignUpForm> {
                       textInputAction: TextInputAction.next,
                       style: AppTextStyles.interBody(color: white),
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
                         border: InputBorder.none,
                         fillColor: primaryc,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.transparent),
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.transparent),
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         suffixIcon: null,
                       ),
-                      
                     ),
                   ),
-                  
+
                   // Email Error Message
                   if (_emailError != null)
                     Align(
@@ -360,9 +366,9 @@ class _SignUpFormState extends State<SignUpForm> {
                         ),
                       ),
                     ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Password Field Label
                   Align(
                     alignment: Alignment.centerLeft,
@@ -375,7 +381,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  
+
                   // Password Field
                   Container(
                     height: 50,
@@ -390,21 +396,26 @@ class _SignUpFormState extends State<SignUpForm> {
                       textInputAction: TextInputAction.done,
                       style: AppTextStyles.interBody(color: white),
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
                         border: InputBorder.none,
                         fillColor: primaryc,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.transparent),
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.transparent),
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             color: white,
                             size: 20,
                           ),
@@ -418,7 +429,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       validator: (value) => _passwordError,
                     ),
                   ),
-                  
+
                   // Password Error Message
                   if (_passwordError != null)
                     Align(
@@ -434,51 +445,51 @@ class _SignUpFormState extends State<SignUpForm> {
                         ),
                       ),
                     ),
-                  
+
                   const SizedBox(height: 32),
-                  
+
                   // Sign Up Button
                   Obx(() => SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: _signupController.isLoading.value ||
-                              _isCheckingUsername ||
-                              _isCheckingEmail
-                          ? null
-                          : _registerUser,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: white,
-                        foregroundColor: black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: _signupController.isLoading.value ||
-                              _isCheckingUsername ||
-                              _isCheckingEmail
-                          ? const SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                              ),
-                            )
-                          : Text(
-                              "Sign up",
-                              style: AppTextStyles.poppinsBody(
-                                color: black,
-                                weight: AppTextStyles.semiBold,
-                                fontSize: 20
-                              ),
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: _signupController.isLoading.value ||
+                                  _isCheckingUsername ||
+                                  _isCheckingEmail
+                              ? null
+                              : _registerUser,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: white,
+                            foregroundColor: black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                    ),
-                  )),
-                  
+                            elevation: 0,
+                          ),
+                          child: _signupController.isLoading.value ||
+                                  _isCheckingUsername ||
+                                  _isCheckingEmail
+                              ? const SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.black),
+                                  ),
+                                )
+                              : Text(
+                                  "Sign up",
+                                  style: AppTextStyles.poppinsBody(
+                                      color: black,
+                                      weight: AppTextStyles.semiBold,
+                                      fontSize: 20),
+                                ),
+                        ),
+                      )),
+
                   const SizedBox(height: 16),
-                  
+
                   // Already have an account
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -506,7 +517,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 40),
                 ],
               ),

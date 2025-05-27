@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
 
-
 class AlreadyHaveAnAccountCheck extends StatelessWidget {
   final bool login;
   final Function? press;
   const AlreadyHaveAnAccountCheck({
-    Key? key,
+    super.key,
     this.login = true,
     required this.press,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

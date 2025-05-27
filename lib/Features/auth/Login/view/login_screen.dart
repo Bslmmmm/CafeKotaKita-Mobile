@@ -4,7 +4,7 @@ import 'package:tugas_flutter/responsive.dart';
 import '../components/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
 }
 
 class MobileLoginScreen extends StatelessWidget {
-  const MobileLoginScreen({Key? key}) : super(key: key);
+  const MobileLoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class MobileLoginScreen extends StatelessWidget {
       children: const <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
-          child:LoginForm(),
+          child: LoginForm(),
         ),
       ],
     );

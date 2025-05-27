@@ -8,11 +8,11 @@ class OnboardingContent extends StatelessWidget {
   final String subtitle;
 
   const OnboardingContent({
-    Key? key,
+    super.key,
     required this.image,
     required this.title,
     required this.subtitle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +25,15 @@ class OnboardingContent extends StatelessWidget {
           title,
           textAlign: TextAlign.center,
           style: AppTextStyles.poppinsBody(
-            fontSize: 40,
-            weight: AppTextStyles.extrabold,
-            color: Colors.black
-          ),
+              fontSize: 40,
+              weight: AppTextStyles.extrabold,
+              color: Colors.black),
         ),
         Text(
           subtitle,
           textAlign: TextAlign.center,
           style: AppTextStyles.poppinsBody(
-            fontSize: 18,
-            weight: AppTextStyles.medium,
-            color: Colors.black
-          ),
+              fontSize: 18, weight: AppTextStyles.medium, color: Colors.black),
         ),
       ],
     );

@@ -135,4 +135,17 @@ class PostController {
       rethrow;
     }
   }
+
+  // Tambahkan jumlah view ke post
+  Future<void> incrementViewCount(String id) async {
+    try {
+      final postRef = _postCollection.doc(id);
+      await postRef.update({
+        'viewCount': FieldValue.increment(1),
+      });
+    } catch (e) {
+      print('Gagal menambah view count: $e');
+      rethrow;
+    }
+  }
 }

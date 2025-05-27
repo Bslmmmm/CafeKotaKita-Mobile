@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tugas_flutter/Constant/colors.dart';
 import 'package:tugas_flutter/Constant/textstyle.dart';
-import '../controller/otp_controller.dart';  // import controller ini
+import '../controller/otp_controller.dart'; // import controller ini
 
 class OtpForm extends StatelessWidget {
-  OtpForm({Key? key}) : super(key: key);
+  OtpForm({super.key});
 
   final OtpController controller = Get.put(OtpController());
 
@@ -58,26 +58,25 @@ class OtpForm extends StatelessWidget {
         const SizedBox(height: 32),
 
         // Resend OTP Button
-  Obx(() {
-  final isReadyToResend = controller.seconds.value == 0;
-  final isSending = controller.isSending.value;
+        Obx(() {
+          final isReadyToResend = controller.seconds.value == 0;
+          final isSending = controller.isSending.value;
 
-  return TextButton(
-    onPressed: isReadyToResend && !isSending ? controller.resendOtp : null,
-    child: Text(
-      isSending
-          ? "Sending..."
-          : isReadyToResend
-              ? "Resend OTP"
-              : "Resend OTP in ${Duration(seconds: controller.seconds.value).inMinutes.toString().padLeft(2, '0')}:${(controller.seconds.value % 60).toString().padLeft(2, '0')}",
-      style: AppTextStyles.poppinsBody(
-        color: isReadyToResend && !isSending ? white : clrfont2,
-      ),
-    ),
-  );
-})
-
-,
+          return TextButton(
+            onPressed:
+                isReadyToResend && !isSending ? controller.resendOtp : null,
+            child: Text(
+              isSending
+                  ? "Sending..."
+                  : isReadyToResend
+                      ? "Resend OTP"
+                      : "Resend OTP in ${Duration(seconds: controller.seconds.value).inMinutes.toString().padLeft(2, '0')}:${(controller.seconds.value % 60).toString().padLeft(2, '0')}",
+              style: AppTextStyles.poppinsBody(
+                color: isReadyToResend && !isSending ? white : clrfont2,
+              ),
+            ),
+          );
+        }),
 
         const SizedBox(height: 32),
 
@@ -98,9 +97,7 @@ class OtpForm extends StatelessWidget {
             child: Text(
               "Submit",
               style: AppTextStyles.poppinsBody(
-                  color: black,
-                  weight: AppTextStyles.semiBold,
-                  fontSize: 20),
+                  color: black, weight: AppTextStyles.semiBold, fontSize: 20),
             ),
           ),
         ),

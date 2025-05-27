@@ -19,60 +19,62 @@ class LoginController {
   });
 
   Future<void> login(BuildContext context) async {
-    final String login = loginController.text.trim();
-    final String password = passwordController.text.trim();
+  final String login = loginController.text.trim();
+  final String password = passwordController.text.trim();
 
-    if (login.isEmpty || password.isEmpty) {
-      _showErrorDialog("Username/Email dan password tidak boleh kosong");
-      return;
-    }
-
-    final url = Uri.parse(ApiConfig.loginendpoint);
-    final isEmail = login.contains("@");
-    Map<String, dynamic> loginBody = {};
-    if (isEmail) {
-      loginBody = {
-        "login": {"email": login}
-      };
-    } else {
-      loginBody = {
-        "login": {"nama": login}
-      };
-    }
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'login': loginBody, 'password': password}),
-      );
-      final data = jsonDecode(response.body);
-      await GetStorage().write(profileKey, jsonEncode(data['user']));
-      // print("Response: "+data.toString());
-      if (response.statusCode == 200) {
-        _showSuccessDialog(
-          "Login berhasil",
-          "Selamat datang ${data['user']['nama']}",
-          () {
-            Get.offAllNamed(AppRoutes.mainpage);
-          },
-        );
-      } else {
-        final message = data['message']?.toLowerCase() ?? '';
-
-        if (message.contains('user tidak ditemukan') ||
-            message.contains('email')) {
-          _showErrorDialog('Username/Email tidak terdaftar atau salah');
-        } else if (message.contains('password')) {
-          _showErrorDialog('Password salah');
-        } else {
-          _showErrorDialog('Login gagal: ${data['message']}');
-        }
-      }
-    } catch (e) {
-      _showErrorDialog('Terjadi kesalahan: $e');
-    }
+  if (login.isEmpty || password.isEmpty) {
+    _showErrorDialog("Username/Email dan password tidak boleh kosong");
+    return;
   }
 
+  final url = Uri.parse(ApiConfig.loginendpoint);
+  final isEmail = login.contains("@");
+  
+  // Perbaikan di sini - langsung buat struktur yang benar
+  Map<String, dynamic> requestBody = {
+    "password": password
+  };
+  
+  if (isEmail) {
+    requestBody["login"] = {"email": login};
+  } else {
+    requestBody["login"] = {"nama": login};
+  }
+
+  try {
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(requestBody), // langsung encode requestBody
+    );
+    
+    final data = jsonDecode(response.body);
+    await GetStorage().write(profileKey, jsonEncode(data['user']));
+    // print("Response: "+data.toString());
+    if (response.statusCode == 200) {
+      _showSuccessDialog(
+        "Login berhasil",
+        "Selamat datang ${data['user']['nama']}",
+        () {
+          Get.offAllNamed(AppRoutes.mainpage);
+        },
+      );
+    } else {
+      final message = data['message']?.toLowerCase() ?? '';
+
+      if (message.contains('user tidak ditemukan') ||
+          message.contains('email')) {
+        _showErrorDialog('Username/Email tidak terdaftar atau salah');
+      } else if (message.contains('password')) {
+        _showErrorDialog('Password salah');
+      } else {
+        _showErrorDialog('Login gagal: ${data['message']}');
+      }
+    }
+  } catch (e) {
+    _showErrorDialog('Terjadi kesalahan: $e');
+  }
+}
   void _showSuccessDialog(
       String title, String message, VoidCallback onOkPressed) {
     Get.dialog(

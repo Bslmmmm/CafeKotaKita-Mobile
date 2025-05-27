@@ -5,9 +5,10 @@ import 'package:tugas_flutter/Features/Onboarding/model/onboard_model.dart';
 class OnboardingController extends ChangeNotifier {
   final PageController pageController = PageController(initialPage: 0);
   int _currentPage = 0;
-  
+
   int get currentPage => _currentPage;
 
+  @override
   void dispose() {
     pageController.dispose();
     super.dispose();
