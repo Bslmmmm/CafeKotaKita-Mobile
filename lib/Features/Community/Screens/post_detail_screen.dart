@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:tugas_flutter/Features/Community/Models/post_model.dart';
+import 'package:KafeKotaKita/Features/Community/Models/post_model.dart';
 
 class PostDetailScreen extends StatefulWidget {
   final PostModel post;

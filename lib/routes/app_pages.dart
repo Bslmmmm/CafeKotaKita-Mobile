@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:tugas_flutter/Features/Onboarding/views/onboarding_page.dart';
-import 'package:tugas_flutter/Features/auth/Forgot/forgot_screen.dart';
-import 'package:tugas_flutter/Features/auth/Login/view/login_screen.dart';
-import 'package:tugas_flutter/Features/auth/Signup/signup_screen.dart';
-import 'package:tugas_flutter/Features/main_page.dart';
-import 'package:tugas_flutter/routes/app_routes.dart';
-import 'package:tugas_flutter/Features/auth/OTP/otp_screen.dart';
-import 'package:tugas_flutter/Features/auth/Reset/reset_screen.dart';
+import 'package:KafeKotaKita/Features/Onboarding/views/onboarding_page.dart';
+import 'package:KafeKotaKita/Features/auth/Forgot/forgot_screen.dart';
+import 'package:KafeKotaKita/Features/auth/Login/view/login_screen.dart';
+import 'package:KafeKotaKita/Features/auth/Signup/signup_screen.dart';
+import 'package:KafeKotaKita/Features/main_page.dart';
+import 'package:KafeKotaKita/routes/app_routes.dart';
+import 'package:KafeKotaKita/Features/auth/OTP/otp_screen.dart';
+import 'package:KafeKotaKita/Features/auth/Reset/reset_screen.dart';
 
 class AppPages {
   static final routes = [

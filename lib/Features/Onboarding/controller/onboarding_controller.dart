@@ -1,6 +1,6 @@
 // lib/features/onboarding/controller/onboarding_controller.dart
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Features/Onboarding/model/onboard_model.dart';
+import 'package:KafeKotaKita/Features/Onboarding/model/onboard_model.dart';
 
 class OnboardingController extends ChangeNotifier {
   final PageController pageController = PageController(initialPage: 0);

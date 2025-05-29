@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/Constant/textstyle.dart';
-import 'package:tugas_flutter/routes/app_routes.dart';
-import 'package:tugas_flutter/service/api_config.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:KafeKotaKita/Constant/textstyle.dart';
+import 'package:KafeKotaKita/routes/app_routes.dart';
+import 'package:KafeKotaKita/service/api_config.dart';
 import 'package:flutter/services.dart';
 
 

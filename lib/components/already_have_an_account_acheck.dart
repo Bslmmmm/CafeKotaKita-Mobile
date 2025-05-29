@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
 
 class AlreadyHaveAnAccountCheck extends StatelessWidget {
   final bool login;

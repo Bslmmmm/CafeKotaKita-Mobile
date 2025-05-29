@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tugas_flutter/routes/app_routes.dart';
+import 'package:KafeKotaKita/routes/app_routes.dart';
 import '../controller/onboarding_controller.dart';
 import 'onboarding_content.dart';
 

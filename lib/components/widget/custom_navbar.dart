@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
 
 class CustomNavBar extends StatefulWidget {
   final int initialSelectedIndex;

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:tugas_flutter/service/api_config.dart';
+import 'package:KafeKotaKita/service/api_config.dart';
 import '../model/model_homepage.dart';
 import '../Utils/cafe_status_updater.dart';
 // import '../Utils/time_service.dart';

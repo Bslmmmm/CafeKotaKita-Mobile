@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Features/main_page.dart';
+import 'package:KafeKotaKita/Features/main_page.dart';
 import 'Features/Homepage/views/test_homep.dart';
 
 void main() {

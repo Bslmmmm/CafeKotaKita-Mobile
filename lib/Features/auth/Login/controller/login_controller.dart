@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
-import 'package:tugas_flutter/Constant/constants.dart';
-import 'package:tugas_flutter/routes/app_routes.dart';
-import 'package:tugas_flutter/service/api_config.dart';
+import 'package:KafeKotaKita/Constant/constants.dart';
+import 'package:KafeKotaKita/routes/app_routes.dart';
+import 'package:KafeKotaKita/service/api_config.dart';
 import '../../../../Constant/colors.dart';
 import '../../../../Constant/textstyle.dart';
 

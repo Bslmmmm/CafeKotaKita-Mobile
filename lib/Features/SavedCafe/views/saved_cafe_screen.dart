@@ -1,10 +1,14 @@
+import 'package:KafeKotaKita/Constant/constants.dart';
+import 'package:KafeKotaKita/Features/SavedCafe/model/model_saved_cafe.dart';
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/Constant/textstyle.dart';
-import 'package:tugas_flutter/Features/SavedCafe/managers/list_saved.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:KafeKotaKita/Constant/textstyle.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../../../components/widget/custom_btnback.dart';
 import '../../../components/widget/custom_card_cafe.dart';
-import 'package:tugas_flutter/Features/Homepage/model/model_homepage.dart';
+import 'package:KafeKotaKita/service/api_config.dart';
 
 class SavedCafeScreen extends StatefulWidget {
   const SavedCafeScreen({super.key});
@@ -14,56 +18,93 @@ class SavedCafeScreen extends StatefulWidget {
 }
 
 class _SavedCafeScreenState extends State<SavedCafeScreen> {
-  late bookmarklistmanager _bmListManager;
+  List<SavedCafeItem> _savedCafes = [];
+  bool _isLoading = false;
 
-  List<CafeData>_displaybookmark=[];
-
-@override
+  @override
   void initState() {
-    _bmListManager.loadbookmark();
     super.initState();
+    _loadSavedCafes();
   }
 
-@override
-  void dispose() {
-    _bmListManager.dispose();
-    super.dispose();
+  Future<void> _loadSavedCafes() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final profileRaw = GetStorage().read(profileKey);
+      print('Raw profile: $profileRaw');
+
+      Map<String, dynamic> profile;
+
+      if (profileRaw is String) {
+        profile = jsonDecode(profileRaw); // decode dari string JSON ke Map
+      } else if (profileRaw is Map<String, dynamic>) {
+        profile = profileRaw;
+      } else {
+        throw Exception('Data profile dari storage tidak valid');
+      }
+
+      final userId = profile['id'];
+      print('User ID: $userId');
+
+      final response = await http
+          .get(Uri.parse('${ApiConfig.baseUrl}/findBookmarkByUser/$userId'));
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        final List<dynamic> data = json['data'];
+
+        final savedCafes =
+            data.map((item) => SavedCafeItem.fromJson(item)).toList();
+
+        setState(() {
+          _savedCafes = savedCafes;
+        });
+      } else {
+        // Tangani error response
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error saat load saved cafes: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: clrbg,
       body: Column(
         children: [
-
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          // Header Section
+          Container(
+            padding: const EdgeInsets.only(top: 40, bottom: 16),
+            color: clrbg,
             child: Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 16.0),
+                  padding: const EdgeInsets.only(left: 16.0),
                   child: const CustomBackButton(),
                 ),
-                const SizedBox(width: 16),
                 Expanded(
                   child: Container(
+                    margin: const EdgeInsets.only(left: 16, right: 16),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 16,
                     ),
                     decoration: BoxDecoration(
                       color: primaryc,
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(16),
-                        bottomRight: Radius.circular(16),
-                      ),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     child: Center(
                       child: Text(
-                        'Saved Cafee',
+                        'Saved Cafe',
                         style: AppTextStyles.montserratBody(
                           color: white,
                           fontSize: 20,
@@ -76,29 +117,41 @@ class _SavedCafeScreenState extends State<SavedCafeScreen> {
               ],
             ),
           ),
-      
-          // List cafe atau empty state
+
+          // Content Section
           Expanded(
-            child: savedCafes.isNotEmpty
-                ? ListView.builder(
-                    itemCount: savedCafes.length,
-                    itemBuilder: (context, index) {
-                      final cafe = savedCafes[index];
-                      return CustomCardCafe(
-                        cafeimgurl: caf,
-                        namacafe: cafe.,
-                        lokasi: cafe,
-                        jambuka: cafe.,
-                        jamtutup: cafe,
-                        rating: cafe.,
-                        isOpen: cafe.,
-                        onTap: () {
-                          print('Tapped on ${cafe['namacafe']}');
-                        },
-                      );
-                    },
+            child: _isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
                   )
-                : _buildEmptyState(),
+                : _savedCafes.isNotEmpty
+                    ? RefreshIndicator(
+                        onRefresh: _loadSavedCafes,
+                        color: primaryc,
+                        child: ListView.builder(
+                            padding: const EdgeInsets.only(top: 8, bottom: 16),
+                            itemCount: _savedCafes.length,
+                            itemBuilder: (context, index) {
+                              final cafe = _savedCafes[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: CustomCardCafe(
+                                  cafeimgurl: cafe.imageUrl,
+                                  namacafe: cafe.cafename,
+                                  lokasi: cafe.alamat,
+                                  jambuka: cafe.jambuka,
+                                  jamtutup: cafe.jamtutup,
+                                  rating: cafe.rating,
+                                  isOpen: cafe.isOpen,
+                                  onTap: () {
+                                    print('Cafe tapped: ${cafe.cafename}');
+                                    // Navigasi ke detail kalau diperlukan
+                                  },
+                                ),
+                              );
+                            }),
+                      )
+                    : _buildEmptyState(),
           ),
         ],
       ),
@@ -112,25 +165,57 @@ class _SavedCafeScreenState extends State<SavedCafeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 80,
-            height: 80,
+            width: 100,
+            height: 100,
             decoration: BoxDecoration(
-              color: primaryc,
-              borderRadius: BorderRadius.circular(40),
+              color: primaryc.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(50),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.bookmark_outline,
-              color: white,
-              size: 40,
+              color: primaryc,
+              size: 50,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
           Text(
-            'Tambahkan Cafe Baru',
+            'Belum Ada Cafe Tersimpan',
             style: AppTextStyles.poppinsBody(
               color: primaryc,
-              fontSize: 16,
-              weight: AppTextStyles.medium,
+              fontSize: 18,
+              weight: AppTextStyles.semiBold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Tambahkan cafe favorit kamu\nagar mudah ditemukan kembali',
+            textAlign: TextAlign.center,
+            style: AppTextStyles.interBody(
+              color: primaryc.withOpacity(0.7),
+              fontSize: 14,
+              weight: AppTextStyles.regular,
+            ),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context); // Kembali ke halaman sebelumnya
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: primaryc,
+              foregroundColor: white,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+            child: Text(
+              'Cari Cafe',
+              style: AppTextStyles.interBody(
+                color: white,
+                fontSize: 14,
+                weight: AppTextStyles.medium,
+              ),
             ),
           ),
         ],

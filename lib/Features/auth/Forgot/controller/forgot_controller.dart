@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:tugas_flutter/routes/app_routes.dart';
-import 'package:tugas_flutter/service/api_config.dart';
+import 'package:KafeKotaKita/routes/app_routes.dart';
+import 'package:KafeKotaKita/service/api_config.dart';
 
 class ForgotController extends GetxController {
   final formKey = GlobalKey<FormState>();

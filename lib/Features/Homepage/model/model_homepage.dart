@@ -1,4 +1,4 @@
-import 'package:tugas_flutter/service/api_config.dart';
+import 'package:KafeKotaKita/service/api_config.dart';
 
 class CafeData {
   final String id;

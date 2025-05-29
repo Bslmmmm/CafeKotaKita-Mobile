@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/Constant/textstyle.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:KafeKotaKita/Constant/textstyle.dart';
 import '../controller/reset_controller.dart';
 
 class ResetPasswordForm extends StatefulWidget {

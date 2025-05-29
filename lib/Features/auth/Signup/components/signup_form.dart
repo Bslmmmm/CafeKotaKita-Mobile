@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/routes/app_routes.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:KafeKotaKita/routes/app_routes.dart';
 import '../../../../Constant/textstyle.dart';
 import '../../Login/view/login_screen.dart';
 import '../controller/signup_controller.dart';

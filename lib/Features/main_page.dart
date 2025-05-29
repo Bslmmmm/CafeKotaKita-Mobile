@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Features/Community/Screens/feed_screen.dart';
-import 'package:tugas_flutter/components/widget/custom_navbar.dart';
-import 'package:tugas_flutter/Features/Homepage/views/test_homep.dart';
+import 'package:KafeKotaKita/Features/Community/Screens/feed_screen.dart';
+import 'package:KafeKotaKita/components/widget/custom_navbar.dart';
+import 'package:KafeKotaKita/Features/Homepage/views/test_homep.dart';
 import 'SavedCafe/views/saved_cafe_screen.dart';
 
 class MainPage extends StatefulWidget {
@@ -16,7 +16,6 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _pages = [
     HomepageView(),
-    // SavedCafeScreen(),
     SavedCafeScreen(),
     FeedScreen(),
   ];

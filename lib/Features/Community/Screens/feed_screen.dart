@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tugas_flutter/Features/Community/Screens/create_post_screen.dart';
-import 'package:tugas_flutter/Features/Community/Screens/post_detail_screen.dart';
-import 'package:tugas_flutter/Features/Community/Screens/profile_screen.dart';
-import 'package:tugas_flutter/Features/Community/Screens/search_screen.dart';
-import 'package:tugas_flutter/Features/Community/Widgets/navbar_top.dart';
-import 'package:tugas_flutter/Features/Community/Widgets/post_card.dart';
-import 'package:tugas_flutter/Features/Community/controllers/post_controller.dart';
-import 'package:tugas_flutter/Features/Community/Models/post_model.dart';
+import 'package:KafeKotaKita/Features/Community/Screens/create_post_screen.dart';
+import 'package:KafeKotaKita/Features/Community/Screens/post_detail_screen.dart';
+import 'package:KafeKotaKita/Features/Community/Screens/profile_screen.dart';
+import 'package:KafeKotaKita/Features/Community/Screens/search_screen.dart';
+import 'package:KafeKotaKita/Features/Community/Widgets/navbar_top.dart';
+import 'package:KafeKotaKita/Features/Community/Widgets/post_card.dart';
+import 'package:KafeKotaKita/Features/Community/controllers/post_controller.dart';
+import 'package:KafeKotaKita/Features/Community/Models/post_model.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
@@ -151,7 +151,6 @@ class _FeedScreenState extends State<FeedScreen> {
                           final post = posts[index];
                           return GestureDetector(
                             onTap: () async {
-                              // Tambahkan view count sebelum navigasi
                               await PostController()
                                   .incrementViewCount(post.id);
 

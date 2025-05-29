@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/Constant/textstyle.dart';
-import 'package:tugas_flutter/Features/Homepage/model/model_homepage.dart';
-import 'package:tugas_flutter/Features/Homepage/model/filter_cafe.dart';
-import 'package:tugas_flutter/components/widget/custom_button.dart';
-import 'package:tugas_flutter/components/widget/custom_card_cafe.dart';
-import 'package:tugas_flutter/components/widget/custom_searchbar.dart';
-import 'package:tugas_flutter/Features/Homepage/managers/cafe_list_manager.dart';
-import 'package:tugas_flutter/Features/Homepage/managers/cafe_filter_manager.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:KafeKotaKita/Constant/textstyle.dart';
+import 'package:KafeKotaKita/Features/Homepage/model/model_homepage.dart';
+import 'package:KafeKotaKita/Features/Homepage/model/filter_cafe.dart';
+import 'package:KafeKotaKita/components/widget/custom_button.dart';
+import 'package:KafeKotaKita/components/widget/custom_card_cafe.dart';
+import 'package:KafeKotaKita/components/widget/custom_searchbar.dart';
+import 'package:KafeKotaKita/Features/Homepage/managers/cafe_list_manager.dart';
+import 'package:KafeKotaKita/Features/Homepage/managers/cafe_filter_manager.dart';
 
 
 class HomepageView extends StatefulWidget {
@@ -47,7 +47,7 @@ class _HomepageViewState extends State<HomepageView> {
   @override
   void dispose() {
     searchController.dispose();
-    _cafeListManager.dispose();
+
     _filterManager.dispose();
     super.dispose();
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Features/Community/Controllers/post_controller.dart';
+import 'package:KafeKotaKita/Features/Community/Controllers/post_controller.dart';
 import '../Models/post_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:KafeKotaKita/service/api_config.dart';
 import '../models/user_model.dart';
-import '../service/service.dart';
+
 
 class ProfileController extends ChangeNotifier {
   UserModel? _user;
   bool _isLoading = false;
   String _error = '';
-  final ApiService _apiService = ApiService();
+  final ApiConfig _apiService = ApiConfig();
 
   UserModel? get user => _user;
   bool get isLoading => _isLoading;

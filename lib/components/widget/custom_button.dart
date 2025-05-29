@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Constant/textstyle.dart';
+import 'package:KafeKotaKita/Constant/textstyle.dart';
 
 class CustomHomeButton extends StatelessWidget {
   final String label;

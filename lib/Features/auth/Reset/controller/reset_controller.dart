@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:tugas_flutter/service/api_config.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/Constant/textstyle.dart';
+import 'package:KafeKotaKita/service/api_config.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:KafeKotaKita/Constant/textstyle.dart';
 
 class ResetPasswordController extends GetxController {
   final String email;

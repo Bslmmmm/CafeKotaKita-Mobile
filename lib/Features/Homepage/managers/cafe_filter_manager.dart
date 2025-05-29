@@ -1,8 +1,8 @@
 // Features/Homepage/Managers/cafe_filter_manager.dart
 
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Features/Homepage/model/filter_cafe.dart';
-import 'package:tugas_flutter/Features/Homepage/model/model_homepage.dart';
+import 'package:KafeKotaKita/Features/Homepage/model/filter_cafe.dart';
+import 'package:KafeKotaKita/Features/Homepage/model/model_homepage.dart';
 import '../Utils/time_service.dart';
 
 class CafeFilterManager extends ChangeNotifier {

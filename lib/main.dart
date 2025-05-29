@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/Constant/constants.dart';
-import 'package:tugas_flutter/routes/app_pages.dart';
-import 'package:tugas_flutter/routes/app_routes.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:KafeKotaKita/Constant/constants.dart';
+import 'package:KafeKotaKita/routes/app_pages.dart';
+import 'package:KafeKotaKita/routes/app_routes.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

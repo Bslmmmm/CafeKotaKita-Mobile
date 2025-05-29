@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/Constant/textstyle.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:KafeKotaKita/Constant/textstyle.dart';
 import 'components/forgot_form.dart';
 
 class ForgotScreen extends StatelessWidget {

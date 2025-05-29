@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/Constant/textstyle.dart';
-import 'package:tugas_flutter/Features/Profile/controller/profile_controller.dart';
-import 'package:tugas_flutter/components/widget/profile_list_tile.dart';
-import 'package:tugas_flutter/components/widget/widget_profile_card.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:KafeKotaKita/Constant/textstyle.dart';
+import 'package:KafeKotaKita/Features/Profile/controller/profile_controller.dart';
+import 'package:KafeKotaKita/components/widget/profile_list_tile.dart';
+import 'package:KafeKotaKita/components/widget/widget_profile_card.dart';
 
 
 class ProfileScreen extends StatefulWidget {

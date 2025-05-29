@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tugas_flutter/Constant/colors.dart';
-import 'package:tugas_flutter/responsive.dart';
+import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:KafeKotaKita/responsive.dart';
 import '../components/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
