@@ -1,3 +1,4 @@
+//ini class model_response.dart
 import 'package:KafeKotaKita/Features/SavedCafe/model/model_saved_cafe.dart';
 
 class SavedCafeResponse {

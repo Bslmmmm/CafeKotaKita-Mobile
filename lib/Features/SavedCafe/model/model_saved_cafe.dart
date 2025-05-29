@@ -1,3 +1,4 @@
+//ini class model_saved_cafe.dart
 import 'package:KafeKotaKita/service/api_config.dart';
 
 class SavedCafeItem {
