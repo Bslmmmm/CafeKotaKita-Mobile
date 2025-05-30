@@ -148,4 +148,6 @@ class PostController {
       rethrow;
     }
   }
+
+  increaseViewCount(String id) {}
 }
