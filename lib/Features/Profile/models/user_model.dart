@@ -8,24 +8,22 @@ class UserModel {
     required this.username,
     required this.email,
     required this.phoneNumber,
-    this.profileImage = '',
+    required this.profileImage,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      username: json['username'] ?? '',
-      email: json['email'] ?? '',
-      phoneNumber: json['phone_number'] ?? '',
-      profileImage: json['profile_image'] ?? '',
-    );
-  }
+    // Ambil foto profil dari key 'foto_profil_url' (sama dengan Laravel response)
+    // Jika null atau kosong, fallback ke asset lokal
+    String? fotoProfilUrl = json['foto_profil_url'];
+    String profileImage = (fotoProfilUrl != null && fotoProfilUrl.isNotEmpty)
+        ? fotoProfilUrl
+        : 'assets/images/profile.jpg';
 
-  Map<String, dynamic> toJson() {
-    return {
-      'username': username,
-      'email': email,
-      'phone_number': phoneNumber,
-      'profile_image': profileImage,
-    };
+    return UserModel(
+      username: json['nama'] ?? 'No Name',
+      email: json['email'] ?? 'No Email',
+      phoneNumber: json['no_telp'] ?? 'No Phone', // samakan key dengan API Laravel
+      profileImage: profileImage,
+    );
   }
 }

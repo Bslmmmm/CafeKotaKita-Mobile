@@ -1,206 +1,172 @@
+import 'package:KafeKotaKita/Features/Profile/controller/profile_controller.dart';
+import 'package:KafeKotaKita/Features/Profile/models/user_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 import 'package:KafeKotaKita/Constant/colors.dart';
 import 'package:KafeKotaKita/Constant/textstyle.dart';
-import 'package:KafeKotaKita/Features/Profile/controller/profile_controller.dart';
+import 'package:KafeKotaKita/routes/app_routes.dart';
 import 'package:KafeKotaKita/components/widget/profile_list_tile.dart';
 import 'package:KafeKotaKita/components/widget/widget_profile_card.dart';
 
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Memuat data profil saat halaman dimuat
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ProfileController>().getUserProfile();
-    });
-  }
+class ProfileScreen extends StatelessWidget {
+  ProfileScreen({super.key});
+  final ProfileController controller = ProfileController();
 
   @override
   Widget build(BuildContext context) {
+    final UserModel? user = controller.getUser();
+
+    if (user == null) {
+      return Scaffold(
+        body: Center(
+          child: Text(
+            "User data not found",
+            style: AppTextStyles.interBody(color: primaryc),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: clrbg,
       body: SafeArea(
-        child: Consumer<ProfileController>(
-          builder: (context, controller, _) {
-            if (controller.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (controller.error.isNotEmpty) {
-              return Center(
-                child: Text(
-                  'Error: ${controller.error}',
-                  style:  AppTextStyles.interBody(
-                    color: white,
-                    fontSize: 20,
-                    weight: AppTextStyles.bold
-                    ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text('Profile',
+                      style: AppTextStyles.montserratBody(
+                        fontSize: 24,
+                        weight: AppTextStyles.bold,
+                        color: primaryc,
+                      )),
                 ),
-              );
-            }
-
-            final user = controller.user;
-            if (user == null) {
-              return const Center(child: Text('No user data found'));
-            }
-
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Back Button dan Title
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                          Text(
-                          'Profil Saya',
-                          style: AppTextStyles.montserratBody(
-                            fontSize: 24,
-                            weight: AppTextStyles.bold,
-                            color: primaryc
+              ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(50.0),
+                      child: user.profileImage.startsWith('http')
+                          ? Image.network(
+                              user.profileImage,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => const Icon(Icons.person, size: 80),
+                            )
+                          : Image.asset(
+                              user.profileImage,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => const Icon(Icons.person, size: 80),
                             ),
-                        ),
-                      ],
                     ),
-                  ),
-
-                  // Profile Header
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Row(
-                      children: [
-                        // Profile Image
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(50.0),
-                          child: Image.asset(
-                            user.profileImage,
-                            width: 80.0,
-                            height: 80.0,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                width: 80.0,
-                                height: 80.0,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(50.0),
-                                ),
-                                child: const Icon(
-                                  Icons.person,
-                                  size: 50.0,
-                                  color: Colors.grey,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16.0),
-                        // User Info
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                user.username,
-                                style:  AppTextStyles.interBody(
-                                  fontSize: 20.0,
-                                  weight: AppTextStyles.bold,
-                                  color: primaryc
-                                ),
-                              ),
-                              const SizedBox(height: 4.0),
-                              Text(
-                                user.email,
-                                style: AppTextStyles.interBody(
-                                  fontSize: 14.0,
-                                  weight: AppTextStyles.regular,
-                                  color: primaryc,
-                                ),
-                              ),
-                              const SizedBox(height: 4.0),
-                              Text(
-                                user.phoneNumber,
-                                  style: AppTextStyles.interBody(
-                                  fontSize: 14.0,
-                                  weight: AppTextStyles.regular,
-                                  color: primaryc,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 24.0),
-
-                  // Saved Cafee Card
-                  ProfileCard(
-                    children: [
-                      ProfileListTile(
-                        icon: Icons.bookmark,
-                        title: 'Saved Cafee',
-                        onTap: () => controller.navigateToSavedCafes(context),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(user.username,
+                              style: AppTextStyles.interBody(
+                                  fontSize: 20, weight: AppTextStyles.bold, color: primaryc)),
+                          Text(user.email,
+                              style: AppTextStyles.interBody(
+                                  fontSize: 14, weight: AppTextStyles.regular, color: primaryc)),
+                          Text(user.phoneNumber,
+                              style: AppTextStyles.interBody(
+                                  fontSize: 14, weight: AppTextStyles.regular, color: primaryc)),
+                        ],
                       ),
-                    ],
-                  ),
-
-                  // Account Settings Card
-                  ProfileCard(
-                    children: [
-                      ProfileListTile(
-                        icon: Icons.edit,
-                        title: 'Edit Profile',
-                        onTap: () => controller.navigateToEditProfile(context),
-                      ),
-                      const ProfileDivider(),
-                      ProfileListTile(
-                        icon: Icons.delete,
-                        title: 'Delete Account',
-                        onTap: () => controller.deleteAccount(context),
-                      ),
-                      const ProfileDivider(),
-                      ProfileListTile(
-                        icon: Icons.logout,
-                        title: 'Log Out',
-                        onTap: () => controller.logout(context),
-                      ),
-                    ],
-                  ),
-
-                  // About & Contact Card
-                  ProfileCard(
-                    children: [
-                      ProfileListTile(
-                        icon: Icons.info,
-                        title: 'About Cafe Kota Kita',
-                        onTap: () => controller.navigateToAboutCafe(context),
-                      ),
-                      const ProfileDivider(),
-                      ProfileListTile(
-                        icon: Icons.phone,
-                        title: 'Contact Us',
-                        onTap: () => controller.navigateToContactUs(context),
-                      ),
-                    ],
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              ProfileCard(
+                children: [
+                  ProfileListTile(
+                    icon: Icons.bookmark,
+                    title: 'Saved Cafee',
+                    onTap: () => Get.toNamed(AppRoutes.savedcafe),
                   ),
                 ],
               ),
-            );
-          },
+              ProfileCard(
+                children: [
+                  ProfileListTile(
+                    icon: Icons.edit,
+                    title: 'Edit Profile',
+                    onTap: () => Get.toNamed(AppRoutes.editprofile),
+                  ),
+                  const ProfileDivider(),
+                  ProfileListTile(
+                    icon: Icons.lock_reset,
+                    title: 'Reset Password',
+                    onTap: () => Get.toNamed(AppRoutes.forgotpass),
+                  ),
+                  const ProfileDivider(),
+                  ProfileListTile(
+                    icon: Icons.logout,
+                    title: 'Log Out',
+                    onTap: () => _logout(context),
+                  ),
+                ],
+              ),
+              ProfileCard(
+                children: [
+                  ProfileListTile(
+                    icon: Icons.info,
+                    title: 'About Cafe Kota Kita',
+                    onTap: () => Get.toNamed(AppRoutes.aboutcafe),
+                  ),
+                  const ProfileDivider(),
+                  ProfileListTile(
+                    icon: Icons.phone,
+                    title: 'Contact Us',
+                    onTap: () => Get.toNamed(AppRoutes.contactus),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  void _logout(BuildContext context) {
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: primaryc,
+        title: Text("Logout", style: AppTextStyles.montserratH1(color: white)),
+        content: Text("Apakah Anda yakin ingin keluar?",
+            style: AppTextStyles.poppinsBody(color: clrfont2)),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text("Batal",
+                style: AppTextStyles.poppinsBody(color: white, weight: AppTextStyles.semiBold)),
+          ),
+          TextButton(
+            onPressed: () {
+              controller.logout();
+              Get.offAllNamed(AppRoutes.login);
+            },
+            child: Text("Keluar",
+                style: AppTextStyles.poppinsBody(color: white, weight: AppTextStyles.semiBold)),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
     );
   }
 }

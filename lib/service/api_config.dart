@@ -1,7 +1,7 @@
 //ini class api_config.dart
 
 class ApiConfig {
-  static const String devBaseUrl = '192.168.1.10';  
+  static const String devBaseUrl = '192.168.1.5';  
   static const int port = 8000; 
   static const String protocol = 'http'; 
 
@@ -21,4 +21,7 @@ class ApiConfig {
   static String get cardcafeendpoint => '$baseUrl/api/kafe/findAll';
   //savecafe
   static String get cardsaveendpoint => '$baseUrl/api/bookmark/findBookmarkByUser';
+  //profile
+  static String updateProfileEndpoint(String id) => '$baseUrl/api/user/update/$id';
+
 }

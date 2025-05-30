@@ -1,3 +1,7 @@
+import 'package:KafeKotaKita/Features/Profile/view/pageProfile/about_profile.dart';
+import 'package:KafeKotaKita/Features/Profile/view/pageProfile/contact_profile.dart';
+import 'package:KafeKotaKita/Features/Profile/view/pageProfile/edit_profile.dart';
+import 'package:KafeKotaKita/Features/SavedCafe/views/saved_cafe_screen.dart';
 import 'package:get/get.dart';
 import 'package:KafeKotaKita/Features/Onboarding/views/onboarding_page.dart';
 import 'package:KafeKotaKita/Features/auth/Forgot/forgot_screen.dart';
@@ -17,7 +21,9 @@ class AppPages {
     GetPage(name: AppRoutes.resetpassword, page: () => ResetScreen()),
     GetPage(name: AppRoutes.signup, page: () => SignUpScreen()),
     GetPage(name: AppRoutes.forgotpass, page: () => ForgotScreen()),
-
-    
+    GetPage(name: AppRoutes.savedcafe, page: () => SavedCafeScreen()),
+    GetPage(name: AppRoutes.aboutcafe, page: () => AboutCafePage()),
+    GetPage(name: AppRoutes.contactus, page: () => ContactUsPage()),
+    GetPage(name: AppRoutes.editprofile, page: () => EditProfilePage()),
   ];
 }

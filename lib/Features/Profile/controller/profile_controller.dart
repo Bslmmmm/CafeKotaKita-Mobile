@@ -1,113 +1,30 @@
-import 'package:flutter/material.dart';
-import 'package:KafeKotaKita/service/api_config.dart';
+import 'dart:convert';
+import 'package:get_storage/get_storage.dart';
+import 'package:KafeKotaKita/Constant/constants.dart';
 import '../models/user_model.dart';
 
+class ProfileController {
+  final storage = GetStorage();
 
-class ProfileController extends ChangeNotifier {
-  UserModel? _user;
-  bool _isLoading = false;
-  String _error = '';
-  final ApiConfig _apiService = ApiConfig();
+  UserModel? getUser() {
+    final userDataRaw = storage.read(profileKey);
+    if (userDataRaw == null) return null;
 
-  UserModel? get user => _user;
-  bool get isLoading => _isLoading;
-  String get error => _error;
-
-  Future<void> getUserProfile() async {
     try {
-      _isLoading = true;
-      notifyListeners();
-      
-      // Simulasi data karena belum ada API yang terintegrasi
-      // Nantinya akan memanggil API service untuk mendapatkan data user
-      await Future.delayed(const Duration(seconds: 1));
-      
-      _user = UserModel(
-        username: 'arielrezka',
-        email: 'e41231126@student.polije.ac.id',
-        phoneNumber: '+6285748695683',
-        profileImage: 'assets/images/profile.jpg',
-      );
-      
-      _isLoading = false;
-      notifyListeners();
-    } catch (e) {
-      _isLoading = false;
-      _error = e.toString();
-      notifyListeners();
+      final userData = userDataRaw is String ? jsonDecode(userDataRaw) : userDataRaw;
+      if (userData is Map) {
+        // Cast ke Map<String, dynamic> supaya aman
+        final Map<String, dynamic> userMap = userData.cast<String, dynamic>();
+        return UserModel.fromJson(userMap);
+      }
+    } catch (_) {
+      return null;
     }
+
+    return null;
   }
 
-  void navigateToSavedCafes(BuildContext context) {
-    // Implementasi navigasi ke halaman Saved Cafes
-    debugPrint('Navigate to Saved Cafes');
-  }
-
-  void navigateToEditProfile(BuildContext context) {
-    // Implementasi navigasi ke halaman Edit Profile
-    debugPrint('Navigate to Edit Profile');
-  }
-
-  Future<void> deleteAccount(BuildContext context) async {
-    // Implementasi delete account
-    // Tampilkan dialog konfirmasi dulu
-    final result = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Hapus Akun'),
-        content: const Text('Apakah Anda yakin ingin menghapus akun?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Batal'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Hapus'),
-          ),
-        ],
-      ),
-    );
-
-    if (result == true) {
-      // Panggil API untuk hapus akun
-      debugPrint('Delete Account');
-    }
-  }
-
-  void logout(BuildContext context) {
-    // Implementasi logout
-    // Tampilkan dialog konfirmasi dulu
-    showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Logout'),
-        content: const Text('Apakah Anda yakin ingin keluar?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Batal'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, true);
-              // Implementasi logout
-              debugPrint('Logout');
-            },
-            child: const Text('Keluar'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void navigateToAboutCafe(BuildContext context) {
-    // Implementasi navigasi ke halaman About Cafe
-    debugPrint('Navigate to About Cafe');
-  }
-
-  void navigateToContactUs(BuildContext context) {
-    // Implementasi navigasi ke halaman Contact Us
-    debugPrint('Navigate to Contact Us');
+  void logout() {
+    storage.remove(profileKey);
   }
 }
