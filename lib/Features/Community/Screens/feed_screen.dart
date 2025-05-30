@@ -157,7 +157,10 @@ class _FeedScreenState extends State<FeedScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => PostDetailScreen(post: post),
+                                  builder: (_) => PostDetailScreen(
+                                    post: post,
+                                    postId: '',
+                                  ),
                                 ),
                               );
                             },

@@ -3,6 +3,9 @@ import 'package:KafeKotaKita/Features/Community/Controllers/post_controller.dart
 import '../Models/post_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../Screens/comments_screen.dart';
+import '../Screens/post_detail_screen.dart';
+import '../Controllers/repost_controller.dart';
 
 class PostCard extends StatefulWidget {
   final PostModel post;
@@ -35,7 +38,6 @@ class _PostCardState extends State<PostCard> {
       await PostController().toggleLike(widget.post.id, currentUserId);
     } catch (e) {
       print("Error toggle like: $e");
-      // Optional: Kembalikan state jika gagal
       setState(() {
         isLiked = !isLiked;
         likeCount += isLiked ? 1 : -1;
@@ -46,6 +48,39 @@ class _PostCardState extends State<PostCard> {
   void onShare() {
     final text = widget.post.caption;
     Share.share(text);
+  }
+
+  void goToComments() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CommentScreen(postId: widget.post.id),
+      ),
+    );
+  }
+
+  void retweetPost() async {
+    try {
+      RepostController().retweetPost(widget.post.id, currentUserId);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Berhasil me-retweet.")),
+      );
+    } catch (e) {
+      print("Error retweet: $e");
+    }
+  }
+
+  void openPostDetail() async {
+    await PostController().increaseViewCount(widget.post.id);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PostDetailScreen(
+          post: widget.post,
+          postId: '',
+        ),
+      ),
+    );
   }
 
   Widget _buildAction(IconData icon, int count, VoidCallback? onTap,
@@ -105,16 +140,27 @@ class _PostCardState extends State<PostCard> {
                   ],
                 ),
                 const SizedBox(height: 4),
-                Text(post.caption),
-                const SizedBox(height: 6),
-                if (post.imageUrl != null)
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      post.imageUrl!,
-                      fit: BoxFit.cover,
-                    ),
+
+                /// --> KONTEN UTAMA DIBUNGKUS INKWELL UNTUK ARAHKAN KE DETAIL
+                InkWell(
+                  onTap: openPostDetail,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(post.caption),
+                      const SizedBox(height: 6),
+                      if (post.imageUrl != null)
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            post.imageUrl!,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                    ],
                   ),
+                ),
+
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -137,12 +183,9 @@ class _PostCardState extends State<PostCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildAction(Icons.comment_outlined, post.commentCount, () {
-                      // Navigasi ke komentar
-                    }),
-                    _buildAction(Icons.repeat, post.retweetCount, () {
-                      // Aksi retweet
-                    }),
+                    _buildAction(Icons.comment_outlined, post.commentCount,
+                        goToComments),
+                    _buildAction(Icons.repeat, post.retweetCount, retweetPost),
                     _buildAction(
                       isLiked ? Icons.favorite : Icons.favorite_border,
                       likeCount,

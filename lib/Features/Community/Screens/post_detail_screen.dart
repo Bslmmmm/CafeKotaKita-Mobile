@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:KafeKotaKita/Features/Community/Models/post_model.dart';
 
 class PostDetailScreen extends StatefulWidget {
   final PostModel post;
 
-  const PostDetailScreen({super.key, required this.post});
+  const PostDetailScreen(
+      {super.key, required this.post, required String postId});
 
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
@@ -141,8 +143,18 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                         final data = comment.data() as Map<String, dynamic>;
                         return ListTile(
                           contentPadding: EdgeInsets.zero,
-                          leading:
-                              const CircleAvatar(child: Icon(Icons.person)),
+                          leading: CircleAvatar(
+                            backgroundImage: data['profileImageUrl'] != null &&
+                                    data['profileImageUrl']
+                                        .toString()
+                                        .isNotEmpty
+                                ? NetworkImage(data['profileImageUrl'])
+                                : null,
+                            child: (data['profileImageUrl'] == null ||
+                                    data['profileImageUrl'].toString().isEmpty)
+                                ? const Icon(Icons.person)
+                                : null,
+                          ),
                           title: Text(data['username'] ?? 'Anonim'),
                           subtitle: Text(data['text'] ?? ''),
                           trailing: Text(
@@ -209,6 +221,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     final commentText = _commentController.text.trim();
     if (commentText.isEmpty) return;
 
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
     try {
       await _firestore
           .collection('posts')
@@ -216,8 +231,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           .collection('comments')
           .add({
         'text': commentText,
-        'userId': 'dummyUserId', // ganti nanti dengan FirebaseAuth
-        'username': 'dummyUsername', // ganti nanti dengan FirebaseAuth
+        'userId': user.uid,
+        'username': user.displayName ?? 'Pengguna',
+        'profileImageUrl': user.photoURL ?? '',
         'timestamp': Timestamp.now(),
       });
 

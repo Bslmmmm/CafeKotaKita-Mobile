@@ -8,5 +8,9 @@ class AppRoutes{
   static const verifyotp = '/otp';
   static const signup = '/signup';
   static const forgotpass = '/forgot';
+  static const savedcafe = '/savedcafe';
+  static const aboutcafe = '/aboutcafe';
+  static const contactus = '/contactus';
+  static const editprofile = '/editprofile';
   
 }
