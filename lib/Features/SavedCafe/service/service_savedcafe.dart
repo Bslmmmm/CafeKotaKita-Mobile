@@ -17,15 +17,15 @@ class SavedCafeService {
     try {
       // Get user ID from storage
       final userId = await _getUserId();
-      print('$_tag: Loading saved cafes for user: $userId');
+      // print('$_tag: Loading saved cafes for user: $userId');
       
       // Fetch from repository
       final savedCafes = await _repository.fetchSavedCafes(userId);
       
-      print('$_tag: Successfully loaded ${savedCafes.length} saved cafes');
+      // print('$_tag: Successfully loaded ${savedCafes.length} saved cafes');
       return savedCafes;
     } catch (e) {
-      print('$_tag: Error loading saved cafes: $e');
+      // print('$_tag: Error loading saved cafes: $e');
       rethrow;
     }
   }
@@ -33,7 +33,7 @@ class SavedCafeService {
   Future<String> _getUserId() async {
     try {
       final profileRaw = GetStorage().read(profileKey);
-      print('$_tag: Raw profile from storage: $profileRaw');
+      // print('$_tag: Raw profile from storage: $profileRaw');
 
       if (profileRaw == null) {
         throw Exception('Profile not found in storage');
@@ -48,7 +48,7 @@ class SavedCafeService {
       
       return userId;
     } catch (e) {
-      print('$_tag: Error getting user ID: $e');
+      // print('$_tag: Error getting user ID: $e');
       throw Exception('Failed to get user ID: $e');
     }
   }

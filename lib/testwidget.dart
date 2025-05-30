@@ -1,3 +1,4 @@
+import 'package:KafeKotaKita/Features/DetailCafe/widgets/detail_header.dart';
 import 'package:flutter/material.dart';
 import 'package:KafeKotaKita/Features/main_page.dart';
 import 'Features/Homepage/views/test_homep.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: MainPage(),
+      home: DetailCafeHeader(),
     );
   }
 }

@@ -9,8 +9,8 @@ class CustomHomeButton extends StatelessWidget {
   final Color iconColor;
   final Color textColor;
   final double borderRadius;
-  final double width;
-  final double height;
+  // final double width;
+  // final double height;
   final TextStyle? textStyle;
 
   const CustomHomeButton({
@@ -22,42 +22,43 @@ class CustomHomeButton extends StatelessWidget {
     this.iconColor = Colors.black,
     this.textColor = Colors.black,
     this.borderRadius = 10,
-    this.width = 120,
-    this.height = 50,
+    // this.width = 120,
+    // this.height = 50,
     this.textStyle,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: height,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(icon, color: iconColor, size: 20),
-            const SizedBox(width: 8),
-            Text(
+        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: iconColor, size: 20),
+          const SizedBox(width: 5),
+          Flexible(
+            child: Text(
               label,
-              textAlign: TextAlign.left,
               style: textStyle ??
                   AppTextStyles.interBody(
                     color: textColor,
                     weight: AppTextStyles.semiBold,
+                    fontSize: 14
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
