@@ -1,14 +1,17 @@
 //ini class api_config.dart
 
 class ApiConfig {
-  static const String devBaseUrl = '192.168.1.16';  
-  static const int port = 8000; 
-  static const String protocol = 'http'; 
+  static const String devBaseUrl = '192.168.1.5';
+  static const int port = 8000;
+  static const String protocol = 'http';
+
+  static var headers;
 
   static String get baseUrl {
     return '$protocol://$devBaseUrl:$port';
   }
 
+  static const Duration timeout = Duration(seconds: 30);
   //auth
   static String get verifyOtpEndpoint => '$baseUrl/api/auth/verifyOtp';
   static String get loginendpoint => '$baseUrl/api/auth/login';
@@ -16,12 +19,18 @@ class ApiConfig {
   static String get forgotpasendpoint => '$baseUrl/api/auth/forgotpassword';
   static String get resetpasswordendpoint => '$baseUrl/api/auth/resetpassword';
   static String get checkusernameendpoint => '$baseUrl/api/auth/checkusername';
-  static String get checkemailendpoint => '$baseUrl/api/auth/checkemail';  
+  static String get checkemailendpoint => '$baseUrl/api/auth/checkemail';
   //homepage
   static String get cardcafeendpoint => '$baseUrl/api/kafe/findAll';
   //savecafe
-  static String get cardsaveendpoint => '$baseUrl/api/bookmark/findBookmarkByUser';
+  static String get cardsaveendpoint =>
+      '$baseUrl/api/bookmark/findBookmarkByUser';
   //profile
-  static String updateProfileEndpoint(String id) => '$baseUrl/api/user/update/$id';
-
+  static String updateProfileEndpoint(String id) =>
+      '$baseUrl/api/user/update/$id';
+  //leaderboard
+  static String get leaderboardWeeklyEndpoint =>
+      '$baseUrl/api/leaderboard/weekly';
+  static String get leaderboardUpdateEndpoint =>
+      '$baseUrl/api/leaderboard/update-weekly';
 }
