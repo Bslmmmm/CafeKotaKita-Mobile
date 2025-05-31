@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 
 class CustomCarousel extends StatefulWidget {
-  // final List<String> imgUrl;
   final List<CarouselItemData> items; 
   final double height;
   final BoxFit fit;

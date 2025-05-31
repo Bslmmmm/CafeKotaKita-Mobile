@@ -398,7 +398,6 @@ class _HomepageViewState extends State<HomepageView> {
           isOpen: cafe.isOpen,
           onTap: () {
             //<====== future cafe detail =======>
-            print('Selected cafe: ${cafe.cafename}');
           },
         );
       },
