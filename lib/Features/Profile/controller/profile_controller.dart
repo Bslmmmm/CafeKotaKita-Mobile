@@ -1,30 +1,46 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:KafeKotaKita/Constant/constants.dart';
 import '../models/user_model.dart';
 
-class ProfileController {
+class ProfileController extends GetxController {
   final storage = GetStorage();
 
-  UserModel? getUser() {
+  // Observable user
+  var user = Rxn<UserModel>();
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadUser();
+  }
+
+  void loadUser() {
     final userDataRaw = storage.read(profileKey);
-    if (userDataRaw == null) return null;
+    if (userDataRaw == null) {
+      user.value = null;
+      return;
+    }
 
     try {
       final userData = userDataRaw is String ? jsonDecode(userDataRaw) : userDataRaw;
       if (userData is Map) {
-        // Cast ke Map<String, dynamic> supaya aman
         final Map<String, dynamic> userMap = userData.cast<String, dynamic>();
-        return UserModel.fromJson(userMap);
+        user.value = UserModel.fromJson(userMap);
       }
     } catch (_) {
-      return null;
+      user.value = null;
     }
+  }
 
-    return null;
+  // Method untuk refresh (reload dari GetStorage)
+  void refreshUser() {
+    loadUser();
   }
 
   void logout() {
     storage.remove(profileKey);
+    user.value = null;
   }
 }

@@ -1,7 +1,7 @@
 //ini class api_config.dart
 
 class ApiConfig {
-  static const String devBaseUrl = '192.168.1.5';
+  static const String devBaseUrl = '192.168.1.21';
   static const int port = 8000;
   static const String protocol = 'http';
 
@@ -26,11 +26,24 @@ class ApiConfig {
   static String get cardsaveendpoint =>
       '$baseUrl/api/bookmark/findBookmarkByUser';
   //profile
-  static String updateProfileEndpoint(String id) =>
-      '$baseUrl/api/user/update/$id';
+  static String updateProfileEndpoint(String id) =>'$baseUrl/api/user/update/$id';
   //leaderboard
   static String get leaderboardWeeklyEndpoint =>
       '$baseUrl/api/leaderboard/weekly';
   static String get leaderboardUpdateEndpoint =>
       '$baseUrl/api/leaderboard/update-weekly';
+      
+  // Detail kafe
+static  String get kafeDetail => '$baseUrl/api/kafe/detail/';
+static String get findBookmark => '$baseUrl/api/bookmark/findBookmarkByUser';
+static String get addBookmark => '$baseUrl/api/bookmark/addBookmark';
+static  String get removeBookmark => '$baseUrl/api/bookmark/removeBookmark';
+static  String get addRating => '$baseUrl/api/rating/addRate';
+static  String get checkBookmark => '$baseUrl/api/bookmark/check';
+
+
+// Storage (untuk gambar)
+static String storageImage(String imagePath) =>
+    '$baseUrl/storage/$imagePath';
+
 }

@@ -49,13 +49,19 @@ class LoginController {
 
       final data = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        await GetStorage().write(profileKey, data['user']); // Simpan langsung sebagai Map
-        _showSuccessDialog(
-          "Login berhasil",
-          "Selamat datang ${data['user']['nama']}",
-          () => Get.offAllNamed(AppRoutes.mainpage),
-        );
-      } else {
+  await GetStorage().write(profileKey, data['user']); // Simpan user
+
+  if (data['bookmarked_cafes'] != null) {
+    await GetStorage().write('bookmarked_cafes', data['bookmarked_cafes']);
+  }
+
+  _showSuccessDialog(
+    "Login berhasil",
+    "Selamat datang ${data['user']['nama']}",
+    () => Get.offAllNamed(AppRoutes.mainpage),
+  );
+}
+ else {
         final message = data['message']?.toLowerCase() ?? '';
 
         if (message.contains('user tidak ditemukan') || message.contains('email')) {
