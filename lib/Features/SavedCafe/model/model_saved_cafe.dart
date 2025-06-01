@@ -36,7 +36,7 @@ class SavedCafeItem {
     }
 
     String getMainImageUrl(List<dynamic> galleryList) {
-      if (galleryList.isEmpty) return 'https://via.placeholder.com/150';
+      if (galleryList.isEmpty) return 'assets/kosong/fallback.png';
 
       final mainImage = galleryList.firstWhere(
         (item) => item['type'] == 'main_content',
@@ -47,7 +47,7 @@ class SavedCafeItem {
         return '${ApiConfig.baseUrl}/storage/${mainImage['url']}';
       }
 
-      return 'https://via.placeholder.com/150';
+      return 'assets/kosong/fallback.png';
     }
 
     return SavedCafeItem(
@@ -60,7 +60,7 @@ class SavedCafeItem {
       rating: kafe['total_rating'] == null
           ? 0.0
           : double.tryParse(kafe['total_rating'].toString()) ?? 0.0,
-      isOpen: false, // nanti bisa di-update
+      isOpen: false, 
     );
   }
 }

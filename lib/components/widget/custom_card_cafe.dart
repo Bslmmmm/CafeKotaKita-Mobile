@@ -3,6 +3,7 @@ import 'package:KafeKotaKita/Constant/colors.dart';
 import 'package:KafeKotaKita/Constant/textstyle.dart';
 
 class CustomCardCafe extends StatelessWidget {
+  final String Id;
   final String cafeimgurl;
   final String namacafe;
   final String lokasi;
@@ -22,6 +23,7 @@ class CustomCardCafe extends StatelessWidget {
     required this.rating,
     this.isOpen = true,
     this.onTap,
+    required this.Id,
   });
 
   @override

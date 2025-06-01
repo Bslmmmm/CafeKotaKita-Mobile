@@ -255,6 +255,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget _buildInputField(String label, TextEditingController controller) {
     return TextFormField(
       controller: controller,
+      keyboardType: TextInputType.number,
       style: AppTextStyles.interBody(
         color: Colors.white,
         fontSize: 14,

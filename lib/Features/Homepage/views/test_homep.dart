@@ -1,5 +1,6 @@
 import 'package:KafeKotaKita/Features/Homepage/managers/carousel_manager.dart';
 import 'package:KafeKotaKita/components/widget/carousel/custom_carousel.dart';
+import 'package:KafeKotaKita/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:KafeKotaKita/Constant/colors.dart';
 import 'package:KafeKotaKita/Constant/textstyle.dart';
@@ -11,6 +12,7 @@ import 'package:KafeKotaKita/components/widget/custom_searchbar.dart';
 import 'package:KafeKotaKita/Features/Homepage/managers/cafe_list_manager.dart';
 import 'package:KafeKotaKita/Features/Homepage/managers/cafe_filter_manager.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 
 class HomepageView extends StatefulWidget {
   const HomepageView({super.key});
@@ -389,6 +391,7 @@ class _HomepageViewState extends State<HomepageView> {
       itemBuilder: (context, index) {
         final cafe = limitcafe[index];
         return CustomCardCafe(
+          Id: cafe.id,
           cafeimgurl: cafe.imageUrl,
           namacafe: cafe.cafename,
           lokasi: cafe.alamat,
@@ -397,8 +400,7 @@ class _HomepageViewState extends State<HomepageView> {
           rating: cafe.rating,
           isOpen: cafe.isOpen,
           onTap: () {
-            //<====== future cafe detail =======>
-            
+            Get.toNamed(AppRoutes.detailcafe, arguments: cafe.id);
           },
         );
       },

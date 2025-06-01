@@ -4,6 +4,7 @@ import 'package:KafeKotaKita/Features/Mood/services/genre_services.dart';
 import 'package:KafeKotaKita/components/widget/custom_btnback.dart';
 import 'package:KafeKotaKita/components/widget/custom_card_cafe.dart';
 import 'package:KafeKotaKita/Features/Mood/models/genre_model.dart';
+import 'package:KafeKotaKita/routes/app_routes.dart';
 import 'package:KafeKotaKita/service/api_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -98,11 +99,11 @@ class _MoodScreenState extends State<MoodScreen> {
         return currentMinutes >= bukaMinutes && currentMinutes <= tutupMinutes;
       }
     } catch (e) {
-      return true; // Default buka jika ada error parsing
+      return true;
     }
   }
 
-  // Helper function untuk mendapatkan URL gambar lengkap  
+
   String _getImageUrl(Kafe kafe) {
     if (kafe.gallery.isNotEmpty) {
       final mainImage = kafe.gallery.firstWhere(
@@ -268,14 +269,11 @@ class _MoodScreenState extends State<MoodScreen> {
               lokasi: kafe.alamat,
               jambuka: _formatTime(kafe.jamBuka),
               jamtutup: _formatTime(kafe.jamTutup),
-              rating: 4.5, // Default rating, sesuaikan jika ada field rating di API
+              rating: 4.5,
               isOpen: _isCafeOpen(kafe.jamBuka, kafe.jamTutup),
+              Id: kafe.id,
               onTap: () {
-                // Navigate to cafe detail
-                Get.toNamed('/cafe-detail', arguments: {
-                  'cafeId': kafe.id,
-                  'cafe': kafe,
-                });
+                Get.toNamed(AppRoutes.detailcafe, arguments: kafe.id);
               },
             ),
           ).toList(),

@@ -20,12 +20,18 @@ class CafeDetailController extends GetxController {
   
   Rx<CafeDetailModel?> cafeData = Rx<CafeDetailModel?>(null);
   
-  final String cafeId = '9f0b693e-72ee-4cba-bb9d-83195baa5d26';
+  late String cafeId;
   late String userId;
 
   @override
   void onInit() {
     super.onInit();
+    if (Get.arguments != null && Get.arguments is String) {
+      cafeId = Get.arguments as String;
+      print('Cafe Id diterima: $cafeId');
+    }else{
+      print('CafeId tidak ditemukan ');
+    }
     initializeUser();
   }
 

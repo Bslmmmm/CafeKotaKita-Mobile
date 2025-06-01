@@ -1,8 +1,10 @@
 // lib/Features/SavedCafe/widgets/saved_cafe_list.dart
+import 'package:KafeKotaKita/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:KafeKotaKita/Features/SavedCafe/model/model_saved_cafe.dart';
 import 'package:KafeKotaKita/components/widget/custom_card_cafe.dart';
 import 'package:KafeKotaKita/Constant/colors.dart';
+import 'package:get/get.dart';
 
 class SavedCafeList extends StatelessWidget {
   final List<SavedCafeItem> cafes;
@@ -36,9 +38,10 @@ class SavedCafeList extends StatelessWidget {
               jamtutup: cafe.jamtutup,
               rating: cafe.rating,
               isOpen: cafe.isOpen,
+              Id: cafe.id,
               onTap: () {
-                print('Cafe tapped: ${cafe.cafename}');
-                onCafeTap?.call(cafe);
+                Get.toNamed(AppRoutes.detailcafe,
+                arguments: cafe.id);
               },
             ),
           );
