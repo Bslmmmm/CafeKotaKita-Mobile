@@ -27,7 +27,7 @@ class CustomCardCafe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color statusColor = isOpen ? Colors.green.shade600 : Colors.red.shade600;
-
+    bool isNetworkImg = cafeimgurl.startsWith('http://')||cafeimgurl.startsWith('https://');
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -46,10 +46,9 @@ class CustomCardCafe extends StatelessWidget {
                 height: 120,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  image: DecorationImage(
-                    image: NetworkImage(cafeimgurl),
-                    fit: BoxFit.cover,
-                  ),
+                  image: isNetworkImg
+                  ? DecorationImage(image: NetworkImage(cafeimgurl),fit: BoxFit.cover)
+                  :DecorationImage(image: AssetImage(cafeimgurl),fit: BoxFit.cover)
                 ),
                 child: Stack(
                   children: [

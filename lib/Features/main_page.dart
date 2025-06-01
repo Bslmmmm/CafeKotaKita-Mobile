@@ -4,6 +4,7 @@ import 'package:KafeKotaKita/Features/Community/Screens/feed_screen.dart';
 import 'package:KafeKotaKita/components/widget/custom_navbar.dart';
 import 'package:KafeKotaKita/Features/Homepage/views/test_homep.dart';
 import 'SavedCafe/views/saved_cafe_screen.dart';
+import 'Profile/view/ProfileViews.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -19,6 +20,7 @@ class _MainPageState extends State<MainPage> {
     HomepageView(),
     SavedCafeScreen(),
     FeedScreen(),
+    ProfileScreen()
   ];
 
   @override

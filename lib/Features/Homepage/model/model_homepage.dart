@@ -60,7 +60,7 @@ class CafeData {
         return '${ApiConfig.baseUrl}/storage/${mainImage['url']}';
       }
 
-      return 'https://via.placeholder.com/150';
+      return 'assets/kosong/fallback.png';
     }
 
     return CafeData(

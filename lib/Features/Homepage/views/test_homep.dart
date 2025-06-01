@@ -254,7 +254,7 @@ class _HomepageViewState extends State<HomepageView> {
                         SizedBox(
                           height: 10,
                         ),
-                        CustomCarousel(items: kCarouselitems,autoPlay: true,),
+                        CustomCarousel(items: kCarouselitems),
                       ],
                     ),
                   ),
@@ -398,6 +398,7 @@ class _HomepageViewState extends State<HomepageView> {
           isOpen: cafe.isOpen,
           onTap: () {
             //<====== future cafe detail =======>
+            
           },
         );
       },

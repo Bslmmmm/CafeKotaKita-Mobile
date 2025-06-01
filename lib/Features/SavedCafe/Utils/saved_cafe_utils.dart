@@ -8,16 +8,16 @@ class SavedCafeUtils {
   static Map<String, dynamic> parseProfile(dynamic profileRaw) {
     try {
       if (profileRaw is String) {
-        print('$_tag: Parsing profile from JSON string');
+        // print('$_tag: Parsing profile from JSON string');
         return jsonDecode(profileRaw);
       } else if (profileRaw is Map<String, dynamic>) {
-        print('$_tag: Profile already in Map format');
+        // print('$_tag: Profile already in Map format');
         return profileRaw;
       } else {
         throw Exception('Invalid profile data type: ${profileRaw.runtimeType}');
       }
     } catch (e) {
-      print('$_tag: Error parsing profile: $e');
+      // print('$_tag: Error parsing profile: $e');
       throw Exception('Failed to parse profile data: $e');
     }
   }

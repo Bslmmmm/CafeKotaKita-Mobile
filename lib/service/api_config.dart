@@ -1,7 +1,7 @@
-//ini class api_config.dart
+//ini class api_config.dart yang sudah diupdate
 
 class ApiConfig {
-  static const String devBaseUrl = '192.168.1.5';
+  static const String devBaseUrl = '192.168.1.8';
   static const int port = 8000;
   static const String protocol = 'http';
 
@@ -12,7 +12,8 @@ class ApiConfig {
   }
 
   static const Duration timeout = Duration(seconds: 30);
-  //auth
+  
+//<====== auth =======>
   static String get verifyOtpEndpoint => '$baseUrl/api/auth/verifyOtp';
   static String get loginendpoint => '$baseUrl/api/auth/login';
   static String get registerendpoint => '$baseUrl/api/auth/register';
@@ -20,17 +21,21 @@ class ApiConfig {
   static String get resetpasswordendpoint => '$baseUrl/api/auth/resetpassword';
   static String get checkusernameendpoint => '$baseUrl/api/auth/checkusername';
   static String get checkemailendpoint => '$baseUrl/api/auth/checkemail';
-  //homepage
+  
+//<====== homepage =======>
   static String get cardcafeendpoint => '$baseUrl/api/kafe/findAll';
-  //savecafe
-  static String get cardsaveendpoint =>
-      '$baseUrl/api/bookmark/findBookmarkByUser';
-  //profile
-  static String updateProfileEndpoint(String id) =>
-      '$baseUrl/api/user/update/$id';
-  //leaderboard
-  static String get leaderboardWeeklyEndpoint =>
-      '$baseUrl/api/leaderboard/weekly';
-  static String get leaderboardUpdateEndpoint =>
-      '$baseUrl/api/leaderboard/update-weekly';
+  
+//<====== savedcafe =======>
+  static String get cardsaveendpoint => '$baseUrl/api/bookmark/findBookmarkByUser';
+  
+//<====== profile =======>
+  static String updateProfileEndpoint(String id) => '$baseUrl/api/user/update/$id';
+  
+ //<====== leaderboard =======>
+  static String get leaderboardWeeklyEndpoint => '$baseUrl/api/leaderboard/weekly';
+  static String get leaderboardUpdateEndpoint => '$baseUrl/api/leaderboard/update-weekly';
+  
+//<====== mood =======>
+  static String searchByIdGenreEndpoint(String genreId) => '$baseUrl/api/genre/findKafeByGenre/$genreId';
+  static String get allGenresEndpoint => '$baseUrl/api/genre/findAll';
 }

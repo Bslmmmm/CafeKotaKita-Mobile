@@ -14,9 +14,11 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final _loginController = TextEditingController(); // ganti dari email ke login
+  final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscureText = true;
+  // Tambahkan variabel state untuk mengontrol loading
+  bool _isLoading = false;
 
   late LoginController _loginCtrl;
 
@@ -24,7 +26,7 @@ class _LoginFormState extends State<LoginForm> {
   void initState() {
     super.initState();
     _loginCtrl = LoginController(
-      loginController: _loginController, // sesuaikan paramnya
+      loginController: _loginController,
       passwordController: _passwordController,
     );
   }
@@ -71,7 +73,7 @@ class _LoginFormState extends State<LoginForm> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Username atau Email", // ubah label
+                    "Username atau Email",
                     style: AppTextStyles.interBody(
                       color: white,
                       fontSize: 12,
@@ -88,8 +90,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   child: TextField(
                     controller: _loginController,
-                    keyboardType:
-                        TextInputType.text, // bisa text bukan email khusus
+                    keyboardType: TextInputType.text,
                     style: AppTextStyles.interBody(color: white),
                     decoration: InputDecoration(
                       contentPadding:
@@ -188,9 +189,17 @@ class _LoginFormState extends State<LoginForm> {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {
-                      _loginCtrl.login(context);
-                    },
+                    onPressed: _isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            await _loginCtrl.login(context);
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: white,
                       foregroundColor: black,
@@ -199,14 +208,29 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       elevation: 0,
                     ),
-                    child: Text(
-                      "Log in",
-                      style: AppTextStyles.poppinsBody(
-                        color: black,
-                        weight: AppTextStyles.semiBold,
-                        fontSize: 20,
-                      ),
-                    ),
+                    child: _isLoading
+                        ? Container(
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: white,
+                              borderRadius: BorderRadius.circular(8)
+                            ),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: black,
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            "Log in",
+                            style: AppTextStyles.poppinsBody(
+                              color: black,
+                              weight: AppTextStyles.semiBold,
+                              fontSize: 20,
+                            ),
+                          ),
                   ),
                 ),
                 Align(

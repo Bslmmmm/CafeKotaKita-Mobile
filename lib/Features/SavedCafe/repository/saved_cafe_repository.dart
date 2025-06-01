@@ -10,7 +10,6 @@ class SavedCafeRepository {
   Future<List<SavedCafeItem>> fetchSavedCafes(String userId) async {
     try {
       print('$_tag: Fetching saved cafes for user: $userId');
-      
       final response = await http.get(
         Uri.parse('${ApiConfig.cardsaveendpoint}/$userId'),
         headers: {'Content-Type': 'application/json'},

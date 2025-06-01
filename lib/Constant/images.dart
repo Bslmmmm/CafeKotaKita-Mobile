@@ -5,4 +5,5 @@ const String tProfileImage2 = "assets/images/icon.png";
 class caroImg {
 static const String moodbanner1 = "assets/banner/banner1.png";
 static const String moodbanner2 = "assets/banner/banner2.png";
+static const String moodbanner3 = "assets/banner/banner3.png";
 }

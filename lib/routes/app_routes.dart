@@ -12,5 +12,6 @@ class AppRoutes{
   static const aboutcafe = '/aboutcafe';
   static const contactus = '/contactus';
   static const editprofile = '/editprofile';
+  static const mood = '/mood';
   
 }

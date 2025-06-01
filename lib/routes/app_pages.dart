@@ -1,3 +1,4 @@
+import 'package:KafeKotaKita/Features/Mood/view/mood_screen.dart';
 import 'package:KafeKotaKita/Features/Profile/view/pageProfile/about_profile.dart';
 import 'package:KafeKotaKita/Features/Profile/view/pageProfile/contact_profile.dart';
 import 'package:KafeKotaKita/Features/Profile/view/pageProfile/edit_profile.dart';
@@ -25,5 +26,6 @@ class AppPages {
     GetPage(name: AppRoutes.aboutcafe, page: () => AboutCafePage()),
     GetPage(name: AppRoutes.contactus, page: () => ContactUsPage()),
     GetPage(name: AppRoutes.editprofile, page: () => EditProfilePage()),
+    GetPage(name: AppRoutes.mood, page: () => MoodScreen())
   ];
 }
