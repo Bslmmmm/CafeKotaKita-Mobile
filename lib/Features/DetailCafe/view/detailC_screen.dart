@@ -6,14 +6,24 @@ import 'package:KafeKotaKita/Constant/colors.dart';
 import 'package:KafeKotaKita/Constant/textstyle.dart';
 import 'package:KafeKotaKita/components/widget/custom_btnback.dart';
 
-
-class DetailcScreen extends StatelessWidget {
+class DetailcScreen extends StatefulWidget {
   const DetailcScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final CafeDetailController controller = Get.put(CafeDetailController());
+  State<DetailcScreen> createState() => _DetailcScreenState();
+}
 
+class _DetailcScreenState extends State<DetailcScreen> {
+  final CafeDetailController controller = Get.put(CafeDetailController());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.fetchCafeDetail(); // ✅ Panggil API pertama kali
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: black,
       body: Obx(() {
@@ -39,7 +49,7 @@ class DetailcScreen extends StatelessWidget {
                     SizedBox(height: 24),
                     _buildRatingSection(controller),
                     SizedBox(height: 24),
-                    _buildGiveRatingSection(controller),
+                    buildGiveRatingSection(controller),
                     SizedBox(height: 40),
                   ],
                 ),
@@ -94,7 +104,7 @@ class DetailcScreen extends StatelessWidget {
 
   Widget _buildCafeHeader(CafeDetailController controller) {
     final cafe = controller.cafeData.value!;
-    
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -114,7 +124,8 @@ class DetailcScreen extends StatelessWidget {
                         color: white, weight: AppTextStyles.semiBold),
                   ),
                   SizedBox(width: 4),
-                  Text('(rating)', style: AppTextStyles.bodyMedium(color: clrfont2)),
+                  Text('(rating)',
+                      style: AppTextStyles.bodyMedium(color: clrfont2)),
                 ],
               ),
               SizedBox(height: 8),
@@ -129,7 +140,8 @@ class DetailcScreen extends StatelessWidget {
                       color: clrfont3.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(name, style: AppTextStyles.bodySmall(color: white)),
+                    child: Text(name,
+                        style: AppTextStyles.bodySmall(color: white)),
                   );
                 }).toList(),
               ),
@@ -144,34 +156,39 @@ class DetailcScreen extends StatelessWidget {
 
   Widget _buildBookmarkButton(CafeDetailController controller) {
     return Obx(() => GestureDetector(
-      onTap: controller.isTogglingBookmark.value ? null : controller.toggleBookmark,
-      child: Opacity(
-        opacity: controller.isTogglingBookmark.value ? 0.5 : 1.0,
-        child: Container(
-          padding: EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: controller.isSaved.value 
-                ? Colors.red.withOpacity(0.1)
-                : Colors.green.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
+          onTap: controller.isTogglingBookmark.value
+              ? null
+              : controller.toggleBookmark,
+          child: Opacity(
+            opacity: controller.isTogglingBookmark.value ? 0.5 : 1.0,
+            child: Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: controller.isSaved.value
+                    ? Colors.red.withOpacity(0.1)
+                    : Colors.green.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                controller.isSaved.value
+                    ? Icons.bookmark_remove
+                    : Icons.bookmark_add,
+                color: controller.isSaved.value ? Colors.red : Colors.green,
+              ),
+            ),
           ),
-          child: Icon(
-            controller.isSaved.value ? Icons.bookmark_remove : Icons.bookmark_add,
-            color: controller.isSaved.value ? Colors.red : Colors.green,
-          ),
-        ),
-      ),
-    ));
+        ));
   }
 
   Widget _buildInfoSection(CafeDetailController controller) {
     final cafe = controller.cafeData.value!;
-    
+
     return Column(
       children: [
         _buildInfoBox(Icons.location_on, cafe.alamat ?? '-'),
         SizedBox(height: 16),
-        _buildInfoBox(Icons.access_time, 'Buka: ${cafe.jamBuka ?? '-'} - ${cafe.jamTutup ?? '-'}'),
+        _buildInfoBox(Icons.access_time,
+            'Buka: ${cafe.jamBuka ?? '-'} - ${cafe.jamTutup ?? '-'}'),
         SizedBox(height: 16),
         GestureDetector(
           onTap: () => _showMenuDialog(controller),
@@ -195,7 +212,8 @@ class DetailcScreen extends StatelessWidget {
           Expanded(
             child: Text(text, style: AppTextStyles.bodyMedium(color: black)),
           ),
-          if (showArrow) Icon(Icons.keyboard_arrow_right, color: black, size: 20),
+          if (showArrow)
+            Icon(Icons.keyboard_arrow_right, color: black, size: 20),
         ],
       ),
     );
@@ -225,7 +243,8 @@ class DetailcScreen extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(controller.getFacilityIcon(name), color: white, size: 20),
+                  Icon(controller.getFacilityIcon(name),
+                      color: white, size: 20),
                   SizedBox(width: 8),
                   Text(name, style: AppTextStyles.bodyMedium(color: white)),
                 ],
@@ -239,7 +258,7 @@ class DetailcScreen extends StatelessWidget {
 
   Widget _buildRatingSection(CafeDetailController controller) {
     final cafe = controller.cafeData.value!;
-    
+
     return Row(
       children: [
         Text(
@@ -251,7 +270,8 @@ class DetailcScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              children: List.generate(5, (_) => Icon(Icons.star, color: Colors.orange, size: 16)),
+              children: List.generate(
+                  5, (_) => Icon(Icons.star, color: Colors.orange, size: 16)),
             ),
             SizedBox(height: 4),
             Text('(rating)', style: AppTextStyles.bodySmall(color: clrfont2)),
@@ -261,55 +281,44 @@ class DetailcScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGiveRatingSection(CafeDetailController controller) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Beri Rating', style: AppTextStyles.h3(color: white)),
-        SizedBox(height: 16),
-        Obx(() => Row(
-          children: [
-            SizedBox(width: 12),
-            Row(
-              children: List.generate(5, (index) {
-                return GestureDetector(
-                  onTap: () => controller.setUserRating(index + 1),
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 8),
-                    child: Icon(
-                      controller.userRating.value > index ? Icons.star : Icons.star_border,
-                      color: controller.userRating.value > index ? Colors.orange : clrfont2,
-                      size: 24,
-                    ),
-                  ),
-                );
-              }),
-            ),
-            if (controller.userRating.value > 0) ...[
-              SizedBox(width: 12),
-              Text(
-                '(${controller.userRating.value}/5)',
-                style: AppTextStyles.bodyMedium(color: clrfont2),
-              ),
-            ]
-          ],
-        )),
-        SizedBox(height: 16),
-        Obx(() => controller.userRating.value > 0
-            ? ElevatedButton(
-                onPressed: controller.submitRating,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+  Widget buildGiveRatingSection(CafeDetailController controller) {
+    return Obx(() {
+      if (controller.hasRated.value) return SizedBox.shrink();
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Beri Rating',
+            style: AppTextStyles.h3(color: Colors.white),
+          ),
+          SizedBox(height: 12),
+          Row(
+            children: List.generate(5, (index) {
+              return IconButton(
+                icon: Icon(
+                  index < controller.userRating.value
+                      ? Icons.star
+                      : Icons.star_border,
+                  color: Colors.orange,
                 ),
-                child: Text("Kirim Rating", style: TextStyle(color: Colors.white)),
-              )
-            : SizedBox.shrink()),
-      ],
-    );
+                onPressed: () {
+                  controller.setUserRating(index + 1);
+                },
+              );
+            }),
+          ),
+          SizedBox(height: 8),
+          ElevatedButton(
+              onPressed: controller.userRating.value > 0
+                  ? () => controller.submitRating()
+                  : null,
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange, foregroundColor: white),
+              child: Text('Submit Rating')),
+        ],
+      );
+    });
   }
 
   void _showMenuDialog(CafeDetailController controller) {
@@ -335,7 +344,8 @@ class DetailcScreen extends StatelessWidget {
                     controller: PageController(viewportFraction: 0.9),
                     itemBuilder: (context, index) {
                       final menuItem = menuGalleryList[index];
-                      final imageUrl = ApiConfig.storageImage(menuItem.url ?? '');
+                      final imageUrl =
+                          ApiConfig.storageImage(menuItem.url ?? '');
 
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8),
@@ -346,7 +356,8 @@ class DetailcScreen extends StatelessWidget {
                             child: Image.network(
                               imageUrl,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => Container(
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
                                 color: Colors.grey,
                                 child: Center(child: Icon(Icons.error)),
                               ),

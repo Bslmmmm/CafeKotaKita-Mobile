@@ -1,7 +1,7 @@
 //ini class api_config.dart yang sudah diupdate
 
 class ApiConfig {
-  static const String devBaseUrl = '192.168.1.8';
+  static const String devBaseUrl = '192.168.1.109';
   static const int port = 8000;
   static const String protocol = 'http';
 
@@ -42,6 +42,8 @@ class ApiConfig {
   static String get addBookmark => '$baseUrl/api/bookmark/addBookmark';
   static String get removeBookmark => '$baseUrl/api/bookmark/removeBookmark';
   static String get addRating => '$baseUrl/api/rating/addRate';
+   static String get checkUserRating => '$baseUrl/api/rating/checkUserRating';
+
   static String get checkBookmark => '$baseUrl/api/bookmark/check';
 
   //<====== Genre COG =======>

@@ -14,10 +14,6 @@ class SavedCafeHeader extends StatelessWidget {
       color: white,
       child: Row(
         children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 16.0),
-            child: CustomBackButton(),
-          ),
           Expanded(
             child: Container(
               margin: const EdgeInsets.only(left: 16, right: 16),
