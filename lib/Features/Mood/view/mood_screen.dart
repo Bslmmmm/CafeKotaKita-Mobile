@@ -36,7 +36,6 @@ class _MoodScreenState extends State<MoodScreen> {
     if (genreId != null) {
       await _fetchGenreData(genreId);
     } else {
-      // Handle case dimana carouselType tidak dikenali
       setState(() {
         errorMessage = 'Tipe mood tidak dikenali: $carouselType';
         isLoading = false;

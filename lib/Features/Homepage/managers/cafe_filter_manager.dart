@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:KafeKotaKita/Features/Homepage/model/filter_cafe.dart';
 import 'package:KafeKotaKita/Features/Homepage/model/model_homepage.dart';
+import 'package:get/get.dart';
 import '../Utils/time_service.dart';
 
-class CafeFilterManager extends ChangeNotifier {
+class CafeFilterManager extends GetxController {
   FilterState _filterState = const FilterState();
   
   FilterState get filterState => _filterState;
@@ -13,19 +14,19 @@ class CafeFilterManager extends ChangeNotifier {
   // Apply search filter
   void setSearchQuery(String query) {
     _filterState = _filterState.copyWith(searchQuery: query);
-    notifyListeners();
+    update();
   }
   
   // Toggle filters with exclusivity (turning one on turns others off)
   void toggleFilter(FilterType type) {
     _filterState = _filterState.toggleFilterExclusive(type);
-    notifyListeners();
+    update();
   }
   
   // Reset all filters
   void resetFilters() {
     _filterState = _filterState.resetAll();
-    notifyListeners();
+    update();
   }
   
   // Apply all filters to a list of cafes

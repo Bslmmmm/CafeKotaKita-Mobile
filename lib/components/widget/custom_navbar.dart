@@ -43,9 +43,10 @@ class _CustomNavBarState extends State<CustomNavBar> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildNavItem(0, Icons.home_outlined, 'Home'),
-            _buildNavItem(1, Icons.bookmark, 'Bookmark'),
-            _buildNavItem(2, Icons.people_alt_outlined, 'People'),
-            _buildNavItem(3, Icons.person_outline, 'Profile'),
+            _buildNavItem(1, Icons.search, 'Search'),
+            _buildNavItem(2, Icons.bookmark, 'Bookmark'),
+            _buildNavItem(3, Icons.people_alt_outlined, 'People'),
+            _buildNavItem(4, Icons.person_outline, 'Profile'),
           ],
         ),
       ),

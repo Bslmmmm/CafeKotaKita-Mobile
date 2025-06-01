@@ -101,7 +101,6 @@ class _HomepageViewState extends State<HomepageView> {
                     height: 160,
                     color: primaryc,
                     child: Column(
-                      // crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
@@ -123,9 +122,9 @@ class _HomepageViewState extends State<HomepageView> {
 
                             final remainingWidthForButtons =
                                 totalAvailableWidth - totalSpacingWidth;
-                            final propNearest = 1.2; // Sedikit lebih besar
+                            final propNearest = 1.2; 
                             final propTop = 1.0;
-                            final propOpen = 1.2; // Sedikit lebih besar
+                            final propOpen = 1.2;
                             final totalProportions =
                                 propNearest + propTop + propOpen;
 

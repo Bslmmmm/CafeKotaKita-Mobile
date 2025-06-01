@@ -1,7 +1,5 @@
-//ini class api_config.dart yang sudah diupdate
-
 class ApiConfig {
-  static const String devBaseUrl = '192.168.1.8';
+  static const String devBaseUrl = '192.168.1.71';
   static const int port = 8000;
   static const String protocol = 'http';
 

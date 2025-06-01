@@ -12,7 +12,6 @@ class ResetScreen extends StatelessWidget {
     final Map<String, dynamic> args = Get.arguments ?? {};
     final String email = args['email'] ?? '';
     final String otp = args['otp'] ?? '';
-
     return Scaffold(
       body: Container(
         color: primaryc,
