@@ -20,6 +20,8 @@ class PostModel {
   final int retweetCount;
   final int viewCount;
 
+  DateTime? createdAt;
+
   PostModel({
     required this.id,
     required this.userId,
@@ -63,6 +65,10 @@ class PostModel {
       viewCount: data['viewCount'] ?? 0,
     );
   }
+
+  get userProfileImage => null;
+
+  get sharesCount => null;
 
   Map<String, dynamic> toMap() {
     return {
