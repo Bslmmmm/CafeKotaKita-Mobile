@@ -21,7 +21,12 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+String? _initialEmail;
+
   File? _selectedImage;
+  
 
   final _storage = GetStorage();
   bool _isChanged = false;
@@ -39,16 +44,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
       _initialPhone = user['no_telp'] ?? '';
       _usernameController.text = _initialName!;
       _phoneController.text = _initialPhone!;
+      _initialEmail = user['email'] ?? '';
+      _emailController.text = _initialEmail!;
+
+
     }
     _usernameController.addListener(_checkChanged);
     _phoneController.addListener(_checkChanged);
+    _emailController.addListener(_checkChanged);
   }
 
   void _checkChanged() {
     final isNameChanged = _usernameController.text.trim() != (_initialName ?? '');
     final isPhoneChanged = _phoneController.text.trim() != (_initialPhone ?? '');
+    final isEmailChanged = _emailController.text.trim() != (_initialEmail ?? '');
     final isImageChanged = _selectedImage != null;
-    final changed = isNameChanged || isPhoneChanged || isImageChanged;
+    final changed = isNameChanged || isPhoneChanged || isEmailChanged || isImageChanged;
 
     if (changed != _isChanged) {
       setState(() {
@@ -84,6 +95,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final request = http.MultipartRequest('POST', uri);
     request.fields['nama'] = _usernameController.text.trim();
     request.fields['no_telp'] = _phoneController.text.trim();
+    request.fields['email'] = _emailController.text.trim();
+
     print("📦 Data yang dikirim: ${request.fields}");
 
     if (_selectedImage != null) {
@@ -111,6 +124,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
           _selectedImage = null;
           _initialName = data['data']['nama'];
           _initialPhone = data['data']['no_telp'];
+          _initialEmail = data['data']['email'];
+
         });
 
         // Tutup halaman EditProfilePage dulu
@@ -140,7 +155,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         Get.snackbar("Gagal", error['message'] ?? "Gagal memperbarui profil");
       }
     } catch (e) {
-      print("❌ Error terjadi: $e");
+      print(" Error terjadi: $e");
       Get.snackbar("Error", "Terjadi kesalahan: $e");
     } finally {
       setState(() => _isLoading = false);
@@ -148,7 +163,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void _onSave() {
-    print("✔️ Simpan ditekan");
+    print(" Simpan ditekan");
     _updateProfile();
   }
 
@@ -185,6 +200,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void dispose() {
     _usernameController.dispose();
     _phoneController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
@@ -242,6 +258,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 _buildInputField("Username", _usernameController),
                 const SizedBox(height: 16),
                 _buildInputField("No. Telepon", _phoneController),
+                const SizedBox(height: 16),
+_buildInputField("Email", _emailController, keyboardType: TextInputType.emailAddress),
+
                 const SizedBox(height: 24),
                 if (_isLoading) const CircularProgressIndicator(color: Colors.white),
               ],
@@ -252,33 +271,34 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget _buildInputField(String label, TextEditingController controller) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: TextInputType.number,
-      style: AppTextStyles.interBody(
-        color: Colors.white,
+  Widget _buildInputField(String label, TextEditingController controller, {TextInputType keyboardType = TextInputType.text}) {
+  return TextFormField(
+    controller: controller,
+    keyboardType: keyboardType,
+    style: AppTextStyles.interBody(
+      color: Colors.white,
+      fontSize: 14,
+      weight: FontWeight.w400,
+    ),
+    decoration: InputDecoration(
+      hintText: label,
+      hintStyle: AppTextStyles.interBody(
+        color: clrfont2,
         fontSize: 14,
-        weight: FontWeight.w400,
+        weight: AppTextStyles.medium,
       ),
-      decoration: InputDecoration(
-        hintText: label,
-        hintStyle: AppTextStyles.interBody(
-          color: clrfont2,
-          fontSize: 14,
-          weight: AppTextStyles.medium,
-        ),
-        filled: true,
-        fillColor: Colors.transparent,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: clrfont2),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: clrfont2, width: 1.5),
-        ),
+      filled: true,
+      fillColor: Colors.transparent,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: clrfont2),
       ),
-    );
-  }
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: clrfont2, width: 1.5),
+      ),
+    ),
+  );
+}
+
 }

@@ -17,6 +17,8 @@ class CafeDetailController extends GetxController {
   var userRating = 0.obs;
   var isTogglingBookmark = false.obs;
   var isLoading = true.obs;
+  var hasRated = false.obs;
+
   
   Rx<CafeDetailModel?> cafeData = Rx<CafeDetailModel?>(null);
   
@@ -59,6 +61,7 @@ class CafeDetailController extends GetxController {
         
         // Setelah data berhasil dimuat, cek status bookmark
         await checkBookmarkStatus();
+        await checkUserRating();
       } else {
         print("Gagal mengambil data: ${response.body}");
         isLoading.value = false;
@@ -166,20 +169,24 @@ class CafeDetailController extends GetxController {
       final json = jsonDecode(response.body);
 
       if (response.statusCode == 201) {
-        _showCustomDialog(
-          title: 'Sukses!',
-          message: 'Rating berhasil dikirim!',
-          onOkPressed: () {
-            fetchCafeDetail(); // refresh data rating kafe
-          },
-        );
-      } else if (response.statusCode == 409) {
-        _showCustomDialog(
-          title: 'Sudah Pernah!',
-          message: 'Kamu sudah pernah memberi rating pada kafe ini.',
-          onOkPressed: () {},
-        );
-      } else {
+  hasRated.value = true; // Tambahkan ini
+  _showCustomDialog(
+    title: 'Sukses!',
+    message: 'Rating berhasil dikirim!',
+    onOkPressed: () {
+      fetchCafeDetail(); // Refresh data
+    },
+  );
+}
+ else if (response.statusCode == 409) {
+  hasRated.value = true; // Tambahkan ini juga
+  _showCustomDialog(
+    title: 'Sudah Pernah!',
+    message: 'Kamu sudah pernah memberi rating pada kafe ini.',
+    onOkPressed: () {},
+  );
+}
+ else {
         _showCustomDialog(
           title: 'Gagal!',
           message: json['message'] ?? 'Terjadi kesalahan saat mengirim rating.',
@@ -194,6 +201,32 @@ class CafeDetailController extends GetxController {
       );
     }
   }
+
+  Future<void> checkUserRating() async {
+  try {
+    final response = await http.post(
+      Uri.parse(ApiConfig.checkUserRating),
+      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+      body: jsonEncode({
+        'user_id': userId,
+        'kafe_id': cafeId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      hasRated.value = json['rated'] ?? false;
+      if (hasRated.value) {
+        userRating.value = json['rate_value'] ?? 0;
+      }
+    } else {
+      print("Gagal memeriksa rating user: ${response.body}");
+    }
+  } catch (e) {
+    print("Error saat cek rating: $e");
+  }
+}
+
 
   void setUserRating(int rating) {
     userRating.value = rating;

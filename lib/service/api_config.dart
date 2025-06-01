@@ -40,6 +40,8 @@ class ApiConfig {
   static String get addBookmark => '$baseUrl/api/bookmark/addBookmark';
   static String get removeBookmark => '$baseUrl/api/bookmark/removeBookmark';
   static String get addRating => '$baseUrl/api/rating/addRate';
+   static String get checkUserRating => '$baseUrl/api/rating/checkUserRating';
+
   static String get checkBookmark => '$baseUrl/api/bookmark/check';
 
   //<====== Genre COG =======>
