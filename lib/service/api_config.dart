@@ -24,18 +24,28 @@ class ApiConfig {
   
 //<====== homepage =======>
   static String get cardcafeendpoint => '$baseUrl/api/kafe/findAll';
-  
-//<====== savedcafe =======>
-  static String get cardsaveendpoint => '$baseUrl/api/bookmark/findBookmarkByUser';
-  
-//<====== profile =======>
-  static String updateProfileEndpoint(String id) => '$baseUrl/api/user/update/$id';
-  
- //<====== leaderboard =======>
-  static String get leaderboardWeeklyEndpoint => '$baseUrl/api/leaderboard/weekly';
-  static String get leaderboardUpdateEndpoint => '$baseUrl/api/leaderboard/update-weekly';
-  
-//<====== mood =======>
-  static String searchByIdGenreEndpoint(String genreId) => '$baseUrl/api/genre/findKafeByGenre/$genreId';
-  static String get allGenresEndpoint => '$baseUrl/api/genre/findAll';
+  //savecafe
+  static String get cardsaveendpoint =>
+      '$baseUrl/api/bookmark/findBookmarkByUser';
+  //profile
+  static String updateProfileEndpoint(String id) =>'$baseUrl/api/user/update/$id';
+  //leaderboard
+  static String get leaderboardWeeklyEndpoint =>
+      '$baseUrl/api/leaderboard/weekly';
+  static String get leaderboardUpdateEndpoint =>
+      '$baseUrl/api/leaderboard/update-weekly';
+      
+  // Detail kafe
+static  String get kafeDetail => '$baseUrl/api/kafe/detail/';
+static String get findBookmark => '$baseUrl/api/bookmark/findBookmarkByUser';
+static String get addBookmark => '$baseUrl/api/bookmark/addBookmark';
+static  String get removeBookmark => '$baseUrl/api/bookmark/removeBookmark';
+static  String get addRating => '$baseUrl/api/rating/addRate';
+static  String get checkBookmark => '$baseUrl/api/bookmark/check';
+
+
+// Storage (untuk gambar)
+static String storageImage(String imagePath) =>
+    '$baseUrl/storage/$imagePath';
+
 }
