@@ -80,14 +80,96 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
     });
   }
 
+  // Fixed navbar without center logo
+  Widget _buildFixedNavbar() {
+    return Container(
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 8,
+        left: 16,
+        right: 16,
+        bottom: 8,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Profile button
+          GestureDetector(
+            onTap: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => ProfileScreen()),
+              );
+              if (mounted) _refreshPosts();
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Icon(
+                Icons.person_outline,
+                size: 20,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+          
+          // Title
+          const Text(
+            'Feed',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+          ),
+          
+          // Search button with black color
+          GestureDetector(
+            onTap: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => SearchScreen()),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Icon(
+                Icons.search,
+                size: 20,
+                color: Colors.black, // Changed to black
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Fixed tab selector to prevent overflow
   Widget _buildTabSelector() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
-          _buildTabButton("Untuk Anda", 0),
-          const SizedBox(width: 8),
-          _buildTabButton("Mengikuti", 1),
+          Expanded(child: _buildTabButton("Untuk Anda", 0)),
+          const SizedBox(width: 12),
+          Expanded(child: _buildTabButton("Mengikuti", 1)),
         ],
       ),
     );
@@ -95,28 +177,28 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
 
   Widget _buildTabButton(String label, int index) {
     final isSelected = selectedTabIndex == index;
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => setState(() => selectedTabIndex = index),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          decoration: BoxDecoration(
-            color: isSelected ? Colors.black : Colors.transparent,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: isSelected ? Colors.black : Colors.grey.shade300,
-              width: 1,
-            ),
+    return GestureDetector(
+      onTap: () => setState(() => selectedTabIndex = index),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.black : Colors.transparent,
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(
+            color: isSelected ? Colors.black : Colors.grey.shade300,
+            width: 1,
           ),
-          child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: isSelected ? Colors.white : Colors.black87,
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-              ),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? Colors.white : Colors.black87,
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ),
       ),
@@ -458,36 +540,12 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
       backgroundColor: Colors.grey.shade50,
       body: Column(
         children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            height: showNavbar ? 120 : 0,
-            child: Container(
-              color: Colors.white,
-              child: Column(
-                children: [
-                  NavbarTop(
-                    onProfileTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ProfileScreen()),
-                      );
-                      // Refresh when returning from profile
-                      if (mounted) _refreshPosts();
-                    },
-                    onSearchTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => SearchScreen()),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  _buildTabSelector(),
-                  const SizedBox(height: 8),
-                ],
-              ),
-            ),
-          ),
+          // Fixed navbar without center logo
+          _buildFixedNavbar(),
+          
+          // Tab selector with proper spacing
+          _buildTabSelector(),
+          
           if (_isPosting) ...[
             const LinearProgressIndicator(
               minHeight: 2,
@@ -495,6 +553,7 @@ class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
               valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
             ),
           ],
+          
           Expanded(
             child: NotificationListener<UserScrollNotification>(
               onNotification: (notification) {
