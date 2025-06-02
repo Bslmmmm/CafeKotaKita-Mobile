@@ -14,8 +14,22 @@ class _SearchScreenState extends State<SearchScreen> {
     {
       'username': '@arielrezka22',
       'id': 'dummyaccount21',
-      'imageUrl':
-          'https://i.ibb.co/x8M4sx5/arielrezka22.jpg' // kamu bisa ganti dengan `AssetImage` kalau lokal
+      'imageUrl': 'https://i.ibb.co/x8M4sx5/arielrezka22.jpg'
+    },
+    {
+      'username': '@arielrezka22',
+      'id': 'dummyaccount21',
+      'imageUrl': 'https://i.ibb.co/x8M4sx5/arielrezka22.jpg'
+    },
+    {
+      'username': '@arielrezka22',
+      'id': 'dummyaccount21',
+      'imageUrl': 'https://i.ibb.co/x8M4sx5/arielrezka22.jpg'
+    },
+    {
+      'username': '@arielrezka22',
+      'id': 'dummyaccount21',
+      'imageUrl': 'https://i.ibb.co/x8M4sx5/arielrezka22.jpg'
     },
     {
       'username': '@arielrezka22',
@@ -38,66 +52,108 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEFEFEF),
+      backgroundColor: const Color(0xFFE5E5E5),
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            // Header dengan search bar
+            Container(
+              padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: const Icon(Icons.arrow_back),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                      size: 24,
+                    ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Container(
+                      height: 50,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        border: Border.all(color: Colors.black, width: 1),
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(25),
+                        border:
+                            Border.all(color: Colors.grey.shade400, width: 1),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: TextField(
-                        controller: _searchController,
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.search),
-                          hintText: 'Cari....',
-                          border: InputBorder.none,
-                        ),
+                      child: Row(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 16, right: 8),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              decoration: const InputDecoration(
+                                hintText: 'Cari....',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
+                                border: InputBorder.none,
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 15),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+
+            // Label "Terbaru"
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Terbaru',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
             ),
+
+            // List recent searches
             Expanded(
               child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 itemCount: recentSearches.length,
                 itemBuilder: (context, index) {
                   final search = recentSearches[index];
-                  return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 12),
                     child: Row(
                       children: [
-                        CircleAvatar(
-                          radius: 24,
-                          backgroundImage:
-                              NetworkImage(search['imageUrl'] ?? ''),
+                        // Profile image
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(search['imageUrl'] ?? ''),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 12),
+
+                        // User info
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,23 +161,34 @@ class _SearchScreenState extends State<SearchScreen> {
                               Text(
                                 search['username'] ?? '',
                                 style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 16,
+                                  color: Colors.black87,
                                 ),
                               ),
+                              const SizedBox(height: 2),
                               Text(
                                 search['id'] ?? '',
-                                style: const TextStyle(
-                                  color: Colors.black54,
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
                                   fontSize: 14,
                                 ),
                               ),
                             ],
                           ),
                         ),
+
+                        // Close button
                         GestureDetector(
                           onTap: () => _removeSearch(index),
-                          child: const Icon(Icons.close, size: 24),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            child: Icon(
+                              Icons.close,
+                              size: 20,
+                              color: Colors.grey.shade700,
+                            ),
+                          ),
                         ),
                       ],
                     ),

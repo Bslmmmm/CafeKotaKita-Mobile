@@ -12,23 +12,48 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late ScrollController _scrollController;
   int selectedTabIndex = 0;
+  bool _isHeaderVisible = true;
+  double _headerHeight = 0;
 
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
+    _scrollController = ScrollController();
+
     _tabController.addListener(() {
       setState(() {
         selectedTabIndex = _tabController.index;
       });
     });
+
+    _scrollController.addListener(_onScroll);
+
     super.initState();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.hasClients) {
+      final scrollOffset = _scrollController.offset;
+      const hideThreshold = 100.0; // Scroll threshold untuk hide/show
+
+      // Hide header saat scroll down, show saat scroll up atau di top
+      bool shouldHideHeader = scrollOffset > hideThreshold;
+
+      if (shouldHideHeader != !_isHeaderVisible) {
+        setState(() {
+          _isHeaderVisible = !shouldHideHeader;
+        });
+      }
+    }
   }
 
   void _onBack() {
@@ -94,155 +119,235 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
+  Widget _buildHeader() {
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          // Top Bar with Back Button and Username
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: _onBack,
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 24,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                const Text(
+                  'dummyaccount21',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Profile Info Section
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              children: [
+                // Profile Picture
+                CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.grey.shade300,
+                  backgroundImage:
+                      const NetworkImage('https://i.pravatar.cc/300'),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 3,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Username Handle
+                Text(
+                  '@arielrezka22',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey.shade700,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Stats Row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildStatsItem('250', 'Postingan'),
+                    _buildStatsItem('65', 'Follower'),
+                    _buildStatsItem('65', 'Following'),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Bio
+                Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey.shade700,
+                    height: 1.4,
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Edit Profile Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _onEditProfile,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'Edit Profile',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+              ],
+            ),
+          ),
+
+          // Tab Selector
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              children: [
+                _buildTabButton("Postingan", 0),
+                const SizedBox(width: 8),
+                _buildTabButton("Media", 1),
+                const SizedBox(width: 8),
+                _buildTabButton("Bookmark", 2),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            // Header Section
-            Container(
-              color: Colors.white,
-              child: Column(
-                children: [
-                  // Top Bar with Back Button and Username
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: _onBack,
-                          child: const Icon(
-                            Icons.arrow_back,
-                            size: 24,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        const Text(
-                          'dummyaccount21',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
+            // Main Content with Custom ScrollView
+            CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                // Header sebagai Sliver
+                SliverToBoxAdapter(
+                  child: _buildHeader(),
+                ),
+
+                // Tab Content
+                SliverFillRemaining(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      _buildPostList(mediaOnly: false), // Postingan
+                      _buildPostList(mediaOnly: true), // Media
+                      _buildBookmarkList(), // Bookmark
+                    ],
                   ),
-
-                  // Profile Info Section
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      children: [
-                        // Profile Picture
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Colors.grey.shade300,
-                          backgroundImage:
-                              const NetworkImage('https://i.pravatar.cc/300'),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 3,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Username Handle
-                        Text(
-                          '@arielrezka22',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey.shade700,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Stats Row
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _buildStatsItem('250', 'Postingan'),
-                            _buildStatsItem('65', 'Follower'),
-                            _buildStatsItem('65', 'Following'),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Bio
-                        Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade700,
-                            height: 1.4,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Edit Profile Button
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _onEditProfile,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              elevation: 0,
-                            ),
-                            child: const Text(
-                              'Edit Profile',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-                      ],
-                    ),
-                  ),
-
-                  // Tab Selector
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      children: [
-                        _buildTabButton("Postingan", 0),
-                        const SizedBox(width: 8),
-                        _buildTabButton("Media", 1),
-                        const SizedBox(width: 8),
-                        _buildTabButton("Bookmark", 2),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
+                ),
+              ],
             ),
 
-            // Tab Content
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _buildPostList(mediaOnly: false), // Postingan
-                  _buildPostList(mediaOnly: true), // Media
-                  _buildBookmarkList(), // Bookmark
-                ],
+            // Floating Mini Header (shown when main header is hidden)
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 200),
+              top: _isHeaderVisible ? -80 : 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      offset: const Offset(0, 2),
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: _onBack,
+                        child: const Icon(
+                          Icons.arrow_back,
+                          size: 24,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+
+                      // Mini Profile Info
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundColor: Colors.grey.shade300,
+                        backgroundImage:
+                            const NetworkImage('https://i.pravatar.cc/300'),
+                      ),
+                      const SizedBox(width: 12),
+
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'dummyaccount21',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            '250 Postingan',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],

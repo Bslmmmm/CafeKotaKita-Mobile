@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String devBaseUrl = '192.168.1.71';
+  static const String devBaseUrl = '192.168.1.26';
   static const int port = 8000;
   static const String protocol = 'http';
 
@@ -40,7 +40,7 @@ class ApiConfig {
   static String get addBookmark => '$baseUrl/api/bookmark/addBookmark';
   static String get removeBookmark => '$baseUrl/api/bookmark/removeBookmark';
   static String get addRating => '$baseUrl/api/rating/addRate';
-   static String get checkUserRating => '$baseUrl/api/rating/checkUserRating';
+  static String get checkUserRating => '$baseUrl/api/rating/checkUserRating';
 
   static String get checkBookmark => '$baseUrl/api/bookmark/check';
 
@@ -48,7 +48,7 @@ class ApiConfig {
   static String searchByIdGenreEndpoint(String genreId) =>
       '$baseUrl/api/genre/findKafeByGenre/$genreId';
   static String get allGenresEndpoint => '$baseUrl/api/genre/findAll';
-  
+
 // Storage (untuk gambar)
   static String storageImage(String imagePath) => '$baseUrl/storage/$imagePath';
 }

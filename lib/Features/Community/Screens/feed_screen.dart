@@ -17,17 +17,67 @@ class FeedScreen extends StatefulWidget {
   State<FeedScreen> createState() => _FeedScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
+class _FeedScreenState extends State<FeedScreen> with TickerProviderStateMixin {
   bool _isPosting = false;
   bool showNavbar = true;
   int selectedTabIndex = 0;
 
   final ScrollController _scrollController = ScrollController();
 
+  // Maps untuk menyimpan state like dan retweet untuk setiap post
+  Map<String, bool> likedPosts = {};
+  Map<String, bool> retweetedPosts = {};
+  Map<String, int> likeCounts = {};
+  Map<String, int> retweetCounts = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // Add scroll listener for better performance
+    _scrollController.addListener(_onScroll);
+  }
+
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    // Optional: Add scroll position tracking or additional logic here
+  }
+
+  // Fungsi untuk toggle like
+  void _toggleLike(String postId, int originalLikeCount) {
+    setState(() {
+      if (likedPosts[postId] == true) {
+        // Unlike
+        likedPosts[postId] = false;
+        likeCounts[postId] = (likeCounts[postId] ?? originalLikeCount) - 1;
+      } else {
+        // Like
+        likedPosts[postId] = true;
+        likeCounts[postId] = (likeCounts[postId] ?? originalLikeCount) + 1;
+      }
+    });
+  }
+
+  // Fungsi untuk toggle retweet
+  void _toggleRetweet(String postId, int originalRetweetCount) {
+    setState(() {
+      if (retweetedPosts[postId] == true) {
+        // Un-retweet
+        retweetedPosts[postId] = false;
+        retweetCounts[postId] =
+            (retweetCounts[postId] ?? originalRetweetCount) - 1;
+      } else {
+        // Retweet
+        retweetedPosts[postId] = true;
+        retweetCounts[postId] =
+            (retweetCounts[postId] ?? originalRetweetCount) + 1;
+      }
+    });
   }
 
   Widget _buildTabSelector() {
@@ -74,6 +124,14 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   Widget _buildModernPostCard(PostModel post) {
+    // Inisialisasi state untuk post ini jika belum ada
+    if (!likeCounts.containsKey(post.id)) {
+      likeCounts[post.id] = post.likeCount;
+    }
+    if (!retweetCounts.containsKey(post.id)) {
+      retweetCounts[post.id] = post.sharesCount ?? 0;
+    }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -183,23 +241,18 @@ class _FeedScreenState extends State<FeedScreen> {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                _buildActionButton(
-                  Icons.favorite_border,
-                  post.likeCount.toString(),
-                  () {},
-                ),
+                _buildLikeButton(post),
                 const SizedBox(width: 24),
                 _buildActionButton(
                   Icons.chat_bubble_outline,
                   post.commentCount?.toString() ?? '0',
-                  () {},
+                  () {
+                    // Navigate ke detail untuk comment
+                    _navigateToDetail(post);
+                  },
                 ),
                 const SizedBox(width: 24),
-                _buildActionButton(
-                  Icons.repeat,
-                  post.sharesCount?.toString() ?? '0',
-                  () {},
-                ),
+                _buildRetweetButton(post),
                 const SizedBox(width: 24),
                 _buildActionButton(
                   Icons.remove_red_eye_outlined,
@@ -216,6 +269,66 @@ class _FeedScreenState extends State<FeedScreen> {
                   icon: const Icon(Icons.share_outlined, size: 20),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLikeButton(PostModel post) {
+    final isLiked = likedPosts[post.id] ?? false;
+    final likeCount = likeCounts[post.id] ?? post.likeCount;
+
+    return GestureDetector(
+      onTap: () => _toggleLike(post.id, post.likeCount),
+      child: Row(
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: Icon(
+              isLiked ? Icons.favorite : Icons.favorite_border,
+              key: ValueKey(isLiked),
+              size: 20,
+              color: isLiked ? Colors.red : Colors.grey.shade700,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            likeCount.toString(),
+            style: TextStyle(
+              color: isLiked ? Colors.red : Colors.grey.shade700,
+              fontSize: 13,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRetweetButton(PostModel post) {
+    final isRetweeted = retweetedPosts[post.id] ?? false;
+    final retweetCount = retweetCounts[post.id] ?? (post.sharesCount ?? 0);
+
+    return GestureDetector(
+      onTap: () => _toggleRetweet(post.id, post.sharesCount ?? 0),
+      child: Row(
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: Icon(
+              Icons.repeat,
+              key: ValueKey(isRetweeted),
+              size: 20,
+              color: isRetweeted ? Colors.green : Colors.grey.shade700,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            retweetCount.toString(),
+            style: TextStyle(
+              color: isRetweeted ? Colors.green : Colors.grey.shade700,
+              fontSize: 13,
             ),
           ),
         ],
@@ -266,7 +379,34 @@ class _FeedScreenState extends State<FeedScreen> {
     return count.toString();
   }
 
+  void _navigateToDetail(PostModel post) async {
+    // Increment view count
+    PostController().incrementViewCount(post.id);
+
+    // Navigate to detail screen and wait for result
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PostDetailScreen(
+          post: post,
+          postId: post.id,
+        ),
+      ),
+    );
+
+    // Handle any result from PostDetailScreen if needed
+    if (result != null && mounted) {
+      // Handle returned data if PostDetailScreen sends any data back
+      // For example, if post was updated, deleted, etc.
+      setState(() {
+        // Refresh or update state if needed
+      });
+    }
+  }
+
   Future<void> _handleCreatePost(Map<String, dynamic> data) async {
+    if (!mounted) return;
+
     setState(() => _isPosting = true);
     try {
       await PostController().createPost(
@@ -275,13 +415,41 @@ class _FeedScreenState extends State<FeedScreen> {
         location: data['location'],
         imageFile: data['imageFile'] as File?,
       );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Post berhasil dibuat!'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal memposting: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Gagal memposting: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
+
     await Future.delayed(const Duration(milliseconds: 300));
     if (mounted) setState(() => _isPosting = false);
+  }
+
+  Future<void> _refreshPosts() async {
+    // Clear cached states and refresh
+    likedPosts.clear();
+    retweetedPosts.clear();
+    likeCounts.clear();
+    retweetCounts.clear();
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -298,14 +466,16 @@ class _FeedScreenState extends State<FeedScreen> {
               child: Column(
                 children: [
                   NavbarTop(
-                    onProfileTap: () {
-                      Navigator.push(
+                    onProfileTap: () async {
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => ProfileScreen()),
                       );
+                      // Refresh when returning from profile
+                      if (mounted) _refreshPosts();
                     },
-                    onSearchTap: () {
-                      Navigator.push(
+                    onSearchTap: () async {
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => SearchScreen()),
                       );
@@ -319,7 +489,11 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
           ),
           if (_isPosting) ...[
-            const LinearProgressIndicator(minHeight: 2),
+            const LinearProgressIndicator(
+              minHeight: 2,
+              backgroundColor: Colors.grey,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+            ),
           ],
           Expanded(
             child: NotificationListener<UserScrollNotification>(
@@ -335,26 +509,88 @@ class _FeedScreenState extends State<FeedScreen> {
                 stream: PostController().getPosts(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.black,
+                      ),
+                    );
                   } else if (snapshot.hasError) {
                     return Center(
-                        child: Text('Terjadi kesalahan: ${snapshot.error}'));
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.error_outline,
+                            size: 64,
+                            color: Colors.grey.shade400,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Terjadi kesalahan',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '${snapshot.error}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade500,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: _refreshPosts,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              foregroundColor: Colors.white,
+                            ),
+                            child: const Text('Coba Lagi'),
+                          ),
+                        ],
+                      ),
+                    );
                   } else {
                     final posts = snapshot.data ?? [];
                     if (posts.isEmpty) {
-                      return const Center(
-                        child: Text(
-                          'Belum ada postingan.',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                          ),
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.post_add,
+                              size: 64,
+                              color: Colors.grey.shade400,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Belum ada postingan.',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Buat postingan pertama Anda!',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     }
 
                     return RefreshIndicator(
-                      onRefresh: () async => setState(() {}),
+                      onRefresh: _refreshPosts,
+                      color: Colors.black,
                       child: ListView.builder(
                         controller: _scrollController,
                         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -362,20 +598,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         itemBuilder: (context, index) {
                           final post = posts[index];
                           return GestureDetector(
-                            onTap: () async {
-                              await PostController()
-                                  .incrementViewCount(post.id);
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => PostDetailScreen(
-                                    post: post,
-                                    postId: '',
-                                  ),
-                                ),
-                              );
-                            },
+                            onTap: () => _navigateToDetail(post),
                             child: _buildModernPostCard(post),
                           );
                         },
@@ -396,12 +619,22 @@ class _FeedScreenState extends State<FeedScreen> {
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: FloatingActionButton(
+          heroTag: "createPost", // Add unique hero tag
           onPressed: () async {
             final result = await Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const CreatePostScreen()),
+              MaterialPageRoute(
+                builder: (_) => const CreatePostScreen(),
+              ),
             );
 
             if (result != null && result is Map<String, dynamic>) {
